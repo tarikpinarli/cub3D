@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/07 13:47:46 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/07 13:44:08 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#ifndef CUB3D_H
+#define CUB3D_H
 
-int	main()
-{
-	ft_putendl_fd("hello", 1);
-	return (0);
-}
+#include "../lib/libft/libft.h"
+
+#endif
