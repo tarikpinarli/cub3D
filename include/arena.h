@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   arena.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/07 16:05:31 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/07 15:20:00 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/07 15:52:30 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#ifndef ARENA_H
+#define ARENA_H
 
-void	set_arena(t_arena **arena)
+# include <stdio.h>
+
+typedef struct s_arena
 {
-	*arena = arena_init(10000);
-	if (!*arena)
-		error_exit("Arena allocation failed.");
-}
+    void    *memory;
+    size_t   size;
+    size_t   offset;
+}   t_arena;
 
-int	main()
-{
-	t_arena	*arena;
-
-	set_arena(&arena);
-	arena_destroy(arena);
-	return (0);
-}
+t_arena *arena_init(size_t size);
+void *arena_alloc(t_arena *arena, size_t size);
+void arena_destroy(t_arena *arena);
+#endif

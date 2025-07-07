@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   error_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/07 15:50:22 by michoi           ###   ########.fr       */
+/*   Created: 2025/07/07 16:00:35 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/07 16:03:16 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-#define CUB3D_H
+#include <cub3d.h>
 
-#include "arena.h"
-#include "libft.h"
-
-
-void	error_exit(const char *message);
-#endif
+void	error_exit(const char *message)
+{
+	printf("Error: %s.\n", message);
+	exit(EXIT_FAILURE);
+}

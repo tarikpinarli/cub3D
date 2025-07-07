@@ -31,7 +31,7 @@ MLX			= $(MLX_DIR)/libmlx.a
 
 INCLUDES 	= -I$(INC_DIR) -I$(LIBFT_DIR) $(MLX_INC)
 
-SRCS = main.c
+SRCS = main.c arena.c error_exit.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
