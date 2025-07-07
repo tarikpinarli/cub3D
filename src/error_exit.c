@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/07 16:05:31 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/07 16:00:35 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/07 16:03:16 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	set_arena(t_arena **arena)
+void	error_exit(const char *message)
 {
-	*arena = arena_init(10000);
-	if (!*arena)
-		error_exit("Arena allocation failed.");
-}
-
-int	main()
-{
-	t_arena	*arena;
-
-	set_arena(&arena);
-	arena_destroy(arena);
-	return (0);
+	printf("Error: %s.\n", message);
+	exit(EXIT_FAILURE);
 }

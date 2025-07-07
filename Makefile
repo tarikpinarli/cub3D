@@ -6,7 +6,7 @@
 #    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/07 13:33:45 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/07 16:04:35 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ MLX_INC 	= -I$(MLX_DIR)
 
 INCLUDES 	= -I$(INC_DIR) -I$(LIBFT_DIR) $(MLX_INC)
 
-SRCS = main.c
+SRCS = main.c arena.c error_exit.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
