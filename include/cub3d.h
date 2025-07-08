@@ -15,7 +15,17 @@
 
 #include "arena.h"
 #include "libft.h"
+#include "colors.h"
+#include "map.h"
+#include "player.h"
+#include "textures.h"
+#include "game.h"
 
+#ifdef __APPLE__
+# include "../lib/minilibx/mlx.h"
+#else
+# include "../lib/minilibx-linux/mlx.h"
+#endif
 
 void	error_exit(const char *message);
 #endif

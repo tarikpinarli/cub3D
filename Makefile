@@ -10,36 +10,44 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= cub3D
-CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror
-RM			= rm -rf
+NAME        = cub3D
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
+RM          = rm -rf
 
-SRC_DIR 	= ./src
-OBJ_DIR 	= ./obj
-INC_DIR 	= ./include
-LIB_DIR 	= ./lib
-MAP_DIR     = ./maps
+SRC_DIR     = ./src
+OBJ_DIR     = ./obj
+INC_DIR     = ./include
+LIB_DIR     = ./lib
 
-LIBFT_DIR 	= $(LIB_DIR)/libft
-LIBFT 		= $(LIBFT_DIR)/libft.a
+LIBFT_DIR   = $(LIB_DIR)/libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-MLX_DIR 	= $(LIB_DIR)/minilibx-linux
-MLX_LIB 	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
-MLX_INC 	= -I$(MLX_DIR)
-MLX			= $(MLX_DIR)/libmlx.a
+SRCS        = main.c arena.c error_exit.c game/init_game.c map/dummy_map.c 
+OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+INCLUDES    = -I$(INC_DIR) -I$(LIBFT_DIR) -Imlx
 
-INCLUDES 	= -I$(INC_DIR) -I$(LIBFT_DIR) $(MLX_INC)
+#Linux
+MLX_LINUX_DIR   = $(LIB_DIR)/minilibx-linux
+MLX_LINUX_INC   = -I$(MLX_LINUX_DIR)
+MLX_LINUX_FLAGS = -L$(MLX_LINUX_DIR) -lmlx -lXext -lX11 -lm
 
-SRCS = main.c arena.c error_exit.c
+#macOS
+MLX_MAC_DIR     = $(LIB_DIR)/minilibx
+MLX_MAC_INC     = -I$(MLX_MAC_DIR)
+MLX_MAC_FLAGS   = -L$(MLX_MAC_DIR) -lmlx -framework OpenGL -framework AppKit
 
-OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+#Default target
+all: linux
 
-all: $(MLX) $(LIBFT) $(NAME)
+linux: $(LIBFT) $(OBJS) $(MLX_LINUX_DIR)/libmlx.a
+	@$(CC) $(CFLAGS) $(INCLUDES) $(MLX_LINUX_INC) $(OBJS) $(LIBFT) $(MLX_LINUX_FLAGS) -o $(NAME)
+	@echo "\033[0;32mLinux build complete!\033[0m"
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX_LIB) -o $(NAME)
-	@echo "\033[0;32m✔ Build complete!\033[0m"
+mac: $(LIBFT) $(OBJS)
+	@$(MAKE) -C $(MLX_MAC_DIR)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(MLX_MAC_INC) $(OBJS) $(LIBFT) $(MLX_MAC_FLAGS) -o $(NAME)
+	@echo "\033[0;32mmacOS build complete!\033[0m"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
@@ -48,26 +56,25 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Clone and build MiniLibX if not already
-$(MLX):
-	@if [ ! -d "$(MLX_DIR)" ]; then \
-		echo "Cloning MiniLibX..."; \
-		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
+$(MLX_LINUX_DIR)/libmlx.a:
+	@if [ ! -d "$(MLX_LINUX_DIR)" ]; then \
+		echo "Cloning MiniLibX for Linux..."; \
+		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_LINUX_DIR); \
 	fi
-	@$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_LINUX_DIR)
 
 clean:
 	@$(RM) $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	@if [ -d "$(MLX_DIR)" ]; then $(MAKE) -C $(MLX_DIR) clean; fi
-	@echo "\033[0;31mCleaned object files.\033[0m"
+	@if [ -d "$(MLX_MAC_DIR)" ]; then $(MAKE) -C $(MLX_MAC_DIR) clean; fi
+
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@$(RM) $(MLX_DIR)
-	@echo "\033[0;31mCleaned everything.\033[0m"
+	@$(RM) -rf $(MLX_LINUX_DIR)
+	@echo "\033[0;31mFull clean complete.\033[0m"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re mac linux
