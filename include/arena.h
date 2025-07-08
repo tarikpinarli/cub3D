@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:20:00 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 17:10:55 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:18:59 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <cub3d.h>
 # include <stdio.h>
+#include <stdlib.h>
 
 typedef struct s_arena
 {
