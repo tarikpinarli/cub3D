@@ -10,6 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
+
 NAME        = cub3D
 CC          = cc
 CFLAGS      = -Wall -Wextra -Werror
@@ -24,8 +25,6 @@ LIBFT_DIR   = $(LIB_DIR)/libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
 MLX42_DIR   = $(LIB_DIR)/MLX42
-MLX42_INC   = -I$(MLX42_DIR)/include
-MLX42_FLAGS = -L$(MLX42_DIR)/build -lmlx42 -ldl -lglfw -pthread -lm
 
 SRCS        =	main.c arena.c error_exit.c \
 				game/init_game.c \
@@ -33,22 +32,39 @@ SRCS        =	main.c arena.c error_exit.c \
 				handle_keypress/handle_keypress.c
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-INCLUDES    = -I$(INC_DIR) -I$(LIBFT_DIR)
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX42_DIR)/include -I/opt/homebrew/include
 
-# Default target
-all: $(NAME)
+# MLX42 link flags for Linux
+MLX42_LINUX_FLAGS = -L$(MLX42_DIR)/build -lmlx42 -ldl -lglfw -pthread -lm
 
-$(NAME): $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(MLX42_INC) $(OBJS) $(LIBFT) $(MLX42_FLAGS) -o $(NAME)
-	@echo "\033[0;32mBuild complete using MLX42!\033[0m"
+# MLX42 link flags for macOS (includes glfw manually if needed)
+MLX42_MAC_FLAGS = -L$(MLX42_DIR)/build -lmlx42 \
+				  -L/opt/homebrew/lib -lglfw \
+				  -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
+# Default target (builds for Linux)
+all: linux
+
+# Build target for Linux
+linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
+	@echo "\033[0;32mLinux build complete!\033[0m"
+
+# Build target for macOS
+mac: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_MAC_FLAGS) -o $(NAME)
+	@echo "\033[0;32mmacOS build complete!\033[0m"
+
+# Compile .c files to .o
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Build libft
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
+# Clone and build MLX42
 $(MLX42_DIR)/build/libmlx42.a:
 	@if [ ! -d "$(MLX42_DIR)" ]; then \
 		echo "Cloning MLX42..."; \
@@ -57,17 +73,20 @@ $(MLX42_DIR)/build/libmlx42.a:
 	@cmake -B $(MLX42_DIR)/build -S $(MLX42_DIR) -DMLX42_BUILD_EXAMPLES=OFF
 	@cmake --build $(MLX42_DIR)/build --config Release
 
+# Clean object files and MLX42 build
 clean:
 	@$(RM) $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(RM) -rf $(MLX42_DIR)/build
 
+# Full clean (also deletes binary and MLX42 clone)
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(RM) -rf $(MLX42_DIR)
 	@echo "\033[0;31mFull clean complete.\033[0m"
 
+# Rebuild everything
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re linux mac
