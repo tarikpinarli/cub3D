@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
+#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/07 16:01:33 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/08 15:27:21 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,9 @@ LIB_DIR     = ./lib
 LIBFT_DIR   = $(LIB_DIR)/libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
-SRCS        = main.c arena.c error_exit.c game/init_game.c map/dummy_map.c 
+SRCS        = main.c arena.c error_exit.c game/init_game.c
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-INCLUDES    = -I$(INC_DIR) -I$(LIBFT_DIR) -Imlx
+INCLUDES    = -I$(INC_DIR) -I$(LIBFT_DIR)
 
 #Linux
 MLX_LINUX_DIR   = $(LIB_DIR)/minilibx-linux
@@ -40,7 +40,7 @@ MLX_MAC_FLAGS   = -L$(MLX_MAC_DIR) -lmlx -framework OpenGL -framework AppKit
 #Default target
 all: linux
 
-linux: $(LIBFT) $(OBJS) $(MLX_LINUX_DIR)/libmlx.a
+linux: $(LIBFT) $(MLX_LINUX_DIR)/libmlx.a $(OBJS)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(MLX_LINUX_INC) $(OBJS) $(LIBFT) $(MLX_LINUX_FLAGS) -o $(NAME)
 	@echo "\033[0;32mLinux build complete!\033[0m"
 
@@ -57,8 +57,9 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(MLX_LINUX_DIR)/libmlx.a:
-	@if [ ! -d "$(MLX_LINUX_DIR)" ]; then \
+	@if [ ! -f "$(MLX_LINUX_DIR)/mlx.h" ]; then \
 		echo "Cloning MiniLibX for Linux..."; \
+		$(RM) $(MLX_LINUX_DIR); \
 		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_LINUX_DIR); \
 	fi
 	@$(MAKE) -C $(MLX_LINUX_DIR)
@@ -67,6 +68,7 @@ clean:
 	@$(RM) $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@if [ -d "$(MLX_MAC_DIR)" ]; then $(MAKE) -C $(MLX_MAC_DIR) clean; fi
+	@$(RM) -rf $(MLX_LINUX_DIR)
 
 
 fclean: clean
