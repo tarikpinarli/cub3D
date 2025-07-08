@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   close_window.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 19:39:37 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/08 17:36:38 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/08 19:38:45 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	main(void)
+void	close_window(t_game *game)
 {
-	t_game	game;
-
-	init_game(&game);
-	printf("Arena used: %zu / %zu bytes\n", game.arena->offset, game.arena->size);
-	mlx_key_hook(game.mlx, handle_keypress, &game);
-	mlx_loop(game.mlx);
-	arena_destroy(game.arena);
-	return (0);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
+	if (game->arena)
+		arena_destroy(game->arena);
+	exit(0);
 }
-
-

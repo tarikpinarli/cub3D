@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 17:10:17 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:37:02 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,11 @@
 #define CUB3D_H
 
 #include "arena.h"
-// #include "libft.h"
-// #include "colors.h"
-// #include "map.h"
-// #include "player.h"
-// #include "textures.h"
 #include "game.h"
+#include "../lib/MLX42/include/MLX42/MLX42.h"
 
-#ifdef __APPLE__
-# include "../lib/minilibx/mlx.h"
-#else
-# include "../lib/minilibx-linux/mlx.h"
-#endif
-
-void	error_exit(const char *message);
+void	init_game(t_game *game);
+void	handle_keypress(mlx_key_data_t keydata, void *param);
+void	error_exit(const char *message, t_game *game);
+void	close_window(t_game *game);
 #endif

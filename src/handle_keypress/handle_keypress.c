@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   handle_keypress.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 19:39:37 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/08 19:36:13 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/08 19:44:22 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	main(void)
+void	handle_keypress(mlx_key_data_t keydata, void *param)
 {
-	t_game	game;
+	t_game	*game = (t_game *)param;
 
-	init_game(&game);
-	printf("Arena used: %zu / %zu bytes\n", game.arena->offset, game.arena->size);
-	mlx_key_hook(game.mlx, handle_keypress, &game);
-	mlx_loop(game.mlx);
-	arena_destroy(game.arena);
-	return (0);
+	if (keydata.key == MLX_KEY_ESCAPE)
+	{
+		close_window(game);
+	}
 }
-
-

@@ -6,21 +6,18 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:31 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 17:09:19 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:46:07 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 #define GAME_H
-# include "arena.h"
-// # include "textures.h"
-// # include "colors.h"
-// # include "map.h"
-// # include "player.h"
+#include "arena.h"
+#include "../lib/MLX42/include/MLX42/MLX42.h"
+#include <cub3d.h>
 
 typedef struct s_game {
-	void		*mlx;
-	void		*win;
+	mlx_t		*mlx;
 	t_arena		*arena;
 
 	// t_textures	*textures;
@@ -30,5 +27,4 @@ typedef struct s_game {
 	// t_player	*player;
 }	t_game;
 
-void	init_game(t_game *game);
 #endif
