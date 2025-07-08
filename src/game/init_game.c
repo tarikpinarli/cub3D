@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:23:17 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 15:31:01 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:13:19 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	init_game(t_game *game)
 {
-	game->arena = arena_alloc(game->arena, 10000);
+	game->arena = arena_init(10000);
 }
