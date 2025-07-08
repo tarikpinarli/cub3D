@@ -1,7 +1,7 @@
-NO textures/simonkraft/wood.xpm
-SO textures/simonkraft/matrix_xpm
-WE textures/simonkraft/wood.xpm
-EA textures/simonkraft/matrix_xpm
+NO textures/wood.xpm
+SO textures/matrix_xpm
+WE textures/wood.xpm
+EA textures/matrix_xpm
 
 F 164,169,20
 C 153,204,255
