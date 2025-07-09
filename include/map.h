@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:39 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 15:35:41 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/09 13:41:48 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,4 @@ typedef struct s_map {
 	int		height;
 }	t_map;
 
-char	**load_dummy_map(t_arena *arena);
 #endif

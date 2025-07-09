@@ -6,7 +6,7 @@
 #    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/08 19:42:32 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/09 14:32:58 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ MLX42_DIR   = $(LIB_DIR)/MLX42
 SRCS        =	main.c arena.c error_exit.c \
 				game/init_game.c \
 				cleanup/close_window.c \
-				handle_keypress/handle_keypress.c
+				handle_keypress/handle_keypress.c \
+				init_dummy_data/init_dummy_data.c \
+				render/draw_map.c
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX42_DIR)/include -I/opt/homebrew/include
