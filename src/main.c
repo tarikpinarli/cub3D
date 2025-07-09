@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:13:18 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:33:57 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ int	main(int argc, char **argv)
 	{
 		if (init_dummy_data(&game) != 0)
 		 	return (arena_destroy(game.arena), 1);
-		if (!game.map || !game.map->grid)
-			error_exit("Map initialization failed", &game);
-		if (!game.textures)
-			error_exit("Textures initialization failed", &game);
-		if (!game.player)
-			error_exit("Player initialization failed", &game);
 	}
 	else
 		error_exit("Usage: ./cub3D [map_file.cub] or for dummy map ./cub3D", &game);

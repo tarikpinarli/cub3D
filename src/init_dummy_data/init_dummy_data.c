@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:00:36 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:33:44 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,18 @@ static t_textures *init_dummy_textures(t_game *game)
 	{
 		error_exit("Failed to allocate dummy textures", game);
 	}
-	// You will need to allocate some memory for these pointers here.
 	textures->north = arena_strdup(game->arena, "textures/matrix.xpm");
+	if (!textures->north)
+		error_exit("textures->north initialization failed", game);
 	textures->south = arena_strdup(game->arena, "textures/matrix.xpm");
+	if (!textures->south)
+		error_exit("textures->south initialization failed", game);
 	textures->west = arena_strdup(game->arena, "textures/matrix.xpm");
+	if (!textures->west)
+		error_exit("textures->west initialization failed", game);
 	textures->east = arena_strdup(game->arena, "textures/matrix.xpm");
+	if (!textures->east)
+		error_exit("textures->east initialization failed", game);
     return (textures);
 }
 
