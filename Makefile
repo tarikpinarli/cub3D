@@ -27,10 +27,12 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 MLX42_DIR   = $(LIB_DIR)/MLX42
 
 SRCS        =	main.c arena.c error_exit.c \
-				game/init_game.c \
+				game/load_textures.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
+				handle_keypress/update_player.c \
 				init_dummy_data/init_dummy_data.c \
+				render/raycast.c \
 				render/draw_map.c
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

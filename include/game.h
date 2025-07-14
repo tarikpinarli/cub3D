@@ -19,6 +19,7 @@
 #include <map.h>
 #include <player.h>
 #include <colors.h>
+#include "raycast.h"
 
 #define TILE_SIZE 16
 
@@ -32,6 +33,9 @@ typedef struct s_game {
 	t_color		ceiling;
 	t_map		*map;
 	t_player	*player;
+    double	jump_offset;
+	double	jump_time;
+	bool	is_jumping;
 }	t_game;
 
 #endif

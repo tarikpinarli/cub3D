@@ -12,6 +12,8 @@
 
 #include <cub3d.h>
 
+
+
 void	handle_keypress(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;

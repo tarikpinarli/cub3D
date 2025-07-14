@@ -12,32 +12,75 @@
 
 #include <cub3d.h>
 
+#define MINIMAP_TILE 5
+
 void	draw_map(t_game *game)
 {
-	for (int y = 0; y < game->map->height; ++y)
+	int offset_x;
+	int offset_y;
+	int y;
+	int x;
+	int dx;
+	int dy;
+	int px;
+	int py;
+	char c;
+	uint32_t color;
+	int player_px;
+	int player_py;
+
+	offset_x = 20;
+	offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE) - 20;
+
+	y = 0;
+	while (y < game->map->height)
 	{
-		for (int x = 0; x < game->map->width; ++x)
+		x = 0;
+		while (x < game->map->width)
 		{
-			char c = game->map->grid[y][x];
-			uint32_t color;
-
+			c = game->map->grid[y][x];
+			color = 0x00FF00FF;
 			if (c == '1')
-				color = 0xFF0000FF; // red walls
+				color = 0xF7700088;
 			else if (c == '0')
-				color = 0x00000000; // transparent or black floor
-			else
-				color = 0x00FF00FF; // something else
+				color = 0x00000000;
 
-			for (int dy = 0; dy < TILE_SIZE; ++dy)
+			dy = 0;
+			while (dy < MINIMAP_TILE)
 			{
-				for (int dx = 0; dx < TILE_SIZE; ++dx)
+				dx = 0;
+				while (dx < MINIMAP_TILE)
 				{
-					int px = x * TILE_SIZE + dx;
-					int py = y * TILE_SIZE + dy;
-					mlx_put_pixel(game->image, px, py, color);
+					px = offset_x + x * MINIMAP_TILE + dx;
+					py = offset_y + y * MINIMAP_TILE + dy;
+					if (px >= 0 && px < game->mlx->width && py >= 0 && py < game->mlx->height)
+						mlx_put_pixel(game->image, px, py, color);
+					dx++;
 				}
+				dy++;
 			}
+			x++;
 		}
+		y++;
+	}
+
+	player_px = offset_x + game->player->x * MINIMAP_TILE;
+	player_py = offset_y + game->player->y * MINIMAP_TILE;
+
+	dy = -2;
+	while (dy <= 2)
+	{
+		dx = -2;
+		while (dx <= 2)
+		{
+			px = player_px + dx;
+			py = player_py + dy;
+			if (px >= 0 && px < game->mlx->width && py >= 0 && py < game->mlx->height)
+				mlx_put_pixel(game->image, px, py, 0xFFFFFFFF);
+			dx++;
+		}
+		dy++;
 	}
 }
+
 

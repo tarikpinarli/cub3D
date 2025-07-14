@@ -15,10 +15,18 @@
 #include <cub3d.h>
 
 typedef struct s_textures {
-	char *north;
-	char *south;
-	char *west;
-	char *east;
+	char *north_path;
+	char *south_path;
+	char *west_path;
+	char *east_path;
+    mlx_texture_t	*north_png;
+    mlx_texture_t	*south_png;
+    mlx_texture_t	*west_png;
+    mlx_texture_t	*east_png;
+    mlx_image_t     *north_img;
+    mlx_image_t     *south_img;
+    mlx_image_t     *west_img;
+    mlx_image_t     *east_img;
 }	t_textures;
 
 #endif
