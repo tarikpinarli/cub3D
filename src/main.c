@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:33:57 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:57:50 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	render(void *param)
 	game->image = mlx_new_image(game->mlx, 800, 600);
 
 
-	if (game->is_jumping)
+	/*if (game->is_jumping)
 	{
 		game->jump_time += 0.03;
 		game->jump_offset = sin(game->jump_time * M_PI) * -0.3;
@@ -41,9 +41,9 @@ void	render(void *param)
 		}
 	}
 	else
-		game->jump_offset = 0;
+		game->jump_offset = 0;*/
 	draw_3d(game);
-	draw_map(game);
+	//draw_map(game);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv)
 	}
 	else
 		error_exit("Usage: ./cub3D [map_file.cub] or for dummy map ./cub3D", &game);
-	
+
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_key_hook(game.mlx, handle_keypress, &game);
 	mlx_loop(game.mlx);
