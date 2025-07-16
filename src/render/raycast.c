@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/15 15:54:44 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:46:46 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static t_ray_hit cast_ray(t_game *game, double ray_angle)
 	int side;
 
 	map = game->map;
-	ray_dir_x = cos(ray_angle);
-	ray_dir_y = sin(ray_angle);
+	ray_dir_x = -cos(ray_angle);
+	ray_dir_y = -sin(ray_angle);
 	map_x = (int)game->player->x;
 	map_y = (int)game->player->y;
 	delta_dist_x = fabs(1 / ray_dir_x);
@@ -91,9 +91,19 @@ static t_ray_hit cast_ray(t_game *game, double ray_angle)
 		hit.distance = (side_dist_y - delta_dist_y);
 
 	if (side == 0)
-		hit.wall_dir = (ray_dir_x < 0) ? 1 : 2; // WEST : EAST
-	else
-		hit.wall_dir = (ray_dir_y < 0) ? 4 : 3; // SOUTH : NORTH
+	{
+		if (ray_dir_x < 0)
+			hit.wall_dir = 1;
+		else
+			hit.wall_dir = 2;
+	}
+	else  // SOUTH : NORTH
+	{
+		if (ray_dir_y < 0)
+			hit.wall_dir = 4;
+		else
+			hit.wall_dir = 3;
+	}
 
 	return hit;
 }
