@@ -6,14 +6,17 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:00:35 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/07 16:03:16 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:15:35 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	error_exit(const char *message)
+void	error_exit(char *message, t_game *game)
 {
-	printf("Error: %s.\n", message);
+	if (game->arena)
+		arena_destroy(game->arena);
+	ft_putstr_fd("Error: ",2);
+	ft_putendl_fd(message, 2);
 	exit(EXIT_FAILURE);
 }
