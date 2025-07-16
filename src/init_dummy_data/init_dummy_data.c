@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/15 14:56:40 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:47:08 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ static t_player *init_dummy_player(t_game *game)
     if (!player)
         error_exit("Failed to allocate dummy player", game);
 
-    player->x = 1.0; //index in column
-    player->y = 19.0; //index in row
-    player->dir = 3 * (M_PI / 2); // N == 90 degree
+    player->x = 1.5; //index in column
+    player->y = 19.5; //index in row
+    player->dir = (M_PI / 2); // N == 90 degree
     game->jump_offset = 0;
     game->jump_time = 0;
     game->is_jumping = false;

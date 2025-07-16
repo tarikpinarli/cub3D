@@ -6,7 +6,7 @@
 #    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/09 14:32:58 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/16 15:26:00 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 
 MLX42_DIR   = $(LIB_DIR)/MLX42
 
-SRCS        =	main.c arena.c error_exit.c \
+SRCS        =	main.c error_exit.c \
+				arena/arena.c \
 				game/mlx_init.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
