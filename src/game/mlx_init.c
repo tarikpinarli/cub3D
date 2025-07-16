@@ -3,7 +3,7 @@
 
 void	init_mlx(t_game *game)
 {
-	game->mlx = mlx_init(800, 600, "cub3d", true);
+	game->mlx = mlx_init(2000, 1500, "cub3d", true);
 	if (!game->mlx)
 		error_exit("MLX initialization failed", game);
 }
@@ -12,11 +12,11 @@ void	render(void *param)
 	t_game *game;
 
 	game = (t_game *)param;
+	game->number_of_rays = game->mlx->width;
 	update_player(game);
 	if (game->image)
 		mlx_delete_image(game->mlx, game->image);
-	game->image = mlx_new_image(game->mlx, 800, 600);
-
+	game->image = mlx_new_image(game->mlx, game->mlx->width, game->mlx->height);
 
 	/*if (game->is_jumping)
 	{

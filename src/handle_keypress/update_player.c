@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/16 15:41:59 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:31:27 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #define MOVE_SPEED 0.035
 #define ROT_SPEED 0.025
+#define HOR_MOVE 0.019
 
 void	move_forward(t_game *game)
 {
@@ -46,8 +47,8 @@ void	move_backward(t_game *game)
 void	move_left(t_game *game)
 {
 	double	dir = game->player->dir;
-	double	next_x = game->player->x - sin(dir) * MOVE_SPEED;
-	double	next_y = game->player->y + cos(dir) * MOVE_SPEED;
+	double	next_x = game->player->x - sin(dir) * HOR_MOVE;
+	double	next_y = game->player->y + cos(dir) * HOR_MOVE;
 
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
@@ -59,8 +60,8 @@ void	move_left(t_game *game)
 void	move_right(t_game *game)
 {
 	double	dir = game->player->dir;
-	double	next_x = game->player->x + sin(dir) * MOVE_SPEED;
-	double	next_y = game->player->y - cos(dir) * MOVE_SPEED;
+	double	next_x = game->player->x + sin(dir) * HOR_MOVE;
+	double	next_y = game->player->y - cos(dir) * HOR_MOVE;
 
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
