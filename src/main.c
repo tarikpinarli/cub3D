@@ -12,40 +12,19 @@
 
 #include <cub3d.h>
 
-void	init_mlx(t_game *game)
-{
-	game->mlx = mlx_init(800, 600, "cub3d", true);
-	if (!game->mlx)
-		error_exit("MLX initialization failed", game);
-}
-void	render(void *param)
-{
-	t_game *game;
-
-	game = (t_game *)param;
-	update_player(game);
-	if (game->image)
-		mlx_delete_image(game->mlx, game->image);
-	game->image = mlx_new_image(game->mlx, 800, 600);
-
-
-	/*if (game->is_jumping)
-	{
-		game->jump_time += 0.03;
-		game->jump_offset = sin(game->jump_time * M_PI) * -0.3;
-		if (game->jump_time >= 1.0)
-		{
-			game->jump_offset = 0;
-			game->jump_time = 0;
-			game->is_jumping = false;
-		}
-	}
-	else
-		game->jump_offset = 0;*/
-	draw_3d(game);
-	//draw_map(game);
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
-}
+/*
+** This main function is set up so we can both work independently:
+**
+** - If a .cub file is given as an argument, your parsing code will run.
+**
+** - If no arguments are given, the program runs with dummy data.
+**   This lets me test rendering, movement, raycasting, etc.
+**
+** - If too many arguments are given, the program shows a usage error.
+**
+** This way, you can work on parsing, and I can work on rendering
+** without blocking each other.
+*/
 
 int	main(int argc, char **argv)
 {
@@ -56,6 +35,7 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		(void)argv;
+		// This is your part :)
 		// if (parse_map(argv[1], &game) != 0)
 		// 	return (arena_destroy(game.arena), 1);
 	}

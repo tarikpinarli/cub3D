@@ -28,5 +28,5 @@ int 	init_dummy_data(t_game *game);
 void	draw_map(t_game *game);
 void    draw_3d(t_game *game);
 void	render(void *param);
-void	load_textures(t_game *game);
+void	init_mlx(t_game *game);
 #endif

@@ -27,7 +27,7 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 MLX42_DIR   = $(LIB_DIR)/MLX42
 
 SRCS        =	main.c arena.c error_exit.c \
-				game/load_textures.c \
+				game/mlx_init.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
 				handle_keypress/update_player.c \
