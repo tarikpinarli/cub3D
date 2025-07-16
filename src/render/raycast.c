@@ -18,42 +18,87 @@
 #define NUM_RAYS 800
 #define MAX_DEPTH 100.0
 
+typedef struct s_ray_hit {
+	double distance;
+	int wall_dir; // 1 = WEST, 2 = EAST, 3 = NORTH, 4 = SOUTH
+}	t_ray_hit;
 
 
-static int is_wall(t_map *map, int x, int y, double ray_angle)
+static t_ray_hit cast_ray(t_game *game, double ray_angle)
 {
-	double ray_dir_x;
-	double ray_dir_y;
+	t_ray_hit hit;
+	t_map *map = game->map;
+	double ray_dir_x = cos(ray_angle);
+	double ray_dir_y = sin(ray_angle);
+	int map_x = (int)game->player->x;
+	int map_y = (int)game->player->y;
 
-	ray_dir_x = cos(ray_angle);
-	ray_dir_y = sin(ray_angle);
-	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
-		return (1);
+	double delta_dist_x = fabs(1 / ray_dir_x);
+	double delta_dist_y = fabs(1 / ray_dir_y);
 
-	// Debug: hangi duvar yüzüne çarptığını yazdır
+	int step_x, step_y;
+	double side_dist_x, side_dist_y;
 
-	if (map->grid[y][x] == '1')
+	int hit_wall = 0;
+	int side;
+
+	// Step ve side_dist hesapla
+	if (ray_dir_x < 0) // from right to left
 	{
-		// Duvar yüzü belirleme mantığı:
-		if (fabs(ray_dir_x) > fabs(ray_dir_y))
+		step_x = -1;
+		side_dist_x = (game->player->x - map_x) * delta_dist_x;
+	}
+	else // from left to right
+	{
+		step_x = 1;
+		side_dist_x = (map_x + 1.0 - game->player->x) * delta_dist_x;
+	}
+	if (ray_dir_y < 0)
+	{
+		step_y = -1;
+		side_dist_y = (game->player->y - map_y) * delta_dist_y;
+	}
+	else
+	{
+		step_y = 1;
+		side_dist_y = (map_y + 1.0 - game->player->y) * delta_dist_y;
+	}
+
+	while (!hit_wall)
+	{
+		if (side_dist_x < side_dist_y)
 		{
-			// Dikey duvara çarptı (x değişimi baskın)
-			if (ray_dir_x > 0)
-				return (1); //WEST
-			else
-				return (2); //EAST
+			side_dist_x += delta_dist_x;
+			map_x += step_x;
+			side = 0; // X tarafı
 		}
 		else
 		{
-			// Yatay duvara çarptı (y değişimi baskın)
-			if (ray_dir_y > 0)
-				return (3); //NORTH
-			else
-				return (4); //SOUTH
+			side_dist_y += delta_dist_y;
+			map_y += step_y;
+			side = 1; // Y tarafı
 		}
+		if (map_x < 0 || map_y < 0 || map_x >= map->width || map_y >= map->height)
+			break;
+		if (map->grid[map_y][map_x] == '1')
+			hit_wall = 1;
 	}
-	return (0);
+
+	// Mesafe
+	if (side == 0)
+		hit.distance = (side_dist_x - delta_dist_x);
+	else
+		hit.distance = (side_dist_y - delta_dist_y);
+
+	// Duvar yönü belirleme
+	if (side == 0)
+		hit.wall_dir = (ray_dir_x < 0) ? 1 : 2; // WEST : EAST
+	else
+		hit.wall_dir = (ray_dir_y < 0) ? 4 : 3; // SOUTH : NORTH
+
+	return hit;
 }
+
 
 
 static void draw_vertical_line(t_game *game, int x, int start, int end, uint32_t color)
@@ -75,62 +120,42 @@ static void draw_vertical_line(t_game *game, int x, int start, int end, uint32_t
 
 void draw_3d(t_game *game)
 {
-	double	player_curr_x;
-	double	player_curr_y;
-	double	dir;
-	double	start_angle;
-	double	angle_step;
-	int		ray;
-    uint32_t floor;
-    uint32_t ceiling;
+	double		dir = game->player->dir;
+	double		start_angle = dir - (FOV / 2);
+	double		angle_step = FOV / NUM_RAYS;
+	int			ray = 0;
 
-	double	ray_angle;
-	double	power_x;
-	double	power_y;
-	double	dist;
-	double	test_x;
-	double	test_y;
-	double	wall_height;
-	int		start;
-	int		end;
-	int		wall;
+	uint32_t	floor = (game->floor.r << 24) | (game->floor.g << 16) | (game->floor.b << 8) | 0xFF;
+	uint32_t	ceiling = (game->ceiling.r << 24) | (game->ceiling.g << 16) | (game->ceiling.b << 8) | 0xFF;
 
-	wall = 0;
-    floor = (game->floor.r << 24) | (game->floor.g << 16) | (game->floor.b << 8) | 0xFF;
-    ceiling = (game->ceiling.r << 24) | (game->ceiling.g << 16) | (game->ceiling.b << 8) | 0xFF;
-	player_curr_x = game->player->x;
-	player_curr_y = game->player->y;
-	dir = game->player->dir;
-
-	start_angle = dir - (FOV / 2);
-	angle_step = FOV / NUM_RAYS;
-	ray = 0;
 	while (ray < NUM_RAYS)
 	{
+		double ray_angle = start_angle + ray * angle_step;
+		t_ray_hit hit = cast_ray(game, ray_angle);
 
-		ray_angle = start_angle + ray * angle_step;
-		power_x = cos(ray_angle);
-		power_y = sin(ray_angle);
-		dist = 0.0;
+		// Fish-eye düzeltme
+		double corrected_dist = hit.distance * cos(ray_angle - dir);
+		double wall_height = game->mlx->height / corrected_dist;
 
-		while (dist < MAX_DEPTH)
-		{
-			test_x = player_curr_x + power_x * dist;
-			test_y = player_curr_y + power_y * dist;
-			wall = is_wall(game->map, (int)test_x, (int)test_y, ray_angle);
-			if (wall > 0)
-				break;
-			dist += 0.01;
-		}
-		wall_height = game->mlx->height / (dist * cos(ray_angle - dir)); // Fish eye correction.
-		start = (game->mlx->height / 2 /*- game->jump_offset * game->mlx->height*/) - (wall_height / 2);
-		end = start + wall_height;
+		int start = (game->mlx->height / 2) - (wall_height / 2);
+		int end = start + wall_height;
 
+		// Tavan
 		draw_vertical_line(game, ray, 0, start, ceiling);
-		//draw_texture(game, ray, start, end, power_x, power_y);
-		if (wall == 1)
-			draw_vertical_line(game, ray, start, end, 0xFF0000FF);
+
+		// Duvar rengi (WEST kırmızı, diğerleri beyaz örnek)
+		uint32_t wall_color;
+		if (hit.wall_dir == 1)
+			wall_color = 0xFF0000FF; // WEST (kırmızı)
+		else
+			wall_color = 0xFFFFFFFF; // diğer yönler beyaz
+
+		draw_vertical_line(game, ray, start, end, wall_color);
+
+		// Zemin
 		draw_vertical_line(game, ray, end, game->mlx->height, floor);
+
 		ray++;
 	}
 }
+
