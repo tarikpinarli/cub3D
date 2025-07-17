@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:55:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/14 14:59:48 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/17 22:34:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * -> colors[0] = R, colors[1] = G, colors[2] = B
  * No transparency needed
  */
-int	get_rgb_color(char **metadata)
+int	get_rgb_color(t_game *game, char **metadata)
 {
 	char	*identifier;
 	char	**colors;
@@ -28,7 +28,7 @@ int	get_rgb_color(char **metadata)
 
 	if (!metatdata || !*metatdata || !*(metatdata + 1))
 	{
-		print_error_messages("Identifier is lacking information.");
+		print_error_messages("Identifier is lacking information");
 		return (1);
 	}
 	identifier = metadata[1];
@@ -42,7 +42,7 @@ int	get_rgb_color(char **metadata)
 		return (1);
 	if (arrlen(colors) != 3)
 	{
-		print_error_messages("Invalid RGB value(s)");
+		print_error_messages("Invalid RGB value(s). Valid range: [0, 255]");
 		free(colors);
 		return (1);
 	}
@@ -51,9 +51,9 @@ int	get_rgb_color(char **metadata)
 	g = ft_atoi(colors[1]);
 	b = ft_atoi(colors[2]);
 	if (identifier == F)
-		// struct.F = ((r <<) | (g << ) | (b << ) | 255);
+		game->floor = ((r << 24) | (g << 16) | (b << 8) | 255);
 	else if (identifier == C)
-		// struct.C = ((r <<) | (g << ) | (b << ) | 255);
+		game->ceiling = ((r << 24) | (g << 16) | (b << 8) | 255);
 	return (0);
 }
 
@@ -61,10 +61,10 @@ int	get_wall_texture(char **metatdata)
 {
 	char	*identifier;
 	char	*texture;
-
+s
 	if (!metatdata || !*metatdata || !*(metatdata + 1))
 	{
-		print_error_messages("Identifier is lacking information.");
+		print_error_messages("Identifier is lacking information");
 		return (1);
 	}
 	identifier = metatdata[1];
@@ -86,7 +86,7 @@ int	get_wall_texture(char **metatdata)
 		// save data
 	}
 	else
-	{
+	{s
 		print_error_messages("Invalid identifier");
 		return (1);
 	}

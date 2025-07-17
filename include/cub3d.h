@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/17 21:11:21 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/17 21:58:55 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@
 # include "../lib/libft/libft.h"
 # include "arena.h"
 # include "game.h"
+# include <fcntl.h>
 # include <math.h>
+# include <stdio.h>
 
 // FOR PARSING
 int		check_args(int argc, char **argv);
-int		get_rgb_color(char **metadata);
+int		get_rgb_color(t_game *game, char **metadata);
 int		get_wall_texture(char **metatdata);
 int		arrlen(char **arr);
 void	print_error_messages(char **messsage);
