@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_exit.c                                       :+:      :+:    :+:   */
+/*   textures.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 16:00:35 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:15:35 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/08 15:35:54 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/08 15:35:56 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef TEXTURES_H
+#define TEXTURES_H
 #include <cub3d.h>
 
-void	error_exit(char *message, t_game *game)
-{
-	if (game->arena)
-		arena_destroy(game->arena);
-	ft_putstr_fd("Error: ",2);
-	ft_putendl_fd(message, 2);
-	exit(EXIT_FAILURE);
-}
+typedef struct s_textures {
+	char *north_path;
+	char *south_path;
+	char *west_path;
+	char *east_path;
+    mlx_texture_t	*north_png;
+    mlx_texture_t	*south_png;
+    mlx_texture_t	*west_png;
+    mlx_texture_t	*east_png;
+    mlx_image_t     *north_img;
+    mlx_image_t     *south_img;
+    mlx_image_t     *west_img;
+    mlx_image_t     *east_img;
+}	t_textures;
+
+#endif

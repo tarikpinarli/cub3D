@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/14 15:00:43 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/17 21:11:21 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@
 # define F "F"
 # define C "C"
 
+# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "../lib/libft/libft.h"
 # include "arena.h"
-# include "libft.h"
+# include "game.h"
+# include <math.h>
 
 // FOR PARSING
 int		check_args(int argc, char **argv);
@@ -32,5 +35,15 @@ int		get_wall_texture(char **metatdata);
 int		arrlen(char **arr);
 void	print_error_messages(char **messsage);
 
-void	error_exit(const char *message);
+void	init_arena(t_game *game);
+void	handle_keypress(mlx_key_data_t keydata, void *param);
+void	update_player(t_game *game);
+void	error_exit(char *message, t_game *game);
+void	close_window(t_game *game);
+int		init_dummy_data(t_game *game);
+void	draw_map(t_game *game);
+void	draw_3d(t_game *game);
+void	render(void *param);
+void	init_mlx(t_game *game);
+
 #endif

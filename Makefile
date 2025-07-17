@@ -3,71 +3,95 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
+#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/07 16:01:33 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/16 15:26:00 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= cub3D
-CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror
-RM			= rm -rf
 
-SRC_DIR 	= ./src
-OBJ_DIR 	= ./obj
-INC_DIR 	= ./include
-LIB_DIR 	= ./lib
-MAP_DIR     = ./maps
+NAME        = cub3D
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
+RM          = rm -rf
 
-LIBFT_DIR 	= $(LIB_DIR)/libft
-LIBFT 		= $(LIBFT_DIR)/libft.a
+SRC_DIR     = ./src
+OBJ_DIR     = ./obj
+INC_DIR     = ./include
+LIB_DIR     = ./lib
 
-MLX_DIR 	= $(LIB_DIR)/minilibx-linux
-MLX_LIB 	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
-MLX_INC 	= -I$(MLX_DIR)
-MLX			= $(MLX_DIR)/libmlx.a
+LIBFT_DIR   = $(LIB_DIR)/libft
+LIBFT       = $(LIBFT_DIR)/libft.a
 
-INCLUDES 	= -I$(INC_DIR) -I$(LIBFT_DIR) $(MLX_INC)
+MLX42_DIR   = $(LIB_DIR)/MLX42
 
-SRCS = main.c arena.c error_exit.c
+SRCS        =	main.c error_exit.c \
+				arena/arena.c \
+				game/mlx_init.c \
+				cleanup/close_window.c \
+				handle_keypress/handle_keypress.c \
+				handle_keypress/update_player.c \
+				init_dummy_data/init_dummy_data.c \
+				render/raycast.c \
+				render/draw_map.c
 
-OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX42_DIR)/include -I/opt/homebrew/include
 
-all: $(MLX) $(LIBFT) $(NAME)
+# MLX42 link flags for Linux
+MLX42_LINUX_FLAGS = -L$(MLX42_DIR)/build -lmlx42 -ldl -lglfw -pthread -lm
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX_LIB) -o $(NAME)
-	@echo "\033[0;32m✔ Build complete!\033[0m"
+# MLX42 link flags for macOS (includes glfw manually if needed)
+MLX42_MAC_FLAGS = -L$(MLX42_DIR)/build -lmlx42 \
+				  -L/opt/homebrew/lib -lglfw \
+				  -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
+# Default target (builds for Linux)
+all: linux
+
+# Build target for Linux
+linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
+	@echo "\033[0;32mLinux build complete!\033[0m"
+
+# Build target for macOS
+mac: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_MAC_FLAGS) -o $(NAME)
+	@echo "\033[0;32mmacOS build complete!\033[0m"
+
+# Compile .c files to .o
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+# Build libft
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
-# Clone and build MiniLibX if not already
-$(MLX):
-	@if [ ! -d "$(MLX_DIR)" ]; then \
-		echo "Cloning MiniLibX..."; \
-		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
+# Clone and build MLX42
+$(MLX42_DIR)/build/libmlx42.a:
+	@if [ ! -d "$(MLX42_DIR)" ]; then \
+		echo "Cloning MLX42..."; \
+		git clone https://github.com/codam-coding-college/MLX42.git $(MLX42_DIR); \
 	fi
-	@$(MAKE) -C $(MLX_DIR)
+	@cmake -B $(MLX42_DIR)/build -S $(MLX42_DIR) -DMLX42_BUILD_EXAMPLES=OFF
+	@cmake --build $(MLX42_DIR)/build --config Release
 
+# Clean object files and MLX42 build
 clean:
 	@$(RM) $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
-	@if [ -d "$(MLX_DIR)" ]; then $(MAKE) -C $(MLX_DIR) clean; fi
-	@echo "\033[0;31mCleaned object files.\033[0m"
+	@$(RM) -rf $(MLX42_DIR)/build
 
+# Full clean (also deletes binary and MLX42 clone)
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@$(RM) $(MLX_DIR)
-	@echo "\033[0;31mCleaned everything.\033[0m"
+	@$(RM) -rf $(MLX42_DIR)
+	@echo "\033[0;31mFull clean complete.\033[0m"
 
+# Rebuild everything
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re linux mac

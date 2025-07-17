@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_exit.c                                       :+:      :+:    :+:   */
+/*   player.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 16:00:35 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:15:35 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/08 15:35:46 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/08 15:35:48 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PLAYER_H
+#define PLAYER_H
 #include <cub3d.h>
 
-void	error_exit(char *message, t_game *game)
-{
-	if (game->arena)
-		arena_destroy(game->arena);
-	ft_putstr_fd("Error: ",2);
-	ft_putendl_fd(message, 2);
-	exit(EXIT_FAILURE);
-}
+
+typedef struct s_player {
+	double	x;
+	double	y;
+	float	dir;
+    
+}	t_player;
+
+#endif
