@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/17 22:35:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/18 14:02:18 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	open_map_file(char *file)
 	map_fd = open(file, O_RDONLY);
 	if (map_fd == -1)
 	{
+		ft_putendl_fd("Error", STDERR_FILENO);
 		perror(file);
 		return (-1);
 	}
@@ -56,7 +57,7 @@ int	check_args(int argc, char **argv)
  * If the argument is valid, open the file and extract the data inside.
  * @param argc: number of arguments from the main function
  * @param argv: argument array from the main function
- * @param game: pointer to the game struct
+ * @param game: pointer to the game   struct
  */
 int	parse_map(int argc, char **argv, t_game *game)
 {
@@ -67,16 +68,15 @@ int	parse_map(int argc, char **argv, t_game *game)
 	map_fd = open_map_file(argv[1]);
 	if (map_fd == -1)
 		return (1);
+	
 	// extract data here //
-	/**
-	 * while (get_next_line(map_fd))
+	while (get_next_line(map_fd))
 	 * {
 	 * 	if (empty line)
 	 * 	skip
 	 * type check
 	 * 
 	 * }
-	 */
 	close(map_fd);
 	return (0);
 }

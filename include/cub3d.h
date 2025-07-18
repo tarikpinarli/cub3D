@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/17 21:58:55 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/18 15:02:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define EA "EA"
 # define F "F"
 # define C "C"
+# define BUFFER_SIZE 100
 
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "../lib/libft/libft.h"
