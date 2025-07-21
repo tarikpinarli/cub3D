@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arena.h                                            :+:      :+:    :+:   */
+/*   arena_strdup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 15:20:00 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 12:18:20 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/21 12:10:46 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/21 12:10:57 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARENA_H
-#define ARENA_H
-
 #include <cub3d.h>
-# include <stdio.h>
-#include <stdlib.h>
 
-typedef struct s_arena
+char *arena_strdup(t_arena *arena, const char *s)
 {
-    void    *memory;
-    size_t   size;
-    size_t   offset;
-}   t_arena;
+	size_t	len;
+	char	*dup;
 
-t_arena *arena_init(size_t size);
-void 	*arena_alloc(t_arena *arena, size_t size);
-void 	arena_destroy(t_arena *arena);
-char 	*arena_strdup(t_arena *arena, const char *s);
-char	**arena_split(t_arena *arena, char const *s, char c);
-#endif
+	len = ft_strlen(s) + 1;
+	dup = arena_alloc(arena, len);
+	if (!dup)
+		return (NULL);
+	ft_memcpy(dup, s, len);
+	return (dup);
+}
