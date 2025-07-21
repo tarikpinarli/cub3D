@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/16 16:29:29 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/21 16:40:55 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,24 @@ static t_ray_hit cast_ray(t_game *game, double ray_angle)
 	int side;
 
 	map = game->map;
-	ray_dir_x = -cos(ray_angle);
-	ray_dir_y = -sin(ray_angle);
+	ray_dir_x = cos(ray_angle);
+	ray_dir_y = sin(ray_angle);
 	map_x = (int)game->player->x;
 	map_y = (int)game->player->y;
 	delta_dist_x = fabs(1 / ray_dir_x);
 	delta_dist_y = fabs(1 / ray_dir_y);
 	hit_wall = 0;
-	if (ray_dir_x < 0) // from right to left
+	if (ray_dir_x > 0) 
 	{
 		step_x = -1;
 		side_dist_x = (game->player->x - map_x) * delta_dist_x;
 	}
-	else // from left to right
+	else
 	{
 		step_x = 1;
 		side_dist_x = (map_x + 1.0 - game->player->x) * delta_dist_x;
 	}
-	if (ray_dir_y < 0)
+	if (ray_dir_y > 0)
 	{
 		step_y = -1;
 		side_dist_y = (game->player->y - map_y) * delta_dist_y;
@@ -127,6 +127,76 @@ static void draw_vertical_line(t_game *game, int x, int start, int end, uint32_t
 	}
 }
 
+static void draw_texture_stripe(t_game *game, int ray_x, int start, int end,
+								double wall_height, t_ray_hit hit, double ray_angle)
+{
+	mlx_texture_t *tex = NULL;
+	double wall_hit;
+	int tex_x, tex_y;
+	int y;
+
+	// 1. Doğru texture’ı seç
+	if (hit.wall_dir == 1)
+		tex = game->textures->west_png;
+	else if (hit.wall_dir == 2)
+		tex = game->textures->east_png;
+	else if (hit.wall_dir == 3)
+		tex = game->textures->north_png;
+	else if (hit.wall_dir == 4)
+		tex = game->textures->south_png;
+
+	// Güvenlik: Texture NULL ise çizim yapma
+	if (!tex || !tex->pixels)
+		return;
+
+	// 2. Duvarın çarpma noktası (X veya Y ekseni üzerinde)
+	if (hit.wall_dir == 1 || hit.wall_dir == 2)
+		wall_hit = -game->player->y + hit.distance * sin(ray_angle);
+	else
+		wall_hit = -game->player->x + hit.distance * cos(ray_angle);
+	wall_hit -= floor(wall_hit);
+
+	// 3. Texture X koordinatını hesapla
+	tex_x = (int)(wall_hit * tex->width);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= (int)tex->width)
+		tex_x = tex->width - 1;
+	if (hit.wall_dir == 2 || hit.wall_dir == 4) // EAST, SOUTH => flip
+		tex_x = tex->width - tex_x - 1;
+
+	// 4. Ekrana çizim (pixel-by-pixel)
+	for (y = start; y < end; y++)
+	{
+		if (y < 0 || y >= (int)game->mlx->height)
+			continue;
+
+		int d = y * 256 - game->mlx->height * 128 + wall_height * 128;
+		tex_y = ((d * tex->height) / (int)wall_height) / 256;
+
+		// Sınır kontrolü
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= (int)tex->height)
+			tex_y = tex->height - 1;
+
+		uint8_t *pixel = (uint8_t *)tex->pixels;
+		int index = (tex_y * tex->width + tex_x) * 4;
+
+		uint8_t r = pixel[index + 0];
+		uint8_t g = pixel[index + 1];
+		uint8_t b = pixel[index + 2];
+		uint8_t a = pixel[index + 3];
+
+		uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
+
+		mlx_put_pixel(game->image, ray_x, y, color);
+	}
+}
+
+
+
+
 void draw_3d(t_game *game)
 {
 	double		dir;
@@ -142,7 +212,7 @@ void draw_3d(t_game *game)
 	double wall_height;
 	int start;
 	int end;
-	uint32_t wall_color;
+
 	floor = (game->floor.r << 24) | (game->floor.g << 16) | (game->floor.b << 8) | 0xFF;
 	ceiling = (game->ceiling.r << 24) | (game->ceiling.g << 16) | (game->ceiling.b << 8) | 0xFF;
 	dir = game->player->dir;
@@ -163,12 +233,8 @@ void draw_3d(t_game *game)
 
 		// ceiling
 		draw_vertical_line(game, ray, 0, start, ceiling);
-		if (hit.wall_dir == 1)
-			wall_color = 0xFF0000FF; // WEST (red)
-		else
-			wall_color = 0xFFFFFFFF;
+		draw_texture_stripe(game, ray, start, end, wall_height, hit, ray_angle);
 
-		draw_vertical_line(game, ray, start, end, wall_color);
 		draw_vertical_line(game, ray, end, game->mlx->height, floor);
 
 		ray++;

@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:54 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 15:35:56 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:56:50 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ typedef struct s_textures {
     mlx_texture_t	*south_png;
     mlx_texture_t	*west_png;
     mlx_texture_t	*east_png;
-    mlx_image_t     *north_img;
-    mlx_image_t     *south_img;
-    mlx_image_t     *west_img;
-    mlx_image_t     *east_img;
+    // mlx_image_t     *north_img;
+    // mlx_image_t     *south_img;
+    // mlx_image_t     *west_img;
+    // mlx_image_t     *east_img;
 }	t_textures;
 
 #endif
