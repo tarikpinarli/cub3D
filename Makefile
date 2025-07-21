@@ -33,6 +33,7 @@ SRCS        =	main.c error_exit.c \
 				arena/arena_strdup.c \
 				arena/arena_split.c \
 				arena/arena_substr.c \
+				arena/arena_strjoin.c \
 				game/mlx_init.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \

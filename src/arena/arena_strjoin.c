@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   arena_strjoin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 13:30:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 13:48:21 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/21 13:45:01 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/21 13:48:08 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <cub3d.h>
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*arena_strjoin(t_arena *arena, char const *s1, char const *s2)
 {
 	int		i;
 	int		j;
@@ -22,7 +22,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
-	join = (char *)malloc((len + 1) * sizeof(char));
+	join = (char *)arena_alloc(arena, (len + 1) * sizeof(char));
+	//join = (char *)malloc((len + 1) * sizeof(char));
 	if (!join)
 		return (NULL);
 	i = 0;
