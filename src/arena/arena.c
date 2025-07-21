@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:46:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:09:07 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:11:43 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,6 @@ void	init_arena(t_game *game)
 	if (!game->arena)
 		error_exit("Arena allocation failed", NULL);
 }
-char *arena_strdup(t_arena *arena, const char *s)
-{
-	size_t	len;
-	char	*dup;
-
-	len = ft_strlen(s) + 1;
-	dup = arena_alloc(arena, len);
-	if (!dup)
-		return (NULL);
-	ft_memcpy(dup, s, len);
-	return (dup);
-}
-
 
 t_arena *arena_init(size_t size)
 {

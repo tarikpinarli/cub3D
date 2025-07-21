@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/16 16:20:28 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:38:10 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ int	main(int argc, char **argv)
 
 	init_arena(&game);
 	init_mlx(&game);
-	if (argc == 2)
+	if (argc > 1)
 	{
 		(void)argv;
 		// This is your part :)
 		// if (parse_map(argv[1], &game) != 0)
 		// 	return (arena_destroy(game.arena), 1);
+		return (1);
 	}
 	else if (argc == 1)
 	{

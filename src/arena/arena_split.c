@@ -1,51 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   arena_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:36:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 12:13:43 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/21 12:12:21 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/21 12:30:54 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <cub3d.h>
 
-static int		split_count(char const *s, char c);
-static char		**sub_array_size(char const *s, char c, char **ar, int ct);
-static char		**ch_alloc(char const *s, char c, char **array);
-static void		free_array(char **array, int count);
+#include <cub3d.h>
 
-static void	free_array(char **array, int count)
-{
-	int	i;
+static int	split_count(char const *s, char c);
+static char	**sub_array_size(char const *s, char c, char **ar, int ct, t_arena *arena);
+static char	**ch_alloc(char const *s, char c, char **array);
 
-	i = 0;
-	while (i < count)
-	{
-		if (array[i])
-			free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
-char	**arena_split(char const *s, char c)
+char	**arena_split(t_arena *arena, char const *s, char c)
 {
 	int		count;
 	char	**array;
 
 	count = split_count(s, c);
-	array = (char **)malloc((count + 1) * sizeof(char *));
+	array = (char **)arena_alloc(arena, (count + 1) * sizeof(char *));
+	if (!array)
+		return (NULL); // Arena failed, return NULL
+	array = sub_array_size(s, c, array, count, arena);
 	if (!array)
 		return (NULL);
-	array = sub_array_size(s, c, array, count);
 	array = ch_alloc(s, c, array);
 	return (array);
 }
 
-static char	**sub_array_size(char const *s, char c, char **ar, int ct)
+static char	**sub_array_size(char const *s, char c, char **ar, int ct, t_arena *arena)
 {
 	int	i;
 	int	len;
@@ -61,12 +50,9 @@ static char	**sub_array_size(char const *s, char c, char **ar, int ct)
 			len++;
 			s++;
 		}
-		ar[i] = (char *)malloc((len + 1) * sizeof(char));
+		ar[i] = (char *)arena_alloc(arena, (len + 1) * sizeof(char));
 		if (!ar[i])
-		{
-			free_array(ar, i);
-			return (NULL);
-		}
+			return (NULL);  // Arena failed, return NULL
 		i++;
 	}
 	ar[ct] = NULL;
@@ -119,3 +105,4 @@ static int	split_count(char const *s, char c)
 	}
 	return (count);
 }
+
