@@ -3,7 +3,7 @@
 
 void	init_mlx(t_game *game)
 {
-	game->mlx = mlx_init(2000, 1500, "cub3d", true);
+	game->mlx = mlx_init(1200, 900, "cub3d", true);
 	if (!game->mlx)
 		error_exit("MLX initialization failed", game);
 }
