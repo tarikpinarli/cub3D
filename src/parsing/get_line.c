@@ -6,30 +6,26 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:07:55 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/18 16:58:51 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/21 15:10:44 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-char	*get_line_strjoin(char *s1, char *s2)
+char	*get_line_strjoin(t_game *game, char *s1, char *s2)
 {
 	char	*new_str;
 	int		i;
 	int		j;
 
-	i = 0;
-	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	new_str = arena_alloc(game->arena, ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!new_str)
-		return (free(s1), (char *)0);
+		return (NULL);
+	i = 0;
 	if (s1)
 	{
 		while (s1[i])
-		{
-			new_str[i] = s1[i];
-			i++;
-		}
-		free(s1);
+			new_str[i++] = s1[i++];
 	}
 	j = 0;
 	if (s2)
@@ -37,24 +33,8 @@ char	*get_line_strjoin(char *s1, char *s2)
 		while (s2[j])
 			new_str[i++] = s2[j++];
 	}
-	new_str[i] = '\0';
+	new_str[i] = 0;
 	return (new_str);
-}
-
-int	get_idx(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (-1);
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 static char	*initialize_line(t_game *game, char buffer[])
@@ -65,7 +45,10 @@ static char	*initialize_line(t_game *game, char buffer[])
 	buffer_len = ft_strlen(buffer);
 	line = arena_alloc(game->arena, buffer_len + 1);
 	if (!line)
+	{
+		print_error_messages("get line initialization failed");
 		return (NULL);
+	}
 	ft_memset(line, 0, buffer_len + 1);
 	if (buffer_len)
 		ft_strlcpy(line, buffer, buffer_len);
@@ -86,44 +69,35 @@ static char	*read_line(t_game *game, int fd, char buffer[])
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes <= 0)
-		{	
-            // maybe no need when using arena?
-			// free(line);
-			// line = NULL;
+			break ;
+		buffer[read_bytes] = 0;
+		line = get_line_strjoin(game, line, buffer);
+		if (!line)
+		{
+			print_error_messages("strjoin failed");
 			break ;
 		}
-		buffer[read_bytes] = '\0';
-		line = get_line_strjoin(line, buffer);
-		if (!line || get_idx(line, '\n') != -1)
+		else if (get_idx(line, '\n') != -1)
 			break ;
 	}
 	return (line);
 }
 
-static char	*extract_line(char **line, char leftover[])
+static char	*extract_line_with_nl(char *read_content, char buffer[])
 {
 	int		i;
 	char	*complete_line;
 
-	if ((!line) || (!*line) || (!**line))
+	if (!read_content || !*read_content)
+		return (0);
+	i = get_idx(read_content, '\n');
+	complete_line = arena_substr(read_content, 0, (i + 1));
+	if (!complete_line)
+	{
+		print_error_messages("substring genaration failed");
 		return (NULL);
-	i = get_idx(*line, '\n');
-	if (i == -1)
-	{
-		complete_line = ft_substr(*line, 0, ft_strlen(*line));
-		if (!complete_line)
-			return (free(*line), leftover[0] = '\0', NULL);
-		leftover[0] = NULL;
 	}
-	else
-	{
-		complete_line = ft_substr(*line, 0, (i + 1));
-		if (!complete_line)
-			return (free(*line), leftover[0] = '\0', NULL);
-		ft_strcpy(leftover, (*line + i + 1));
-	}
-	free(*line);
-	*line = NULL;
+	ft_strlcpy(buffer, (read_content + i + 1), ft_strlen(read_content) - i);
 	return (complete_line);
 }
 
@@ -131,13 +105,15 @@ char	*get_line(t_game *game, int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	char		*read_content;
-	char		*complete_line;
+	char		*line_with_nl;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	read_content = read_line(game, fd, buffer);
 	if (!read_content)
 		return (NULL);
-	complete_line = extract_line(&read_content, buffer);
-	return (complete_line);
+	if (get_idx(read_content, '\n') == -1)
+		return (read_content);
+	line_with_nl = extract_line_with_nl(read_content, buffer);
+	return (line_with_nl);
 }

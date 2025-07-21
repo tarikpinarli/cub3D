@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/18 15:02:58 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:14:32 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		get_rgb_color(t_game *game, char **metadata);
 int		get_wall_texture(char **metatdata);
 int		arrlen(char **arr);
 void	print_error_messages(char **messsage);
+int	get_idx(char *s, char c);
 
 void	init_arena(t_game *game);
 void	handle_keypress(mlx_key_data_t keydata, void *param);

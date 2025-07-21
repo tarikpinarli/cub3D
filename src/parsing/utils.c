@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:56:33 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/17 22:33:55 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:14:09 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,23 @@ int	arrlen(char **arr)
 	while (arr[len])
 		len++;
 	return (len);
+}
+
+/**
+ * Get an index of a specific character from a string
+ */
+int	get_idx(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (-1);
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

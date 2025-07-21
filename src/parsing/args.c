@@ -6,24 +6,24 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/21 13:59:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/21 15:11:02 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	open_map_file(char *file)
+int	open_file(char *file)
 {
-	int	map_fd;
+	int	fd;
 
-	map_fd = open(file, O_RDONLY);
-	if (map_fd == -1)
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
 	{
 		ft_putendl_fd("Error", STDERR_FILENO);
 		perror(file);
 		return (-1);
 	}
-	return (map_fd);
+	return (fd);
 }
 
 int	check_args(int argc, char **argv)
@@ -45,7 +45,7 @@ int	check_args(int argc, char **argv)
 		print_error_messages("Invalid file extension. Use '*.cub' file");
 		return (1);
 	}
-	map_fd = open_map_file(argv[1]);
+	map_fd = open_file(argv[1]);
 	if (map_fd == -1)
 		return (1);
 	close(map_fd);
@@ -61,21 +61,20 @@ int	check_args(int argc, char **argv)
  */
 int	parse_map(int argc, char **argv, t_game *game)
 {
-	int map_fd;
-	
+	int	map_fd;
+
 	if (check_args(argc, argv))
 		return (1);
-	map_fd = open_map_file(argv[1]);
+	map_fd = open_file(argv[1]);
 	if (map_fd == -1)
 		return (1);
-	
 	// extract data here //
 	// while (get_next_line(map_fd))
 	//  * {
 	//  * 	if (empty line)
 	//  * 	skip
 	//  * type check
-	//  * 
+	//  *
 	//  * }
 	close(map_fd);
 	return (0);
