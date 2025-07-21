@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:31 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/09 15:07:33 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:39:43 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_game {
 	t_color		ceiling;
 	t_map		*map;
 	t_player	*player;
+	int			number_of_rays;
     double	jump_offset;
 	double	jump_time;
 	bool	is_jumping;

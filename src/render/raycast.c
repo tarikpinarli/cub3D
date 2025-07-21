@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/16 15:46:46 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:29:29 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,9 @@ void draw_3d(t_game *game)
 	ceiling = (game->ceiling.r << 24) | (game->ceiling.g << 16) | (game->ceiling.b << 8) | 0xFF;
 	dir = game->player->dir;
 	start_angle = dir - (FOV / 2);
-	angle_step = FOV / NUM_RAYS;
+	angle_step = FOV / game->number_of_rays;
 	ray = 0;
-	while (ray < NUM_RAYS)
+	while (ray < game->number_of_rays)
 	{
 		ray_angle = start_angle + ray * angle_step;
 		hit = cast_ray(game, ray_angle);
