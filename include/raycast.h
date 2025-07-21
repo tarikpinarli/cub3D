@@ -9,5 +9,4 @@ typedef enum e_wall_dir {
 	WEST_WALL
 }	t_wall_dir;
 
-
 #endif

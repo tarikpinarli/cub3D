@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/18 14:02:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/21 13:59:26 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ int	parse_map(int argc, char **argv, t_game *game)
 		return (1);
 	
 	// extract data here //
-	while (get_next_line(map_fd))
-	 * {
-	 * 	if (empty line)
-	 * 	skip
-	 * type check
-	 * 
-	 * }
+	// while (get_next_line(map_fd))
+	//  * {
+	//  * 	if (empty line)
+	//  * 	skip
+	//  * type check
+	//  * 
+	//  * }
 	close(map_fd);
 	return (0);
 }

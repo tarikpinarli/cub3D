@@ -6,7 +6,7 @@
 #    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/16 15:26:00 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/21 12:35:42 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,9 @@ MLX42_DIR   = $(LIB_DIR)/MLX42
 
 SRCS        =	main.c error_exit.c \
 				arena/arena.c \
+				arena/arena_strdup.c \
+				arena/arena_split.c \
+				arena/arena_substr.c \
 				game/mlx_init.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
