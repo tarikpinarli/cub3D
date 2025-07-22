@@ -23,10 +23,6 @@ typedef struct s_textures {
     mlx_texture_t	*south_png;
     mlx_texture_t	*west_png;
     mlx_texture_t	*east_png;
-    // mlx_image_t     *north_img;
-    // mlx_image_t     *south_img;
-    // mlx_image_t     *west_img;
-    // mlx_image_t     *east_img;
 }	t_textures;
 
 #endif
