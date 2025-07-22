@@ -6,11 +6,16 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:56:33 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/21 14:14:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/22 20:40:23 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+int	is_space(char c)
+{
+	return ((c >= 9 && c <= 13) || c == 32);
+}
 
 /**
  * Print an error message with the custom message.
@@ -19,7 +24,7 @@
  * the program must exit properly and return "Error\n"
  * followed by an explicit error message of your choice.
  */
-void	print_error_messages(char *messsage)
+void	print_error_messages(char *message)
 {
 	ft_putendl_fd("Error", STDERR_FILENO);
 	ft_putendl_fd(message, STDERR_FILENO);

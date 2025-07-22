@@ -1,2 +1,7 @@
 lib/minilibx-linux/
 .vscode/
+obj/
+cub3D
+lib/libft/*.o
+lib/libft/libft.a
+lib/MLX42

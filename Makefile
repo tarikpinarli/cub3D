@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
+#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/21 12:35:42 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/22 21:25:17 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME        = cub3D
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -g
 RM          = rm -rf
 
 SRC_DIR     = ./src
@@ -26,6 +26,8 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 
 MLX42_DIR   = $(LIB_DIR)/MLX42
 
+SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.c)
+
 SRCS        =	main.c error_exit.c \
 				arena/arena.c \
 				arena/arena_strdup.c \
@@ -37,7 +39,8 @@ SRCS        =	main.c error_exit.c \
 				handle_keypress/update_player.c \
 				init_dummy_data/init_dummy_data.c \
 				render/raycast.c \
-				render/draw_map.c
+				render/draw_map.c \
+				$(SRC_PARSING)
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX42_DIR)/include -I/opt/homebrew/include

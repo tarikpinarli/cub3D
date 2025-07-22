@@ -1,7 +1,8 @@
 NO textures/wood.xpm
-SO textures/matrix_xpm
+SO textures/matrix.xpm
+
 WE textures/wood.xpm
-EA textures/matrix_xpm
+EA textures/matrix.xpm
 
 F 164,169,20
 C 153,204,255

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/21 15:11:02 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/22 21:28:09 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
+// temp function
+static void	print_parsed_info(t_game *game)
+{
+	printf("north_path: %s\n", game->textures->north_path);
+	printf("south_path: %s\n", game->textures->south_path);
+	printf("east_path: %s\n", game->textures->east_path);
+	printf("west_path: %s\n", game->textures->west_path);
+	printf("floor r: %d\n", game->floor.r);
+	printf("floor g: %d\n", game->floor.g);
+	printf("floor b: %d\n", game->floor.b);
+	printf("ceiling r: %d\n", game->ceiling.r);
+	printf("ceiling g: %d\n", game->ceiling.g);
+	printf("ceiling b: %d\n", game->ceiling.b);
+}
+
 /**
  * Check if given argument is valid.
  * If the argument is valid, open the file and extract the data inside.
@@ -59,23 +74,36 @@ int	check_args(int argc, char **argv)
  * @param argv: argument array from the main function
  * @param game: pointer to the game   struct
  */
-int	parse_map(int argc, char **argv, t_game *game)
+int	parse_map(t_game *game, int argc, char **argv)
 {
-	int	map_fd;
+	int		map_fd;
+	char	*line;
 
 	if (check_args(argc, argv))
 		return (1);
 	map_fd = open_file(argv[1]);
 	if (map_fd == -1)
 		return (1);
-	// extract data here //
-	// while (get_next_line(map_fd))
-	//  * {
-	//  * 	if (empty line)
-	//  * 	skip
-	//  * type check
-	//  *
-	//  * }
+	line = get_line(game, map_fd);
+	while (line)
+	{
+		if (ft_strncmp(line, "\n", ft_strlen(line)))
+		{
+			if (!ft_strncmp(line, NO, 3) || !ft_strncmp(line, SO, 3)
+				|| !ft_strncmp(line, WE, 3) || !ft_strncmp(line, EA, 3))
+			{
+				if (get_wall_texture(game, line))
+					return (1); // invalid map
+			}
+			else if (!ft_strncmp(line, F, 2) || !ft_strncmp(line, C, 2))
+			{
+				if (get_rgb_color(game, line))
+					return (1);
+			}
+		}
+		line = get_line(game, map_fd);
+	}
+	print_parsed_info(game);
 	close(map_fd);
 	return (0);
 }
