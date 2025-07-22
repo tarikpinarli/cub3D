@@ -11,104 +11,109 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-#define FOV (60.0 * M_PI / 180.0)
-#define NUM_RAYS 800
-#define MAX_DEPTH 100.0
 
-typedef struct s_ray_hit {
-	double distance;
-	int wall_dir; // 1 = WEST, 2 = EAST, 3 = NORTH, 4 = SOUTH
-}	t_ray_hit;
-
-
-static t_ray_hit cast_ray(t_game *game, double ray_angle)
+static void init_raycast(t_game *game, double ray_angle, t_raycast *r)
 {
-	t_ray_hit hit;
-	t_map *map;
-	double ray_dir_x;
-	double ray_dir_y;
-	int map_x;
-	int map_y;
-	double delta_dist_x;
-	double delta_dist_y;
-	int step_x, step_y;
-	double side_dist_x, side_dist_y;
-	int hit_wall;
-	int side;
+	r->ray_dir_x = cos(ray_angle);
+	r->ray_dir_y = sin(ray_angle);
+	r->map_x = (int)game->player->x;
+	r->map_y = (int)game->player->y;
+	r->delta_dist_x = fabs(1 / r->ray_dir_x);
+	r->delta_dist_y = fabs(1 / r->ray_dir_y);
+}
 
-	map = game->map;
-	ray_dir_x = cos(ray_angle);
-	ray_dir_y = sin(ray_angle);
-	map_x = (int)game->player->x;
-	map_y = (int)game->player->y;
-	delta_dist_x = fabs(1 / ray_dir_x);
-	delta_dist_y = fabs(1 / ray_dir_y);
-	hit_wall = 0;
-	if (ray_dir_x > 0) 
+static void init_step_and_side_dist(t_game *game, t_raycast *r)
+{
+	if (r->ray_dir_x < 0)
 	{
-		step_x = -1;
-		side_dist_x = (game->player->x - map_x) * delta_dist_x;
+		r->step_x = -1;
+		r->side_dist_x = (game->player->x - r->map_x) * r->delta_dist_x;
 	}
 	else
 	{
-		step_x = 1;
-		side_dist_x = (map_x + 1.0 - game->player->x) * delta_dist_x;
+		r->step_x = 1;
+		r->side_dist_x = (r->map_x + 1.0 - game->player->x) * r->delta_dist_x;
 	}
-	if (ray_dir_y > 0)
+	if (r->ray_dir_y < 0)
 	{
-		step_y = -1;
-		side_dist_y = (game->player->y - map_y) * delta_dist_y;
+		r->step_y = -1;
+		r->side_dist_y = (game->player->y - r->map_y) * r->delta_dist_y;
 	}
 	else
 	{
-		step_y = 1;
-		side_dist_y = (map_y + 1.0 - game->player->y) * delta_dist_y;
+		r->step_y = 1;
+		r->side_dist_y = (r->map_y + 1.0 - game->player->y) * r->delta_dist_y;
 	}
-
-	while (!hit_wall)
-	{
-		if (side_dist_x < side_dist_y)
-		{
-			side_dist_x += delta_dist_x;
-			map_x += step_x;
-			side = 0; // X side?
-		}
-		else
-		{
-			side_dist_y += delta_dist_y;
-			map_y += step_y;
-			side = 1; // Y tarafı
-		}
-		if (map_x < 0 || map_y < 0 || map_x >= map->width || map_y >= map->height)
-			break;
-		if (map->grid[map_y][map_x] == '1')
-			hit_wall = 1;
-	}
-
-	if (side == 0)
-		hit.distance = (side_dist_x - delta_dist_x);
-	else
-		hit.distance = (side_dist_y - delta_dist_y);
-
-	if (side == 0)
-	{
-		if (ray_dir_x < 0)
-			hit.wall_dir = 1;
-		else
-			hit.wall_dir = 2;
-	}
-	else  // SOUTH : NORTH
-	{
-		if (ray_dir_y < 0)
-			hit.wall_dir = 4;
-		else
-			hit.wall_dir = 3;
-	}
-
-	return hit;
 }
 
 
+static int perform_dda(t_map *map, t_raycast *r)
+{
+	while (1)
+	{
+		if (r->side_dist_x < r->side_dist_y)
+		{
+			r->side_dist_x += r->delta_dist_x;
+			r->map_x += r->step_x;
+			r->side = 0;
+		}
+		else
+		{
+			r->side_dist_y += r->delta_dist_y;
+			r->map_y += r->step_y;
+			r->side = 1;
+		}
+		if (r->map_x < 0 || r->map_y < 0 || r->map_x >= map->width || r->map_y >= map->height)
+			return (0);
+		if (map->grid[r->map_y][r->map_x] == '1')
+			return (1);
+	}
+}
+
+
+static t_ray_hit get_hit_result(t_raycast *r)
+{
+	t_ray_hit hit;
+
+	if (r->side == 0)
+		hit.distance = r->side_dist_x - r->delta_dist_x;
+	else
+		hit.distance = r->side_dist_y - r->delta_dist_y;
+	if (r->side == 0)
+	{
+		if (r->ray_dir_x < 0)
+			hit.wall_dir = WEST_WALL;
+		else
+			hit.wall_dir = EAST_WALL;
+	}
+	else
+	{
+		if (r->ray_dir_y < 0)
+			hit.wall_dir = SOUTH_WALL;
+		else
+			hit.wall_dir = NORTH_WALL;
+	}
+	return (hit);
+}
+
+
+
+t_ray_hit cast_ray(t_game *game, double ray_angle)
+{
+	t_raycast r;
+	t_ray_hit hit;
+
+	init_raycast(game, ray_angle, &r);
+	init_step_and_side_dist(game, &r);
+	if (!perform_dda(game->map, &r))
+	{
+		hit.distance = 0;
+		hit.wall_dir = -1;
+		return (hit);
+	}
+	hit = get_hit_result(&r);
+	return (hit);
+}
 
 static void draw_vertical_line(t_game *game, int x, int start, int end, uint32_t color)
 {
@@ -127,117 +132,134 @@ static void draw_vertical_line(t_game *game, int x, int start, int end, uint32_t
 	}
 }
 
-static void draw_texture_stripe(t_game *game, int ray_x, int start, int end,
-								double wall_height, t_ray_hit hit, double ray_angle)
+static mlx_texture_t *get_wall_texture(t_game *game, int wall_dir)
 {
-	mlx_texture_t *tex = NULL;
+	if (wall_dir == 1)
+		return game->textures->west_png;
+	else if (wall_dir == 2)
+		return game->textures->east_png;
+	else if (wall_dir == 3)
+		return game->textures->north_png;
+	else if (wall_dir == 4)
+		return game->textures->south_png;
+	return NULL;
+}
+
+
+static double compute_wall_hit(t_game *game, t_draw_data *d)
+{
 	double wall_hit;
-	int tex_x, tex_y;
-	int y;
 
-	// 1. Doğru texture’ı seç
-	if (hit.wall_dir == 1)
-		tex = game->textures->west_png;
-	else if (hit.wall_dir == 2)
-		tex = game->textures->east_png;
-	else if (hit.wall_dir == 3)
-		tex = game->textures->north_png;
-	else if (hit.wall_dir == 4)
-		tex = game->textures->south_png;
-
-	// Güvenlik: Texture NULL ise çizim yapma
-	if (!tex || !tex->pixels)
-		return;
-
-	// 2. Duvarın çarpma noktası (X veya Y ekseni üzerinde)
-	if (hit.wall_dir == 1 || hit.wall_dir == 2)
-		wall_hit = -game->player->y + hit.distance * sin(ray_angle);
+	if (d->hit.wall_dir == 1 || d->hit.wall_dir == 2)
+		wall_hit = game->player->y + d->hit.distance * sin(d->ray_angle);
 	else
-		wall_hit = -game->player->x + hit.distance * cos(ray_angle);
-	wall_hit -= floor(wall_hit);
+		wall_hit = game->player->x + d->hit.distance * cos(d->ray_angle);
+	return wall_hit - floor(wall_hit);
+}
 
-	// 3. Texture X koordinatını hesapla
-	tex_x = (int)(wall_hit * tex->width);
+
+static int compute_tex_x(double wall_hit, int tex_width, int wall_dir)
+{
+	int tex_x = (int)(wall_hit * tex_width);
+
 	if (tex_x < 0)
 		tex_x = 0;
-	if (tex_x >= (int)tex->width)
-		tex_x = tex->width - 1;
-	if (hit.wall_dir == 2 || hit.wall_dir == 4) // EAST, SOUTH => flip
-		tex_x = tex->width - tex_x - 1;
+	if (tex_x >= tex_width)
+		tex_x = tex_width - 1;
 
-	// 4. Ekrana çizim (pixel-by-pixel)
-	for (y = start; y < end; y++)
+	if (wall_dir == 2 || wall_dir == 4) // EAST or SOUTH → flip X
+		tex_x = tex_width - tex_x - 1;
+
+	return tex_x;
+}
+
+static uint32_t get_pixel_color(mlx_texture_t *tex, int tex_x, int tex_y)
+{
+	t_pixel_color	color;
+	int				index;
+	uint8_t			*pixels;
+
+	index = (tex_y * tex->width + tex_x) * 4;
+	pixels = (uint8_t *)tex->pixels;
+	color.r = pixels[index + 0];
+	color.g = pixels[index + 1];
+	color.b = pixels[index + 2];
+	color.a = pixels[index + 3];
+	return (color.r << 24) | (color.g << 16) | (color.b << 8) | color.a;
+}
+
+
+
+static void draw_stripe_pixels(t_game *game, t_draw_data *d, mlx_texture_t *tex, int tex_x)
+{
+	int y;
+	int tex_y;
+	int d_y;
+	uint32_t color;
+
+	y = d->start;
+	while (y < d->end)
 	{
-		if (y < 0 || y >= (int)game->mlx->height)
-			continue;
+		if (y >= 0 && y < (int)game->mlx->height)
+		{
+			d_y = y * 256 - game->mlx->height * 128 + d->wall_height * 128;
+			tex_y = ((d_y * tex->height) / (int)d->wall_height) / 256;
 
-		int d = y * 256 - game->mlx->height * 128 + wall_height * 128;
-		tex_y = ((d * tex->height) / (int)wall_height) / 256;
+			if (tex_y < 0)
+				tex_y = 0;
+			if (tex_y >= (int)tex->height)
+				tex_y = tex->height - 1;
 
-		// Sınır kontrolü
-		if (tex_y < 0)
-			tex_y = 0;
-		if (tex_y >= (int)tex->height)
-			tex_y = tex->height - 1;
-
-		uint8_t *pixel = (uint8_t *)tex->pixels;
-		int index = (tex_y * tex->width + tex_x) * 4;
-
-		uint8_t r = pixel[index + 0];
-		uint8_t g = pixel[index + 1];
-		uint8_t b = pixel[index + 2];
-		uint8_t a = pixel[index + 3];
-
-		uint32_t color = (r << 24) | (g << 16) | (b << 8) | a;
-
-		mlx_put_pixel(game->image, ray_x, y, color);
+			color = get_pixel_color(tex, tex_x, tex_y);
+			mlx_put_pixel(game->image, d->ray, y, color);
+		}
+		y++;
 	}
 }
 
+
+
+static void draw_texture_stripe(t_game *game, t_draw_data *d)
+{
+	mlx_texture_t	*tex;
+	double			wall_hit;
+	int 			tex_x;
+
+	tex = get_wall_texture(game, d->hit.wall_dir);
+	if (!tex || !tex->pixels)
+		return;
+	wall_hit = compute_wall_hit(game, d);
+	tex_x = compute_tex_x(wall_hit, tex->width, d->hit.wall_dir);
+	draw_stripe_pixels(game, d, tex, tex_x);
+}
 
 
 
 void draw_3d(t_game *game)
 {
-	double		dir;
-	double		start_angle;
-	double		angle_step;
-	int			ray;
-	uint32_t	floor;
-	uint32_t	ceiling;
+	t_draw_data d;
 
-	double ray_angle;
-	t_ray_hit hit;
-	double corrected_dist;
-	double wall_height;
-	int start;
-	int end;
-
-	floor = (game->floor.r << 24) | (game->floor.g << 16) | (game->floor.b << 8) | 0xFF;
-	ceiling = (game->ceiling.r << 24) | (game->ceiling.g << 16) | (game->ceiling.b << 8) | 0xFF;
-	dir = game->player->dir;
-	start_angle = dir - (FOV / 2);
-	angle_step = FOV / game->number_of_rays;
-	ray = 0;
-	while (ray < game->number_of_rays)
+	d.floor = (game->floor.r << 24) | (game->floor.g << 16)
+				| (game->floor.b << 8) | 0xFF;
+	d.ceiling = (game->ceiling.r << 24) | (game->ceiling.g << 16)
+				| (game->ceiling.b << 8) | 0xFF;
+	d.dir = game->player->dir;
+	d.start_angle = d.dir - (FOV / 2);
+	d.angle_step = FOV / game->number_of_rays;
+	d.ray = 0;
+	while (d.ray < game->number_of_rays)
 	{
-		ray_angle = start_angle + ray * angle_step;
-		hit = cast_ray(game, ray_angle);
-
-		// Fish-eye correction
-		corrected_dist = hit.distance * cos(ray_angle - dir);
-		wall_height = game->mlx->height / corrected_dist;
-
-		start = (game->mlx->height / 2) - (wall_height / 2);
-		end = start + wall_height;
-
-		// ceiling
-		draw_vertical_line(game, ray, 0, start, ceiling);
-		draw_texture_stripe(game, ray, start, end, wall_height, hit, ray_angle);
-
-		draw_vertical_line(game, ray, end, game->mlx->height, floor);
-
-		ray++;
+		d.ray_angle = d.start_angle + (d.ray * d.angle_step);
+		d.hit = cast_ray(game, d.ray_angle);
+		d.corrected_dist = d.hit.distance * cos(d.ray_angle - d.dir);
+		d.wall_height = game->mlx->height / d.corrected_dist;
+		d.start = (game->mlx->height / 2) - (d.wall_height / 2);
+		d.end = d.start + d.wall_height;
+		draw_vertical_line(game, d.ray, 0, d.start, d.ceiling);
+		draw_texture_stripe(game, &d);
+		draw_vertical_line(game, d.ray, d.end, game->mlx->height, d.floor);
+		d.ray++;
 	}
 }
+
 

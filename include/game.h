@@ -20,6 +20,7 @@
 #include <player.h>
 #include <colors.h>
 #include "raycast.h"
+#include "draw3d.h"
 
 #define TILE_SIZE 16
 

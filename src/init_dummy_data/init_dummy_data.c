@@ -125,7 +125,7 @@ static t_player *init_dummy_player(t_game *game)
 
     player->x = 1.5; //index in column
     player->y = 19.5; //index in row
-    player->dir = (M_PI / 2); // N == 90 degree
+    player->dir = DIR_NORTH; // N == 270 degree
     game->jump_offset = 0;
     game->jump_time = 0;
     game->is_jumping = false;
