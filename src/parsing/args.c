@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/22 21:28:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:13:11 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	check_args(int argc, char **argv)
 // temp function
 static void	print_parsed_info(t_game *game)
 {
+	puts("-------------------------------------------");
 	printf("north_path: %s\n", game->textures->north_path);
 	printf("south_path: %s\n", game->textures->south_path);
 	printf("east_path: %s\n", game->textures->east_path);
@@ -65,6 +66,7 @@ static void	print_parsed_info(t_game *game)
 	printf("ceiling r: %d\n", game->ceiling.r);
 	printf("ceiling g: %d\n", game->ceiling.g);
 	printf("ceiling b: %d\n", game->ceiling.b);
+	puts("-------------------------------------------");
 }
 
 /**
@@ -99,6 +101,16 @@ int	parse_map(t_game *game, int argc, char **argv)
 			{
 				if (get_rgb_color(game, line))
 					return (1);
+			}
+			// else if ()
+			// {
+			// 	//map
+			// }
+			else
+			{
+				puts(line);
+				// print_error_messages("Invalid identifier");
+				// return (1);
 			}
 		}
 		line = get_line(game, map_fd);

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/22 21:27:42 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:11:12 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,28 @@
 ** without blocking each other.
 */
 
+/**
+ *
+ * initalize game struct according to needs
+ * from parsing process to prevent segfaults.
+ * could be updated later too.
+ *
+ */
+void	init_game(t_game *game, t_textures *textures)
+{
+	ft_memset(game, 0, sizeof(t_game));
+	ft_memset(textures, 0, sizeof(t_textures));
+	game->textures = textures;
+	ft_memset(&game->floor, -1, sizeof(t_color));
+	ft_memset(&game->ceiling, -1, sizeof(t_color));
+}
+
 int	main(int argc, char **argv)
 {
 	t_textures	textures;
 	t_game		game;
 
-	ft_memset(&game, 0, sizeof(t_game));
-	ft_memset(&textures, 0, sizeof(t_textures));
-	game.textures = &textures;
+	init_game(&game, &textures);
 	init_arena(&game);
 	if (argc > 1)
 	{

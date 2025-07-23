@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:07:55 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/22 18:33:16 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 15:36:27 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static char	*read_line(t_game *game, int fd, char buffer[])
 	return (line);
 }
 
-static char	*extract_line_with_nl(t_game *game, char *read_content,
+static char	*extract_line(t_game *game, char *read_content,
 		char buffer[])
 {
 	int		i;
@@ -121,6 +121,6 @@ char	*get_line(t_game *game, int fd)
 		return (NULL);
 	if (get_idx(read_content, '\n') == -1)
 		return (read_content);
-	line_with_nl = extract_line_with_nl(game, read_content, buffer);
+	line_with_nl = extract_line(game, read_content, buffer);
 	return (line_with_nl);
 }

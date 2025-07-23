@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_extraction.c                                  :+:      :+:    :+:   */
+/*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:55:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/22 21:02:29 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 16:44:50 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,52 +27,42 @@ int	process_metadata(char **metadata)
 
 int	validate_texture_path(char **dir_path, char *file_path)
 {
-	int	temp_fd;
+	int	fd;
 
 	if (dir_path && *dir_path)
 	{
 		print_error_messages("Duplicate identifier");
 		return (1);
 	}
-	temp_fd = open_file(file_path);
-	if (temp_fd == -1)
+	fd = open_file(file_path);
+	if (fd == -1)
 		return (1);
-	close(temp_fd);
+	close(fd);
 	*dir_path = file_path;
 	return (0);
 }
 
 int	get_wall_texture(t_game *game, char *metadata)
 {
-	char	*identifier;
+	int			i;
+	char		*identifier;
+	char const	*dirs[] = {NO, SO, WE, EA};
+	char		**paths[4];
 
+	paths[0] = &game->textures->north_path;
+	paths[1] = &game->textures->south_path;
+	paths[2] = &game->textures->west_path;
+	paths[3] = &game->textures->east_path;
 	identifier = metadata;
 	if (process_metadata(&metadata))
 		return (1);
-	if (!ft_strncmp(identifier, NO, 3))
+	i = 0;
+	while (i < 4)
 	{
-		if (validate_texture_path(&(game->textures->north_path), metadata))
-			return (1);
+		if (!ft_strncmp(identifier, dirs[i], 3))
+			return (validate_texture_path(paths[i], metadata));
+		i++;
 	}
-	else if (!ft_strncmp(identifier, SO, 3))
-	{
-		if (validate_texture_path(&(game->textures->south_path), metadata))
-			return (1);
-	}
-	else if (!ft_strncmp(identifier, WE, 3))
-	{
-		if (validate_texture_path(&(game->textures->west_path), metadata))
-			return (1);
-	}
-	else if (!ft_strncmp(identifier, EA, 3))
-	{
-		if (validate_texture_path(&(game->textures->east_path), metadata))
-			return (1);
-	}
-	else
-	{
-		print_error_messages("Invalid identifier");
-		return (1);
-	}
-	return (0);
+	print_error_messages("Invalid identifier");
+	return (1);
 }
