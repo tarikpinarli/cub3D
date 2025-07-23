@@ -32,6 +32,6 @@ void	render(void *param)
 	else
 		game->jump_offset = 0;*/
 	draw_3d(game);
-	//draw_map(game);
+	draw_map(game);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }

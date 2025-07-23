@@ -21,6 +21,7 @@
 #include <colors.h>
 #include "raycast.h"
 #include "draw3d.h"
+#include "draw2d.h"
 
 #define TILE_SIZE 16
 
@@ -35,9 +36,6 @@ typedef struct s_game {
 	t_map		*map;
 	t_player	*player;
 	int			number_of_rays;
-    double	jump_offset;
-	double	jump_time;
-	bool	is_jumping;
 }	t_game;
 
 #endif
