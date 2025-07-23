@@ -3,7 +3,7 @@
 
 #include <cub3d.h>
 
-typedef struct s_draw_data
+typedef struct s_draw3d
 {
 	double		dir;
 	double		start_angle;
@@ -19,7 +19,7 @@ typedef struct s_draw_data
 	int			start;
 	int			end;
 
-}	t_draw_data;
+}	t_draw3d;
 
 
 

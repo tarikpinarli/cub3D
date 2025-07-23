@@ -14,73 +14,82 @@
 
 #define MINIMAP_TILE 5
 
-void	draw_map(t_game *game)
+static void draw_minimap_tile(t_game *game, t_draw2d *m)
 {
-	int offset_x;
-	int offset_y;
-	int y;
-	int x;
-	int dx;
-	int dy;
-	int px;
-	int py;
-	char c;
-	uint32_t color;
-	int player_px;
-	int player_py;
-
-	offset_x = 20;
-	offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE) - 20;
-
-	y = 0;
-	while (y < game->map->height)
+	m->dy = 0;
+	while (m->dy < MINIMAP_TILE)
 	{
-		x = 0;
-		while (x < game->map->width)
+		m->dx = 0;
+		while (m->dx < MINIMAP_TILE)
 		{
-			c = game->map->grid[y][x];
-			color = 0x00FF00FF;
-			if (c == '1')
-				color = 0xF7700088;
-			else if (c == '0')
-				color = 0x00000000;
-
-			dy = 0;
-			while (dy < MINIMAP_TILE)
-			{
-				dx = 0;
-				while (dx < MINIMAP_TILE)
-				{
-					px = offset_x + x * MINIMAP_TILE + dx;
-					py = offset_y + y * MINIMAP_TILE + dy;
-					if (px >= 0 && px < game->mlx->width && py >= 0 && py < game->mlx->height)
-						mlx_put_pixel(game->image, px, py, color);
-					dx++;
-				}
-				dy++;
-			}
-			x++;
+			m->px = m->offset_x + m->x * MINIMAP_TILE + m->dx;
+			m->py = m->offset_y + m->y * MINIMAP_TILE + m->dy;
+			if (m->px >= 0 && m->px < game->mlx->width && m->py >= 0 && m->py < game->mlx->height)
+				mlx_put_pixel(game->image, m->px, m->py, m->color);
+			m->dx++;
 		}
-		y++;
-	}
-
-	player_px = offset_x + game->player->x * MINIMAP_TILE;
-	player_py = offset_y + game->player->y * MINIMAP_TILE;
-
-	dy = -2;
-	while (dy <= 2)
-	{
-		dx = -2;
-		while (dx <= 2)
-		{
-			px = player_px + dx;
-			py = player_py + dy;
-			if (px >= 0 && px < game->mlx->width && py >= 0 && py < game->mlx->height)
-				mlx_put_pixel(game->image, px, py, 0xFFFFFFFF);
-			dx++;
-		}
-		dy++;
+		m->dy++;
 	}
 }
+
+
+static void draw_minimap_background(t_game *game, t_draw2d *m)
+{
+	m->y = 0;
+	while (m->y < game->map->height)
+	{
+		m->x = 0;
+		while (m->x < game->map->width)
+		{
+			m->c = game->map->grid[m->y][m->x];
+			m->color = 0x00FF00FF;
+			if (m->c == '1')
+				m->color = 0xF7700088;
+			else if (m->c == '0')
+				m->color = 0x00000000;
+
+			draw_minimap_tile(game, m);
+			m->x++;
+		}
+		m->y++;
+	}
+}
+
+
+static void draw_minimap_player(t_game *game, t_draw2d *m)
+{
+	m->player_px = m->offset_x + game->player->x * MINIMAP_TILE;
+	m->player_py = m->offset_y + game->player->y * MINIMAP_TILE;
+
+	m->dy = -2;
+	while (m->dy <= 2)
+	{
+		m->dx = -2;
+		while (m->dx <= 2)
+		{
+			m->px = m->player_px + m->dx;
+			m->py = m->player_py + m->dy;
+			if (m->px >= 0 && m->px < game->mlx->width
+				&& m->py >= 0 && m->py < game->mlx->height)
+				mlx_put_pixel(game->image, m->px, m->py, 0xFFFFFFFF);
+			m->dx++;
+		}
+		m->dy++;
+	}
+}
+
+
+void draw_map(t_game *game)
+{
+	t_draw2d m;
+
+	m.offset_x = 20;
+	m.offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE) - 20;
+
+	draw_minimap_background(game, &m);
+	draw_minimap_player(game, &m);
+}
+
+
 
 

@@ -105,6 +105,4 @@ void	update_player(t_game *game)
 		rotate_left(game);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotate_right(game);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_SPACE) && !game->is_jumping)
-		game->is_jumping = true;
 }

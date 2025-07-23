@@ -75,9 +75,7 @@ static t_textures *init_dummy_textures(t_game *game)
 
 	textures = arena_alloc(game->arena, sizeof(t_textures));
     if (!textures)
-	{
 		error_exit("Failed to allocate dummy textures", game);
-	}
 	textures->north_path = arena_strdup(game->arena, "textures/grass.png");
 	if (!textures->north_path)
 		error_exit("textures->north initialization failed", game);
@@ -101,13 +99,9 @@ static t_player *init_dummy_player(t_game *game)
 	player = arena_alloc(game->arena, sizeof(t_player));
     if (!player)
         error_exit("Failed to allocate dummy player", game);
-
     player->x = 1.5; //index in column
     player->y = 19.5; //index in row
     player->dir = DIR_NORTH; // N == 270 degree
-    game->jump_offset = 0;
-    game->jump_time = 0;
-    game->is_jumping = false;
     return (player);
 }
 
@@ -130,5 +124,5 @@ int init_dummy_data(t_game *game)
     game->player = init_dummy_player(game);
 
     init_dummy_colors(&game->floor, &game->ceiling);
-    return 0;
+    return (0);
 }

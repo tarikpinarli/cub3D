@@ -12,16 +12,6 @@
 
 #include <cub3d.h>
 
-static void init_raycast(t_game *game, double ray_angle, t_raycast *r)
-{
-	r->ray_dir_x = cos(ray_angle);
-	r->ray_dir_y = sin(ray_angle);
-	r->map_x = (int)game->player->x;
-	r->map_y = (int)game->player->y;
-	r->delta_dist_x = fabs(1 / r->ray_dir_x);
-	r->delta_dist_y = fabs(1 / r->ray_dir_y);
-}
-
 static void init_step_and_side_dist(t_game *game, t_raycast *r)
 {
 	if (r->ray_dir_x < 0)
@@ -96,7 +86,15 @@ static t_ray_hit get_hit_result(t_raycast *r)
 	return (hit);
 }
 
-
+static void init_raycast(t_game *game, double ray_angle, t_raycast *r)
+{
+	r->ray_dir_x = cos(ray_angle);
+	r->ray_dir_y = sin(ray_angle);
+	r->map_x = (int)game->player->x;
+	r->map_y = (int)game->player->y;
+	r->delta_dist_x = fabs(1 / r->ray_dir_x);
+	r->delta_dist_y = fabs(1 / r->ray_dir_y);
+}
 
 t_ray_hit cast_ray(t_game *game, double ray_angle)
 {
@@ -146,7 +144,7 @@ static mlx_texture_t *get_wall_texture(t_game *game, int wall_dir)
 }
 
 
-static double compute_wall_hit(t_game *game, t_draw_data *d)
+static double compute_wall_hit(t_game *game, t_draw3d *d)
 {
 	double wall_hit;
 
@@ -154,7 +152,7 @@ static double compute_wall_hit(t_game *game, t_draw_data *d)
 		wall_hit = game->player->y + d->hit.distance * sin(d->ray_angle);
 	else
 		wall_hit = game->player->x + d->hit.distance * cos(d->ray_angle);
-	return wall_hit - floor(wall_hit);
+	return (wall_hit - floor(wall_hit));
 }
 
 
@@ -190,7 +188,7 @@ static uint32_t get_pixel_color(mlx_texture_t *tex, int tex_x, int tex_y)
 
 
 
-static void draw_stripe_pixels(t_game *game, t_draw_data *d, mlx_texture_t *tex, int tex_x)
+static void draw_stripe_pixels(t_game *game, t_draw3d *d, mlx_texture_t *tex, int tex_x)
 {
 	int y;
 	int tex_y;
@@ -219,7 +217,7 @@ static void draw_stripe_pixels(t_game *game, t_draw_data *d, mlx_texture_t *tex,
 
 
 
-static void draw_texture_stripe(t_game *game, t_draw_data *d)
+static void draw_texture_stripe(t_game *game, t_draw3d *d)
 {
 	mlx_texture_t	*tex;
 	double			wall_hit;
@@ -237,7 +235,7 @@ static void draw_texture_stripe(t_game *game, t_draw_data *d)
 
 void draw_3d(t_game *game)
 {
-	t_draw_data d;
+	t_draw3d d;
 
 	d.floor = (game->floor.r << 24) | (game->floor.g << 16)
 				| (game->floor.b << 8) | 0xFF;
