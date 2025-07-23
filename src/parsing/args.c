@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 17:39:56 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 21:57:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,20 @@ static void	print_parsed_info(t_game *game)
 	printf("ceiling r: %d\n", game->ceiling.r);
 	printf("ceiling g: %d\n", game->ceiling.g);
 	printf("ceiling b: %d\n", game->ceiling.b);
+	printf("map width: %d\n", game->map->width);
+	printf("map height: %d\n", game->map->height);
+	printf("player position: %f\n", game->player->dir);
 	puts("-------------------------------------------");
+}
+
+int	check_parsed_info(t_game *game)
+{
+	return (game->textures->north_path && game->textures->south_path
+		&& game->textures->east_path && game->textures->west_path
+		&& is_in_rgb_range(game->floor.r) && is_in_rgb_range(game->floor.g)
+		&& is_in_rgb_range(game->floor.b) && is_in_rgb_range(game->ceiling.r)
+		&& is_in_rgb_range(game->ceiling.g)
+		&& is_in_rgb_range(game->ceiling.b));
 }
 
 /**
@@ -102,20 +115,31 @@ int	parse_map(t_game *game, int argc, char **argv)
 				if (get_rgb_color(game, line))
 					return (1);
 			}
-			// else if ()
-			// {
-			// 	//map
-			// }
 			else
 			{
-				puts(line);
-				// print_error_messages("Invalid identifier");
-				// return (1);
+				if (!check_parsed_info(game))
+				{
+					print_error_messages("Necessary information befor map is lacking");
+					return (1);
+				}
+				// map validation
+				if (validate_map(game, line))
+				{
+					print_error_messages("Invalid identifier");
+					return (1);
+				}
 			}
 		}
 		line = get_line(game, map_fd);
 	}
 	print_parsed_info(game);
+	game->map->grid = (char **)arena_alloc(game->arena, (game->map->width + 1)
+			* (game->map->height + 1));
+	if (!game->map->grid)
+	{
+		print_error_messages("Map initialization failed");
+		return (1);
+	}
 	close(map_fd);
 	return (0);
 }

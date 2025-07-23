@@ -6,13 +6,13 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:39:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 17:41:36 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 18:24:40 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	is_in_rgb_range(int i)
+int	is_in_rgb_range(int i)
 {
 	return ((i >= 0) && (i <= 255));
 }

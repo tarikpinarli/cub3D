@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   player.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:46 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/08 15:35:48 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:46:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_H
-#define PLAYER_H
-#include <cub3d.h>
+# define PLAYER_H
 
+# include <cub3d.h>
 
-typedef struct s_player {
+# define DIR_NORTH (3 * M_PI / 2)
+# define DIR_SOUTH (M_PI / 2)
+# define DIR_EAST (0)
+# define DIR_WEST (M_PI)
+
+typedef struct s_player
+{
 	double	x;
 	double	y;
 	float	dir;
-    
-}	t_player;
+
+}			t_player;
 
 #endif

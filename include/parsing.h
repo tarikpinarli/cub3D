@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:04:36 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 17:39:46 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 21:42:22 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int		is_space(char c);
 int		process_metadata(char **metadata);
 int		is_digit(char c);
 int		is_numeric(char *arg);
-
+int		is_in_rgb_range(int i);
+int		validate_map(t_game *game, char *line);
 #endif
