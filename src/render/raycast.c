@@ -130,7 +130,7 @@ static void draw_vertical_line(t_game *game, int x, int start, int end, uint32_t
 	}
 }
 
-static mlx_texture_t *get_wall_texture(t_game *game, int wall_dir)
+static mlx_texture_t *get_wall_texture_raycast(t_game *game, int wall_dir)
 {
 	if (wall_dir == 1)
 		return game->textures->west_png;
@@ -223,7 +223,7 @@ static void draw_texture_stripe(t_game *game, t_draw3d *d)
 	double			wall_hit;
 	int 			tex_x;
 
-	tex = get_wall_texture(game, d->hit.wall_dir);
+	tex = get_wall_texture_raycast(game, d->hit.wall_dir);
 	if (!tex || !tex->pixels)
 		return;
 	wall_hit = compute_wall_hit(game, d);
