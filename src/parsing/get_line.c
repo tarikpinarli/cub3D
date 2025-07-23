@@ -6,11 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:07:55 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 15:36:27 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:40:05 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "parsing.h"
 
 char	*get_line_strjoin(t_game *game, char *s1, char *s2)
 {

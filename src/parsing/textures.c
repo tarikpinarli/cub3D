@@ -6,11 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:55:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 16:44:50 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:40:08 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "parsing.h"
 
 int	process_metadata(char **metadata)
 {

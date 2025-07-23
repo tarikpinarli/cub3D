@@ -6,11 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 16:13:11 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:39:56 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "parsing.h"
 
 int	open_file(char *file)
 {

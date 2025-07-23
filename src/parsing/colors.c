@@ -6,84 +6,63 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:39:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/22 21:26:54 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:41:36 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "parsing.h"
 
-static int	is_digit(char c)
+static int	is_in_rgb_range(int i)
 {
-	return ((c >= '0') && (c <= '9'));
+	return ((i >= 0) && (i <= 255));
 }
 
-static int	is_numeric(char *arg)
+static int	parse_rgb_values(char **colors, int *rgb)
 {
-	if (!arg || !*arg)
-		return (0);
-	if (*arg == '-' || *arg == '+')
+	int	i;
+	int	i_color;
+
+	if (arrlen(colors) != 3)
+		return (print_error_messages("Invalid amount of values"), 1);
+	i = 0;
+	while (colors[i])
 	{
-		if (!is_digit(*(arg + 1)))
-			return (0);
-		arg++;
+		if (!is_numeric(colors[i]))
+		{
+			print_error_messages("Only numeric characters are accepted");
+			return (1);
+		}
+		i_color = atoi(colors[i]);
+		if (!is_in_rgb_range(i_color))
+		{
+			print_error_messages("The value should be in the range of [0,255]");
+			return (1);
+		}
+		rgb[i] = i_color;
+		i++;
 	}
-	while (*arg)
-	{
-		if (!is_digit(*arg))
-			return (0);
-		arg++;
-	}
-	return (1);
+	return (0);
 }
 
-int	validate_colors(t_game *game, char *metadata, char *identifier)
+static int	validate_colors(t_game *game, char *metadata,
+		char const *identifier)
 {
 	char	**colors;
-	int		r;
-	int		g;
-	int		b;
-	int		i;
+	int		rgb[3];
 
-	i = 0;
 	colors = arena_split(game->arena, metadata, ',');
 	if (!colors)
 	{
 		print_error_messages("arena_split failed");
 		return (1);
 	}
-	if (arrlen(colors) != 3)
-	{
-		print_error_messages("The program needs three values (R, G, B)");
+	if (parse_rgb_values(colors, rgb))
 		return (1);
-	}
-	while (colors[i])
-	{
-		if (!is_numeric(colors[i]))
-		{
-			print_error_messages("Only numeric characters are accepted for colors");
-			return (1);
-		}
-		if (i == 0)
-			r = ft_atoi(colors[i]);
-		else if (i == 1)
-			g = ft_atoi(colors[i]);
-		else if (i == 2)
-			b = ft_atoi(colors[i]);
-		i++;
-	}
 	// game->floor = ((r << 24) | (g << 16) | (b << 8) | 255);
 	if (!ft_strncmp(identifier, F, 2))
-	{
-		game->floor.r = r;
-		game->floor.g = g;
-		game->floor.b = b;
-	}
+		game->floor = (t_color){rgb[0], rgb[1], rgb[2]};
 	else if (!ft_strncmp(identifier, C, 2))
-	{
-		game->ceiling.r = r;
-		game->ceiling.g = g;
-		game->ceiling.b = b;
-	}
+		game->ceiling = (t_color){rgb[0], rgb[1], rgb[2]};
 	else
 	{
 		print_error_messages("Invalid identifier");
@@ -101,25 +80,27 @@ int	validate_colors(t_game *game, char *metadata, char *identifier)
  */
 int	get_rgb_color(t_game *game, char *metadata)
 {
-	char	*identifier;
+	int			i;
+	char		*identifier;
+	char const	*dirs[] = {F, C};
+	t_color		*targets[2];
 
+	targets[0] = &game->floor;
+	targets[1] = &game->ceiling;
 	identifier = metadata;
 	if (process_metadata(&metadata))
 		return (1);
-	if (!ft_strncmp(identifier, F, 2))
+	i = 0;
+	while (i < 2)
 	{
-		if (validate_colors(game, metadata, F))
-			return (1);
+		if (!ft_strncmp(identifier, dirs[i], 2))
+		{
+			if (targets[i]->r >= 0 && targets[i]->g >= 0 && targets[i]->b >= 0)
+				return (print_error_messages("Duplicate identifier"), 1);
+			return (validate_colors(game, metadata, dirs[i]));
+		}
+		i++;
 	}
-	else if (!ft_strncmp(identifier, C, 2))
-	{
-		if (validate_colors(game, metadata, C))
-			return (1);
-	}
-	else
-	{
-		print_error_messages("Invalid identifier");
-		return (1);
-	}
-	return (0);
+	print_error_messages("Invalid identifier");
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:04:36 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/22 21:05:51 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:39:46 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int		parse_map(t_game *game, int argc, char **argv);
 int		open_file(char *file);
 int		is_space(char c);
 int		process_metadata(char **metadata);
+int		is_digit(char c);
+int		is_numeric(char *arg);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:56:33 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/22 20:40:23 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:40:13 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "parsing.h"
 
 int	is_space(char c)
 {
@@ -35,7 +35,7 @@ void	print_error_messages(char *message)
  */
 int	arrlen(char **arr)
 {
-	int len;
+	int	len;
 
 	if (!arr || !*arr)
 		return (0);
@@ -62,4 +62,28 @@ int	get_idx(char *s, char c)
 		i++;
 	}
 	return (-1);
+}
+
+int	is_digit(char c)
+{
+	return ((c >= '0') && (c <= '9'));
+}
+
+int	is_numeric(char *arg)
+{
+	if (!arg || !*arg)
+		return (0);
+	if (*arg == '-' || *arg == '+')
+	{
+		if (!is_digit(*(arg + 1)))
+			return (0);
+		arg++;
+	}
+	while (*arg)
+	{
+		if (!is_digit(*arg))
+			return (0);
+		arg++;
+	}
+	return (1);
 }
