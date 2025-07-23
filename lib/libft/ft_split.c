@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:36:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 12:13:43 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:59:05 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	free_array(char **array, int count)
 	free(array);
 }
 
-char	**arena_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		count;
 	char	**array;
