@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 21:57:25 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:51:38 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	open_file(char *file)
 	{
 		ft_putendl_fd("Error", STDERR_FILENO);
 		perror(file);
-		return (-1);
+		return (fd);
 	}
 	return (fd);
 }
@@ -52,6 +52,26 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
+void	print_grid(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (j < map->height)
+	{
+		i = 0;
+		while (i < map->width)
+		{
+			write(1, &map->grid[i][j], 1);
+			i++;
+		}
+		write(1, "\n", 1);
+		j++;
+	}
+}
+
 // temp function
 static void	print_parsed_info(t_game *game)
 {
@@ -72,7 +92,7 @@ static void	print_parsed_info(t_game *game)
 	puts("-------------------------------------------");
 }
 
-int	check_parsed_info(t_game *game)
+static int	check_parsed_info(t_game *game)
 {
 	return (game->textures->north_path && game->textures->south_path
 		&& game->textures->east_path && game->textures->west_path
@@ -91,27 +111,32 @@ int	check_parsed_info(t_game *game)
  */
 int	parse_map(t_game *game, int argc, char **argv)
 {
-	int		map_fd;
+	int		cub_fd;
 	char	*line;
-
+	int		map_start_line;
+	int i = 0;
+	map_start_line = 0;
 	if (check_args(argc, argv))
 		return (1);
-	map_fd = open_file(argv[1]);
-	if (map_fd == -1)
+	cub_fd = open_file(argv[1]);
+	if (cub_fd == -1)
 		return (1);
-	line = get_line(game, map_fd);
-	while (line)
+	line = get_line(game, cub_fd);
+	while (i < 23)
 	{
+		printf("line %d: %s\n", game->map->height, line);
 		if (ft_strncmp(line, "\n", ft_strlen(line)))
 		{
 			if (!ft_strncmp(line, NO, 3) || !ft_strncmp(line, SO, 3)
 				|| !ft_strncmp(line, WE, 3) || !ft_strncmp(line, EA, 3))
 			{
+				map_start_line++;
 				if (get_wall_texture(game, line))
 					return (1); // invalid map
 			}
 			else if (!ft_strncmp(line, F, 2) || !ft_strncmp(line, C, 2))
 			{
+				map_start_line++;
 				if (get_rgb_color(game, line))
 					return (1);
 			}
@@ -124,13 +149,13 @@ int	parse_map(t_game *game, int argc, char **argv)
 				}
 				// map validation
 				if (validate_map(game, line))
-				{
-					print_error_messages("Invalid identifier");
 					return (1);
-				}
 			}
 		}
-		line = get_line(game, map_fd);
+		else
+			map_start_line++;
+		line = get_line(game, cub_fd);
+		i++;
 	}
 	print_parsed_info(game);
 	game->map->grid = (char **)arena_alloc(game->arena, (game->map->width + 1)
@@ -140,6 +165,8 @@ int	parse_map(t_game *game, int argc, char **argv)
 		print_error_messages("Map initialization failed");
 		return (1);
 	}
-	close(map_fd);
+	close(cub_fd);
+	get_map(game, argv[1], map_start_line);
+	print_grid(game->map);
 	return (0);
 }

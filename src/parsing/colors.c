@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:39:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 18:24:40 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/24 12:29:50 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	parse_rgb_values(char **colors, int *rgb)
 			print_error_messages("Only numeric characters are accepted");
 			return (1);
 		}
-		i_color = atoi(colors[i]);
+		i_color = ft_atoi(colors[i]);
 		if (!is_in_rgb_range(i_color))
 		{
 			print_error_messages("The value should be in the range of [0,255]");
