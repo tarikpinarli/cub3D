@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/24 14:51:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/25 11:48:18 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int	parse_map(t_game *game, int argc, char **argv)
 	int		cub_fd;
 	char	*line;
 	int		map_start_line;
-	int i = 0;
 	map_start_line = 0;
 	if (check_args(argc, argv))
 		return (1);
@@ -122,7 +121,7 @@ int	parse_map(t_game *game, int argc, char **argv)
 	if (cub_fd == -1)
 		return (1);
 	line = get_line(game, cub_fd);
-	while (i < 23)
+	while (line)
 	{
 		printf("line %d: %s\n", game->map->height, line);
 		if (ft_strncmp(line, "\n", ft_strlen(line)))
@@ -155,7 +154,6 @@ int	parse_map(t_game *game, int argc, char **argv)
 		else
 			map_start_line++;
 		line = get_line(game, cub_fd);
-		i++;
 	}
 	print_parsed_info(game);
 	game->map->grid = (char **)arena_alloc(game->arena, (game->map->width + 1)

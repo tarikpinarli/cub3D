@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:07:55 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 17:40:05 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/25 12:20:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ static char	*read_line(t_game *game, int fd, char buffer[])
 	while (1)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (read_bytes <= 0)
+		if (read_bytes == 0)
+			return (line);
+		if (read_bytes < 0)
 			return (NULL);
 		buffer[read_bytes] = 0;
 		line = get_line_strjoin(game, line, buffer);
@@ -86,8 +88,7 @@ static char	*read_line(t_game *game, int fd, char buffer[])
 	return (line);
 }
 
-static char	*extract_line(t_game *game, char *read_content,
-		char buffer[])
+static char	*extract_line(t_game *game, char *read_content, char buffer[])
 {
 	int		i;
 	char	*complete_line;
@@ -96,7 +97,10 @@ static char	*extract_line(t_game *game, char *read_content,
 		return (NULL);
 	i = get_idx(read_content, '\n');
 	if (i == -1)
-		return (NULL);
+	{
+		buffer[0] = 0;
+		return (read_content);
+	}
 	complete_line = arena_substr(game->arena, read_content, 0, i);
 	if (!complete_line)
 	{
@@ -119,8 +123,6 @@ char	*get_line(t_game *game, int fd)
 	read_content = read_line(game, fd, buffer);
 	if (!read_content)
 		return (NULL);
-	if (get_idx(read_content, '\n') == -1)
-		return (read_content);
 	line_with_nl = extract_line(game, read_content, buffer);
 	return (line_with_nl);
 }
