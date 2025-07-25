@@ -21,8 +21,8 @@ void	move_forward(t_game *game)
 	double next_x;
 	double next_y;
 
-	next_x = game->player->x - cos(game->player->dir) * MOVE_SPEED;
-	next_y = game->player->y - sin(game->player->dir) * MOVE_SPEED;
+	next_x = game->player->x + cos(game->player->dir) * MOVE_SPEED;
+	next_y = game->player->y + sin(game->player->dir) * MOVE_SPEED;
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
 		game->player->x = next_x;
@@ -35,8 +35,8 @@ void	move_backward(t_game *game)
 	double next_x;
 	double next_y;
 
-	next_x = game->player->x + cos(game->player->dir) * MOVE_SPEED;
-	next_y = game->player->y + sin(game->player->dir) * MOVE_SPEED;
+	next_x = game->player->x - cos(game->player->dir) * MOVE_SPEED;
+	next_y = game->player->y - sin(game->player->dir) * MOVE_SPEED;
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
 		game->player->x = next_x;
@@ -47,8 +47,8 @@ void	move_backward(t_game *game)
 void	move_left(t_game *game)
 {
 	double	dir = game->player->dir;
-	double	next_x = game->player->x - sin(dir) * HOR_MOVE;
-	double	next_y = game->player->y + cos(dir) * HOR_MOVE;
+	double	next_x = game->player->x + sin(dir) * HOR_MOVE;
+	double	next_y = game->player->y - cos(dir) * HOR_MOVE;
 
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
@@ -60,8 +60,8 @@ void	move_left(t_game *game)
 void	move_right(t_game *game)
 {
 	double	dir = game->player->dir;
-	double	next_x = game->player->x + sin(dir) * HOR_MOVE;
-	double	next_y = game->player->y - cos(dir) * HOR_MOVE;
+	double	next_x = game->player->x - sin(dir) * HOR_MOVE;
+	double	next_y = game->player->y + cos(dir) * HOR_MOVE;
 
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
@@ -105,6 +105,4 @@ void	update_player(t_game *game)
 		rotate_left(game);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotate_right(game);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_SPACE) && !game->is_jumping)
-		game->is_jumping = true;
 }
