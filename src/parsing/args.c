@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/25 11:48:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/25 19:36:17 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,21 @@ void	print_grid(t_map *map)
 
 	i = 0;
 	j = 0;
+	puts("-------------------------------------------");
+	printf("height: %d, width: %d\n", map->height, map->width);
 	while (j < map->height)
 	{
 		i = 0;
 		while (i < map->width)
 		{
-			write(1, &map->grid[i][j], 1);
+			write(1, &map->grid[j][i], 1);
 			i++;
 		}
+
 		write(1, "\n", 1);
 		j++;
 	}
+	puts("-------------------------------------------");
 }
 
 // temp function
@@ -114,6 +118,7 @@ int	parse_map(t_game *game, int argc, char **argv)
 	int		cub_fd;
 	char	*line;
 	int		map_start_line;
+
 	map_start_line = 0;
 	if (check_args(argc, argv))
 		return (1);
@@ -123,7 +128,8 @@ int	parse_map(t_game *game, int argc, char **argv)
 	line = get_line(game, cub_fd);
 	while (line)
 	{
-		printf("line %d: %s\n", game->map->height, line);
+		// printf("line %d: %s\n", game->map->height, line);
+		// puts(line);
 		if (ft_strncmp(line, "\n", ft_strlen(line)))
 		{
 			if (!ft_strncmp(line, NO, 3) || !ft_strncmp(line, SO, 3)
@@ -155,16 +161,11 @@ int	parse_map(t_game *game, int argc, char **argv)
 			map_start_line++;
 		line = get_line(game, cub_fd);
 	}
-	print_parsed_info(game);
-	game->map->grid = (char **)arena_alloc(game->arena, (game->map->width + 1)
-			* (game->map->height + 1));
-	if (!game->map->grid)
-	{
-		print_error_messages("Map initialization failed");
-		return (1);
-	}
 	close(cub_fd);
 	get_map(game, argv[1], map_start_line);
+	check_wall(game->map);
+	set_player_position(game->map->grid, game->player);
 	print_grid(game->map);
+	print_parsed_info(game);
 	return (0);
 }

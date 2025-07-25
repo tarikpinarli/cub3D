@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:04:36 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/24 13:41:04 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/25 18:12:15 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,6 @@ int		is_numeric(char *arg);
 int		is_in_rgb_range(int i);
 int		validate_map(t_game *game, char *line);
 int		get_map(t_game *game, char *file, int start_line);
+int		set_player_position(char **map, t_player *player);
+int		check_wall(t_map *m);
 #endif

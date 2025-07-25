@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:07:55 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/25 12:20:58 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/25 12:36:18 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ static char	*read_line(t_game *game, int fd, char buffer[])
 		buffer[read_bytes] = 0;
 		line = get_line_strjoin(game, line, buffer);
 		if (!line)
-		{
-			print_error_messages("strjoin failed");
-			break ;
-		}
+			return (print_error_messages("strjoin failed"), line);
 		else if (get_idx(line, '\n') != -1)
 			break ;
 	}
