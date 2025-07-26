@@ -1,0 +1,114 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_texture.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 13:23:47 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/26 13:48:15 by tpinarli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cub3d.h>
+
+static uint32_t	get_pixel_color(mlx_texture_t *tex, int tex_x, int tex_y,
+		double distance)
+{
+	t_pixel_color	color;
+	int				index;
+	uint8_t			*pixels;
+	double			shade;
+
+	shade = 1.0 / (1.0 + distance * 0.2);
+	if (shade > 1.0)
+		shade = 1.0;
+	if (shade < 0.1)
+		shade = 0.1;
+	index = (tex_y * tex->width + tex_x) * 4;
+	pixels = (uint8_t *)tex->pixels;
+	color.r = (uint8_t)(pixels[index + 0] * shade);
+	color.g = (uint8_t)(pixels[index + 1] * shade);
+	color.b = (uint8_t)(pixels[index + 2] * shade);
+	color.a = pixels[index + 3];
+	return ((color.r << 24) | (color.g << 16) | (color.b << 8) | color.a);
+}
+
+static void	draw_stripe_pixels(t_game *game, t_draw3d *d, mlx_texture_t *tex,
+		int tex_x)
+{
+	int			y;
+	int			tex_y;
+	int			d_y;
+	uint32_t	color;
+
+	y = d->start;
+	while (y < d->end)
+	{
+		if (y >= 0 && y < (int)game->mlx->height)
+		{
+			d_y = y * 256 - game->mlx->height * 128 + d->wall_height * 128;
+			tex_y = ((d_y * tex->height) / (int)d->wall_height) / 256;
+			if (tex_y < 0)
+				tex_y = 0;
+			if (tex_y >= (int)tex->height)
+				tex_y = tex->height - 1;
+			color = get_pixel_color(tex, tex_x, tex_y, d->corrected_dist);
+			mlx_put_pixel(game->image, d->ray, y, color);
+		}
+		y++;
+	}
+}
+
+static int	compute_tex_x(double wall_hit, int tex_width, int wall_dir)
+{
+	int	tex_x;
+
+	tex_x = (int)(wall_hit * tex_width);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= tex_width)
+		tex_x = tex_width - 1;
+	if (wall_dir == EAST_WALL || wall_dir == SOUTH_WALL)
+		// EAST or SOUTH → flip X
+		tex_x = tex_width - tex_x - 1;
+	return (tex_x);
+}
+
+static double	compute_wall_hit(t_game *game, t_draw3d *d)
+{
+	double	wall_hit;
+
+	if (d->hit.wall_dir == 1 || d->hit.wall_dir == 2)
+		wall_hit = game->player->y + d->hit.distance * sin(d->ray_angle);
+	else
+		wall_hit = game->player->x + d->hit.distance * cos(d->ray_angle);
+	return (wall_hit - floor(wall_hit));
+}
+
+static mlx_texture_t	*get_wall_texture_raycast(t_game *game, int wall_dir)
+{
+	if (wall_dir == WEST_WALL)
+		return (game->textures->west_png);
+	else if (wall_dir == EAST_WALL)
+		return (game->textures->east_png);
+	else if (wall_dir == NORTH_WALL)
+		return (game->textures->north_png);
+	else if (wall_dir == SOUTH_WALL)
+		return (game->textures->south_png);
+	return (NULL);
+}
+
+void	draw_texture_stripe(t_game *game, t_draw3d *d)
+{
+	mlx_texture_t	*tex;
+	double			wall_hit;
+	int				tex_x;
+
+	tex = get_wall_texture_raycast(game, d->hit.wall_dir);
+	if (!tex || !tex->pixels)
+		return ;
+	wall_hit = compute_wall_hit(game, d);
+	tex_x = compute_tex_x(wall_hit, tex->width, d->hit.wall_dir);
+	draw_stripe_pixels(game, d, tex, tex_x);
+}

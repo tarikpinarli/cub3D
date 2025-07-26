@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   arena_strdup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:10:46 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/22 18:44:16 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 13:47:14 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-char *arena_strdup(t_arena *arena, const char *s)
+char	*arena_strdup(t_arena *arena, const char *s)
 {
 	size_t	len;
 	char	*dup;

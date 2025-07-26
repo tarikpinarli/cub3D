@@ -6,14 +6,12 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:46 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/23 21:46:25 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 18:38:34 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_H
 # define PLAYER_H
-
-# include <cub3d.h>
 
 # define DIR_NORTH (3 * M_PI / 2)
 # define DIR_SOUTH (M_PI / 2)

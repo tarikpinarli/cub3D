@@ -6,7 +6,7 @@
 #    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/23 21:02:06 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/26 18:42:33 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,13 +33,16 @@ SRCS        =	main.c error_exit.c \
 				arena/arena_strdup.c \
 				arena/arena_split.c \
 				arena/arena_substr.c \
+				arena/arena_strjoin.c \
 				game/mlx_init.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
 				handle_keypress/update_player.c \
 				init_dummy_data/init_dummy_data.c \
+				render/draw3d.c \
 				render/raycast.c \
-				render/draw_map.c \
+				render/draw_mini_map.c \
+				render/draw_texture.c \
 				$(SRC_PARSING)
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -58,7 +61,7 @@ all: linux
 
 # Build target for Linux
 linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
 	@echo "\033[0;32mLinux build complete!\033[0m"
 
 # Build target for macOS

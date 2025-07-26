@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   textures.h                                         :+:      :+:    :+:   */
+/*   draw3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 15:35:54 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:46:58 by tpinarli         ###   ########.fr       */
+/*   Created: 2025/07/26 13:49:24 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/26 13:52:33 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEXTURES_H
-# define TEXTURES_H
+#ifndef DRAW3D_H
+# define DRAW3D_H
+
 # include <cub3d.h>
 
-typedef struct s_textures
+typedef struct s_draw3d
 {
-	char			*north_path;
-	char			*south_path;
-	char			*west_path;
-	char			*east_path;
-	mlx_texture_t	*north_png;
-	mlx_texture_t	*south_png;
-	mlx_texture_t	*west_png;
-	mlx_texture_t	*east_png;
-}					t_textures;
+	double		dir;
+	double		start_angle;
+	double		angle_step;
+	int			ray;
+	uint32_t	floor;
+	uint32_t	ceiling;
+
+	double		ray_angle;
+	t_ray_hit	hit;
+	double		corrected_dist;
+	double		wall_height;
+	int			start;
+	int			end;
+
+}				t_draw3d;
 
 #endif
