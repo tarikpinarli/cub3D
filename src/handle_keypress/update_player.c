@@ -6,20 +6,20 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/16 16:31:27 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:48:00 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
 #define MOVE_SPEED 0.035
-#define ROT_SPEED 0.025
+#define ROT_SPEED 0.020
 #define HOR_MOVE 0.019
 
 void	move_forward(t_game *game)
 {
-	double next_x;
-	double next_y;
+	double	next_x;
+	double	next_y;
 
 	next_x = game->player->x + cos(game->player->dir) * MOVE_SPEED;
 	next_y = game->player->y + sin(game->player->dir) * MOVE_SPEED;
@@ -32,8 +32,8 @@ void	move_forward(t_game *game)
 
 void	move_backward(t_game *game)
 {
-	double next_x;
-	double next_y;
+	double	next_x;
+	double	next_y;
 
 	next_x = game->player->x - cos(game->player->dir) * MOVE_SPEED;
 	next_y = game->player->y - sin(game->player->dir) * MOVE_SPEED;
@@ -46,10 +46,13 @@ void	move_backward(t_game *game)
 
 void	move_left(t_game *game)
 {
-	double	dir = game->player->dir;
-	double	next_x = game->player->x + sin(dir) * HOR_MOVE;
-	double	next_y = game->player->y - cos(dir) * HOR_MOVE;
+	double	dir;
+	double	next_x;
+	double	next_y;
 
+	dir = game->player->dir;
+	next_x = game->player->x + sin(dir) * HOR_MOVE;
+	next_y = game->player->y - cos(dir) * HOR_MOVE;
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
 		game->player->x = next_x;
@@ -59,10 +62,13 @@ void	move_left(t_game *game)
 
 void	move_right(t_game *game)
 {
-	double	dir = game->player->dir;
-	double	next_x = game->player->x - sin(dir) * HOR_MOVE;
-	double	next_y = game->player->y + cos(dir) * HOR_MOVE;
+	double	dir;
+	double	next_x;
+	double	next_y;
 
+	dir = game->player->dir;
+	next_x = game->player->x - sin(dir) * HOR_MOVE;
+	next_y = game->player->y + cos(dir) * HOR_MOVE;
 	if (game->map->grid[(int)next_y][(int)next_x] != '1')
 	{
 		game->player->x = next_x;
@@ -70,10 +76,9 @@ void	move_right(t_game *game)
 	}
 }
 
-
 void	rotate_left(t_game *game)
 {
-	t_player *p;
+	t_player	*p;
 
 	p = game->player;
 	p->dir = p->dir - ROT_SPEED;
@@ -83,7 +88,7 @@ void	rotate_left(t_game *game)
 
 void	rotate_right(t_game *game)
 {
-	t_player *p;
+	t_player	*p;
 
 	p = game->player;
 	p->dir = p->dir + ROT_SPEED;

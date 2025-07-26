@@ -1,7 +1,19 @@
-#ifndef DRAW3D_H
-#define DRAW3D_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw3d.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/26 13:49:24 by tpinarli          #+#    #+#             */
+/*   Updated: 2025/07/26 13:52:33 by tpinarli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <cub3d.h>
+#ifndef DRAW3D_H
+# define DRAW3D_H
+
+# include <cub3d.h>
 
 typedef struct s_draw3d
 {
@@ -19,8 +31,6 @@ typedef struct s_draw3d
 	int			start;
 	int			end;
 
-}	t_draw3d;
-
-
+}				t_draw3d;
 
 #endif

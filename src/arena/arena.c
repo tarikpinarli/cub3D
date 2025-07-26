@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:46:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/22 18:55:19 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 13:47:28 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,39 +19,39 @@ void	init_arena(t_game *game)
 		error_exit("Arena allocation failed", NULL);
 }
 
-t_arena *arena_init(size_t size)
+t_arena	*arena_init(size_t size)
 {
-    t_arena *arena;
+	t_arena	*arena;
 
-    arena = malloc(sizeof(t_arena));
-    if (!arena)
-        return NULL;
-    arena->memory = malloc(size);
-    if (!arena->memory)
-    {
-        free(arena);
-        return NULL;
-    }
-    arena->size = size;
-    arena->offset = 0;
-    return (arena);
+	arena = malloc(sizeof(t_arena));
+	if (!arena)
+		return (NULL);
+	arena->memory = malloc(size);
+	if (!arena->memory)
+	{
+		free(arena);
+		return (NULL);
+	}
+	arena->size = size;
+	arena->offset = 0;
+	return (arena);
 }
 
-void *arena_alloc(t_arena *arena, size_t size)
+void	*arena_alloc(t_arena *arena, size_t size)
 {
-    void *ptr;
+	void	*ptr;
 
-    if (arena->offset + size > arena->size)
-        return NULL;
-    ptr = (char *)arena->memory + arena->offset;
-    arena->offset += size;
-    return (ptr);
+	if (arena->offset + size > arena->size)
+		return (NULL);
+	ptr = (char *)arena->memory + arena->offset;
+	arena->offset += size;
+	return (ptr);
 }
 
-void arena_destroy(t_arena *arena)
+void	arena_destroy(t_arena *arena)
 {
-    if (!arena)
-        return;
-    free(arena->memory);
-    free(arena);
+	if (!arena)
+		return ;
+	free(arena->memory);
+	free(arena);
 }

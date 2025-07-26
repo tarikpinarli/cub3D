@@ -6,75 +6,63 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 14:36:34 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:48:04 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <colors.h>
 #include <cub3d.h>
-#include <textures.h>
 #include <map.h>
 #include <player.h>
-#include <colors.h>
+#include <textures.h>
 
-void load_textures(t_game *game)
+void	load_textures(t_game *game)
 {
-    game->textures->north_png = mlx_load_png(game->textures->north_path);
-    if (!game->textures->north_png)
-        error_exit("Failed to load north texture", game);
-    game->textures->south_png = mlx_load_png(game->textures->south_path);
-    if (!game->textures->south_png)
-        error_exit("Failed to load south texture", game);
-    game->textures->east_png = mlx_load_png(game->textures->east_path);
-    if (!game->textures->east_png)
-        error_exit("Failed to load east texture", game);
-    game->textures->west_png = mlx_load_png(game->textures->west_path);
-    if (!game->textures->west_png)
-        error_exit("Failed to load west texture", game);
+	game->textures->north_png = mlx_load_png(game->textures->north_path);
+	if (!game->textures->north_png)
+		error_exit("Failed to load north texture", game);
+	game->textures->south_png = mlx_load_png(game->textures->south_path);
+	if (!game->textures->south_png)
+		error_exit("Failed to load south texture", game);
+	game->textures->east_png = mlx_load_png(game->textures->east_path);
+	if (!game->textures->east_png)
+		error_exit("Failed to load east texture", game);
+	game->textures->west_png = mlx_load_png(game->textures->west_path);
+	if (!game->textures->west_png)
+		error_exit("Failed to load west texture", game);
 }
 
-static t_map *init_dummy_map(t_game *game)
+static t_map	*init_dummy_map(t_game *game)
 {
-    t_map *map;
+	t_map	*map;
 
 	map = arena_alloc(game->arena, sizeof(t_map));
-    if (!map)
-        error_exit("Failed to allocate dummy map", game);
-
-    static char *grid[] = {
-        "111111111111111111111",
-        "101000001000000000001",
-        "101010101011111110001",
-        "100010100010000010001",
-        "111110101111101011101",
-        "100000101000101000001",
-        "101111101011101111111",
-        "101000001010100000101",
-        "101011111010111110101",
-        "101010001010100010101",
-        "101110101010101010101",
-        "100000101010001010001",
-        "111111101011111011101",
-        "100000101000100010001",
-        "101110101110101110111",
-        "101000100000100010101",
-        "101011111111111010101",
-        "100010000000000010001",
-        "101010111011111111101",
-        "1N1000001000000000001",
-        "111111111111111111111",
-    };
-
-    map->grid = grid;
-    map->width = 21;
-    map->height = 21;
-    return (map);
+	if (!map)
+		error_exit("Failed to allocate dummy map", game);
+	static char *grid[] = {
+		"111111111111111111111", "1000000000000000000W1",
+			"100000000010000000001", "100000000000000000001",
+			"100000111101110000001", "100000100000010000001",
+			"100000100000010000001", "100000100000010000001",
+			"100000111111110000001", "100000001010100010101",
+			"100000101010101010101", "100000101010001010001",
+			"100000101011111011101", "100000101000100010001",
+			"100000101110101110101", "100000100000100010101",
+			"100000111111111010101", "100000000000000010001",
+			"100000111011111111101", "100000001000000000001",
+			"111111111111111111111",
+	};
+	map->grid = grid;
+	map->width = 21;
+	map->height = 21;
+	return (map);
 }
-static t_textures *init_dummy_textures(t_game *game)
+static t_textures	*init_dummy_textures(t_game *game)
 {
-    t_textures *textures;
+	t_textures	*textures;
 
 	textures = arena_alloc(game->arena, sizeof(t_textures));
-    if (!textures)
+	if (!textures)
 		error_exit("Failed to allocate dummy textures", game);
 	textures->north_path = arena_strdup(game->arena, "textures/grass.png");
 	if (!textures->north_path)
@@ -88,41 +76,38 @@ static t_textures *init_dummy_textures(t_game *game)
 	textures->east_path = arena_strdup(game->arena, "textures/wall_2.png");
 	if (!textures->east_path)
 		error_exit("textures->east initialization failed", game);
-    return (textures);
+	return (textures);
 }
 
-
-static t_player *init_dummy_player(t_game *game)
+static t_player	*init_dummy_player(t_game *game)
 {
-    t_player *player;
+	t_player	*player;
 
 	player = arena_alloc(game->arena, sizeof(t_player));
-    if (!player)
-        error_exit("Failed to allocate dummy player", game);
-    player->x = 1.5; //index in column
-    player->y = 19.5; //index in row
-    player->dir = DIR_NORTH; // N == 270 degree
-    return (player);
+	if (!player)
+		error_exit("Failed to allocate dummy player", game);
+	player->x = 19.5;       // index in column
+	player->y = 1.5;        // index in row
+	player->dir = DIR_WEST; // N == 270 degree
+	return (player);
 }
 
-static void init_dummy_colors(t_color *floor, t_color *ceiling)
+static void	init_dummy_colors(t_color *floor, t_color *ceiling)
 {
-    floor->r = 0;
-    floor->g = 0;
-    floor->b = 0;
-
-    ceiling->r = 0;
-    ceiling->g = 191;
-    ceiling->b = 255;
+	floor->r = 0;
+	floor->g = 0;
+	floor->b = 0;
+	ceiling->r = 0;
+	ceiling->g = 191;
+	ceiling->b = 255;
 }
 
-int init_dummy_data(t_game *game)
+int	init_dummy_data(t_game *game)
 {
-    game->map = init_dummy_map(game);
-    game->textures = init_dummy_textures(game);
-    load_textures(game);
-    game->player = init_dummy_player(game);
-
-    init_dummy_colors(&game->floor, &game->ceiling);
-    return (0);
+	game->map = init_dummy_map(game);
+	game->textures = init_dummy_textures(game);
+	load_textures(game);
+	game->player = init_dummy_player(game);
+	init_dummy_colors(&game->floor, &game->ceiling);
+	return (0);
 }

@@ -6,16 +6,15 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:12:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 12:30:54 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:47:10 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-#include <cub3d.h>
-
 static int	split_count(char const *s, char c);
-static char	**sub_array_size(char const *s, char c, char **ar, int ct, t_arena *arena);
+static char	**sub_array_size(char const *s, char c, char **ar, int ct,
+				t_arena *arena);
 static char	**ch_alloc(char const *s, char c, char **array);
 
 char	**arena_split(t_arena *arena, char const *s, char c)
@@ -34,7 +33,8 @@ char	**arena_split(t_arena *arena, char const *s, char c)
 	return (array);
 }
 
-static char	**sub_array_size(char const *s, char c, char **ar, int ct, t_arena *arena)
+static char	**sub_array_size(char const *s, char c, char **ar, int ct,
+		t_arena *arena)
 {
 	int	i;
 	int	len;
@@ -52,7 +52,7 @@ static char	**sub_array_size(char const *s, char c, char **ar, int ct, t_arena *
 		}
 		ar[i] = (char *)arena_alloc(arena, (len + 1) * sizeof(char));
 		if (!ar[i])
-			return (NULL);  // Arena failed, return NULL
+			return (NULL); // Arena failed, return NULL
 		i++;
 	}
 	ar[ct] = NULL;
@@ -105,4 +105,3 @@ static int	split_count(char const *s, char c)
 	}
 	return (count);
 }
-

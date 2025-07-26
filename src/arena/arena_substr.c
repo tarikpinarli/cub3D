@@ -6,14 +6,14 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:34:28 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/21 12:38:28 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:46:04 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-char	*arena_substr(t_arena *arena, const char *s,
-		unsigned int start, size_t len)
+char	*arena_substr(t_arena *arena, const char *s, unsigned int start,
+		size_t len)
 {
 	size_t	i;
 	size_t	len1;
@@ -41,4 +41,3 @@ char	*arena_substr(t_arena *arena, const char *s,
 	res[i] = '\0';
 	return (res);
 }
-
