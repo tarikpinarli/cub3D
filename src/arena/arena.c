@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:46:22 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:47:28 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:33:26 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_arena(t_game *game)
 {
-	game->arena = arena_init(100000);
+	game->arena = arena_init(10000);
 	if (!game->arena)
 		error_exit("Arena allocation failed", NULL);
 }
