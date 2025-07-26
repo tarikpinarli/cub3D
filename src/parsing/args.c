@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 17:39:56 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 13:12:08 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	parse_map(t_game *game, int argc, char **argv)
 {
 	int		map_fd;
 	char	*line;
-
+	
 	if (check_args(argc, argv))
 		return (1);
 	map_fd = open_file(argv[1]);

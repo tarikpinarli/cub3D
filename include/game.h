@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:31 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/22 21:27:11 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 14:02:33 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
-#define GAME_H
-#include "arena.h"
-#include "../lib/MLX42/include/MLX42/MLX42.h"
-#include <cub3d.h>
-#include <textures.h>
-#include <map.h>
-#include <player.h>
-#include <colors.h>
-#include "raycast.h"
-#include "draw3d.h"
-#include "draw2d.h"
+# define GAME_H
+# include "../lib/MLX42/include/MLX42/MLX42.h"
+# include "arena.h"
+# include "colors.h"
+# include "raycast.h"
+# include "draw2d.h"
+# include "draw3d.h"
+# include <cub3d.h>
+# include <map.h>
+# include <player.h>
+# include <textures.h>
 
-#define TILE_SIZE 16
+# define TILE_SIZE 16
 
-typedef struct s_game {
+typedef struct s_game
+{
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_arena		*arena;
@@ -36,6 +37,6 @@ typedef struct s_game {
 	t_map		*map;
 	t_player	*player;
 	int			number_of_rays;
-}	t_game;
+}				t_game;
 
 #endif

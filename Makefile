@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
+#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/22 21:25:17 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/26 13:35:53 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,10 @@ SRCS        =	main.c error_exit.c \
 				handle_keypress/handle_keypress.c \
 				handle_keypress/update_player.c \
 				init_dummy_data/init_dummy_data.c \
+				render/draw3d.c \
 				render/raycast.c \
-				render/draw_map.c \
+				render/draw_mini_map.c \
+				render/draw_texture.c \
 				$(SRC_PARSING)
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
