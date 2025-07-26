@@ -6,12 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 18:03:00 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/25 19:28:55 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 15:14:13 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
 
 int	get_map(t_game *game, char *file, int start_line)
 {
@@ -35,6 +34,7 @@ int	get_map(t_game *game, char *file, int start_line)
 	while (i < start_line)
 	{
 		line = get_line(game, map_fd);
+		printf("* line read %d: %s\n", i, line);
 		i++;
 	}
 	i = 0;
@@ -43,6 +43,7 @@ int	get_map(t_game *game, char *file, int start_line)
 		line = get_line(game, map_fd);
 		if (!line)
 			break ;
+		printf("line read: %s\n", line);
 		row = arena_alloc(game->arena, game->map->width + 1);
 		if (!row)
 			return (1);
@@ -134,9 +135,16 @@ int	check_wall(t_map *m)
 			if (map[y][x] == '0')
 			{
 				if (y == 0 || x == 0)
+				{
+					printf("map[%d][%d]: %c\n", y, x, map[y][x]);
+					print_error_messages("The wall doesn't properly surround the map 1");
 					return (1);
-				if (y == m->height || x == m->width - 1)
+				}
+				if (y == m->height || x == m->width)
+				{
+					print_error_messages("The wall doesn't properly surround the map 2");
 					return (1);
+				}
 				if (map[y][x - 1] == ' ' || map[y][x + 1] == ' ')
 					return (1);
 				if (map[y - 1][x] == ' ' || map[y + 1][x] == ' ')

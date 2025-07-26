@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/25 19:36:17 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 18:31:20 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	print_grid(t_map *map)
 	i = 0;
 	j = 0;
 	puts("-------------------------------------------");
+	puts("processed grid");
 	printf("height: %d, width: %d\n", map->height, map->width);
 	while (j < map->height)
 	{
@@ -69,7 +70,6 @@ void	print_grid(t_map *map)
 			write(1, &map->grid[j][i], 1);
 			i++;
 		}
-
 		write(1, "\n", 1);
 		j++;
 	}
@@ -109,16 +109,20 @@ static int	check_parsed_info(t_game *game)
 /**
  * Check if given argument is valid.
  * If the argument is valid, open the file and extract the data inside.
+ * @param game: pointer to the game   struct
  * @param argc: number of arguments from the main function
  * @param argv: argument array from the main function
- * @param game: pointer to the game   struct
  */
 int	parse_map(t_game *game, int argc, char **argv)
 {
 	int		cub_fd;
 	char	*line;
 	int		map_start_line;
+	int		map_start;
+	int		map_end;
 
+	map_start = 0;
+	map_end = 0;
 	map_start_line = 0;
 	if (check_args(argc, argv))
 		return (1);
@@ -128,16 +132,14 @@ int	parse_map(t_game *game, int argc, char **argv)
 	line = get_line(game, cub_fd);
 	while (line)
 	{
-		// printf("line %d: %s\n", game->map->height, line);
-		// puts(line);
-		if (ft_strncmp(line, "\n", ft_strlen(line)))
+		if (*line)
 		{
 			if (!ft_strncmp(line, NO, 3) || !ft_strncmp(line, SO, 3)
 				|| !ft_strncmp(line, WE, 3) || !ft_strncmp(line, EA, 3))
 			{
 				map_start_line++;
 				if (get_wall_texture(game, line))
-					return (1); // invalid map
+					return (1);
 			}
 			else if (!ft_strncmp(line, F, 2) || !ft_strncmp(line, C, 2))
 			{
@@ -147,23 +149,34 @@ int	parse_map(t_game *game, int argc, char **argv)
 			}
 			else
 			{
+				if (map_end)
+				{
+					print_error_messages("Map parsing is done");
+					return (1);
+				}
 				if (!check_parsed_info(game))
 				{
 					print_error_messages("Necessary information befor map is lacking");
 					return (1);
 				}
-				// map validation
+				map_start = 1;
 				if (validate_map(game, line))
 					return (1);
 			}
 		}
 		else
-			map_start_line++;
+		{
+			if (!map_start)
+				map_start_line++;
+			else
+				map_end = 1;			
+		}	
 		line = get_line(game, cub_fd);
 	}
 	close(cub_fd);
 	get_map(game, argv[1], map_start_line);
-	check_wall(game->map);
+	if (check_wall(game->map))
+		return (1);
 	set_player_position(game->map->grid, game->player);
 	print_grid(game->map);
 	print_parsed_info(game);
