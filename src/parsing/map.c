@@ -6,18 +6,56 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 18:03:00 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/26 15:14:13 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 21:36:23 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	get_map(t_game *game, char *file, int start_line)
+int	move_lines_until_map(t_game *game, char *file)
+{
+	int	i;
+	int	map_fd;
+
+	map_fd = open_file(file);
+	if (map_fd == -1)
+		return (-1);
+	i = 0;
+	while (i < game->map->start_line)
+	{
+		get_line(game, map_fd);
+		i++;
+	}
+	return (map_fd);
+}
+
+int	copy_map_line(t_game *game, int fd)
 {
 	int		i;
-	int		map_fd;
-	char	*line;
 	char	*row;
+	char	*line;
+
+	i = 0;
+	while (i < game->map->height)
+	{
+		line = get_line(game, fd);
+		row = arena_alloc(game->arena, game->map->width + 1);
+		if (!row || !line)
+		{
+			print_error_messages("Cannot get a map line");
+			return (1);
+		}
+		ft_strlcpy(row, line, game->map->width + 1);
+		game->map->grid[i] = row;
+		i++;
+	}
+	game->map->grid[i] = 0;
+	return (0);
+}
+
+int	copy_map(t_game *game, char *file)
+{
+	int	map_fd;
 
 	game->map->grid = (char **)arena_alloc(game->arena, sizeof(char *)
 			* (game->map->height + 1));
@@ -26,36 +64,11 @@ int	get_map(t_game *game, char *file, int start_line)
 		print_error_messages("Map initialization failed");
 		return (1);
 	}
-	printf("starts from %d\n", start_line);
-	map_fd = open_file(file);
+	map_fd = move_lines_until_map(game, file);
 	if (map_fd == -1)
 		return (1);
-	i = 0;
-	while (i < start_line)
-	{
-		line = get_line(game, map_fd);
-		printf("* line read %d: %s\n", i, line);
-		i++;
-	}
-	i = 0;
-	while (1)
-	{
-		line = get_line(game, map_fd);
-		if (!line)
-			break ;
-		printf("line read: %s\n", line);
-		row = arena_alloc(game->arena, game->map->width + 1);
-		if (!row)
-			return (1);
-		ft_memset(row, ' ', game->map->width + 1);
-		ft_strlcpy(row, line, game->map->width + 1);
-		row[game->map->width] = 0;
-		game->map->grid[i] = row;
-		// printf("line len: %zu, row: %zu, %s\n", ft_strlen(line),
-		// 	ft_strlen(row), row);
-		i++;
-	}
-	game->map->grid[i] = 0;
+	if (copy_map_line(game, map_fd))
+		return (1);
 	close(map_fd);
 	return (0);
 }
@@ -72,13 +85,13 @@ int	set_player_direction(t_player *player, char direction)
 		return (1);
 	}
 	if (direction == N)
-		player->dir = DIR_NORTH;
+		player->dir = t_dir.north;
 	else if (direction == S)
-		player->dir = DIR_SOUTH;
+		player->dir = t_dir.south;
 	else if (direction == E)
-		player->dir = DIR_EAST;
+		player->dir = t_dir.east;
 	else if (direction == W)
-		player->dir = DIR_WEST;
+		player->dir = t_dir.west;
 	else
 	{
 		print_error_messages("Invalid direction");
@@ -134,15 +147,9 @@ int	check_wall(t_map *m)
 		{
 			if (map[y][x] == '0')
 			{
-				if (y == 0 || x == 0)
+				if (y == 0 || x == 0 || y == m->height || !map[y][x + 1])
 				{
-					printf("map[%d][%d]: %c\n", y, x, map[y][x]);
-					print_error_messages("The wall doesn't properly surround the map 1");
-					return (1);
-				}
-				if (y == m->height || x == m->width)
-				{
-					print_error_messages("The wall doesn't properly surround the map 2");
+					print_error_messages("The wall doesn't properly surround the map");
 					return (1);
 				}
 				if (map[y][x - 1] == ' ' || map[y][x + 1] == ' ')

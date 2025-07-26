@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/26 18:39:32 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 21:14:53 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,88 @@ static int	check_parsed_info(t_game *game)
 		&& is_in_rgb_range(game->ceiling.b));
 }
 
+int	is_empty_line(char *s)
+{
+	if (!s || !*s)
+		return (1);
+	while (*s)
+	{
+		if (!is_space(*s))
+			return (0);
+		s++;
+	}
+	return (1);
+}
+
+int	process_map_line(t_game *game, char *line, int *map_started, int map_ended)
+{
+	if (map_ended)
+	{
+		print_error_messages("Extra character(s) after the map");
+		return (1);
+	}
+	if (!check_parsed_info(game))
+	{
+		print_error_messages("Necessary information before map is lacking");
+		return (1);
+	}
+	*map_started = 1;
+	if (validate_map(game, line))
+		return (1);
+	return (0);
+}
+
+int	parse_identifier(t_game *game, char *line, int *map_started, int map_ended)
+{
+	if (!ft_strncmp(line, NO, 3) || !ft_strncmp(line, SO, 3)
+		|| !ft_strncmp(line, WE, 3) || !ft_strncmp(line, EA, 3))
+	{
+		(game->map->start_line)++;
+		if (get_wall_texture(game, line))
+			return (1);
+	}
+	else if (!ft_strncmp(line, F, 2) || !ft_strncmp(line, C, 2))
+	{
+		(game->map->start_line)++;
+		if (get_rgb_color(game, line))
+			return (1);
+	}
+	else
+	{
+		if (process_map_line(game, line, map_started, map_ended))
+			return (1);
+	}
+	return (0);
+}
+
+int	parse_line(t_game *game, int fd)
+{
+	int		map_started;
+	int		map_ended;
+	char	*line;
+
+	map_started = 0;
+	map_ended = 0;
+	line = get_line(game, fd);
+	while (line)
+	{
+		if (!is_empty_line(line))
+		{
+			if (parse_identifier(game, line, &map_started, map_ended))
+				return (1);
+		}
+		else
+		{
+			if (!map_started)
+				(game->map->start_line)++;
+			else
+				map_ended = 1;
+		}
+		line = get_line(game, fd);
+	}
+	return (0);
+}
+
 /**
  * Check if given argument is valid.
  * If the argument is valid, open the file and extract the data inside.
@@ -113,68 +195,18 @@ static int	check_parsed_info(t_game *game)
  * @param argc: number of arguments from the main function
  * @param argv: argument array from the main function
  */
-int	parse_map(t_game *game, int argc, char **argv)
+int	parse_cub_file(t_game *game, int argc, char **argv)
 {
-	int		cub_fd;
-	char	*line;
-	int		map_start_line;
-	int		map_start;
-	int		map_end;
+	int	cub_fd;
 
-	map_start = 0;
-	map_end = 0;
-	map_start_line = 0;
 	if (check_args(argc, argv))
 		return (1);
 	cub_fd = open_file(argv[1]);
 	if (cub_fd == -1)
 		return (1);
-	line = get_line(game, cub_fd);
-	while (line)
-	{
-		if (*line)
-		{
-			if (!ft_strncmp(line, NO, 3) || !ft_strncmp(line, SO, 3)
-				|| !ft_strncmp(line, WE, 3) || !ft_strncmp(line, EA, 3))
-			{
-				map_start_line++;
-				if (get_wall_texture(game, line))
-					return (1);
-			}
-			else if (!ft_strncmp(line, F, 2) || !ft_strncmp(line, C, 2))
-			{
-				map_start_line++;
-				if (get_rgb_color(game, line))
-					return (1);
-			}
-			else
-			{
-				if (map_end)
-				{
-					print_error_messages("Map parsing is done");
-					return (1);
-				}
-				if (!check_parsed_info(game))
-				{
-					print_error_messages("Necessary information befor map is lacking");
-					return (1);
-				}
-				map_start = 1;
-				if (validate_map(game, line))
-					return (1);
-			}
-		}
-		else
-		{
-			if (!map_start)
-				map_start_line++;
-			else
-				map_end = 1;			
-		}	
-		line = get_line(game, cub_fd);
-	}
+	parse_line(game, cub_fd);
 	close(cub_fd);
-	get_map(game, argv[1], map_start_line);
+	copy_map(game, argv[1]);
 	if (check_wall(game->map))
 		return (1);
 	set_player_position(game->map->grid, game->player);

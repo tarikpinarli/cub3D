@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:39:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/24 12:29:50 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 19:31:37 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static int	validate_colors(t_game *game, char *metadata,
 	}
 	if (parse_rgb_values(colors, rgb))
 		return (1);
-	// game->floor = ((r << 24) | (g << 16) | (b << 8) | 255);
 	if (!ft_strncmp(identifier, F, 2))
 		game->floor = (t_color){rgb[0], rgb[1], rgb[2]};
 	else if (!ft_strncmp(identifier, C, 2))
@@ -71,13 +70,6 @@ static int	validate_colors(t_game *game, char *metadata,
 	return (0);
 }
 
-/**
- * Get RGB colors from identifiers (F, C)
- * Shape: (R[0,255], G[0,255], B[0,255])
- * -> colors[0] = R, colors[1] = G, colors[2] = B
- * No transparency needed
- * overflow/underflow possible?
- */
 int	get_rgb_color(t_game *game, char *metadata)
 {
 	int			i;
