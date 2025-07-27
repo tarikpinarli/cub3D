@@ -15,6 +15,13 @@
 
 # include <cub3d.h>
 
+typedef struct s_line {
+    int         x;
+    int         start;
+    int         end;
+    uint32_t    color;
+}   t_line;
+
 typedef struct s_draw3d
 {
 	double		dir;

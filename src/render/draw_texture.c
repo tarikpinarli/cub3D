@@ -34,30 +34,34 @@ static uint32_t	get_pixel_color(mlx_texture_t *tex, int tex_x, int tex_y,
 	return ((color.r << 24) | (color.g << 16) | (color.b << 8) | color.a);
 }
 
-static void	draw_stripe_pixels(t_game *game, t_draw3d *d, mlx_texture_t *tex,
-		int tex_x)
+static void	draw_stripe_pixels(t_game *game, t_draw3d *draw_data, mlx_texture_t *wall_texture,
+        int texture_x)
 {
-	int			y;
-	int			tex_y;
-	int			d_y;
-	uint32_t	color;
+    int			screen_y;         // Current screen y-coordinate
+    int			texture_y;        // Y-coordinate in texture
+    int			scaled_height;    // Helps map screen coordinates to texture
+    uint32_t	pixel_color;     // Final color including shading
 
-	y = d->start;
-	while (y < d->end)
-	{
-		if (y >= 0 && y < (int)game->mlx->height)
-		{
-			d_y = y * 256 - game->mlx->height * 128 + d->wall_height * 128;
-			tex_y = ((d_y * tex->height) / (int)d->wall_height) / 256;
-			if (tex_y < 0)
-				tex_y = 0;
-			if (tex_y >= (int)tex->height)
-				tex_y = tex->height - 1;
-			color = get_pixel_color(tex, tex_x, tex_y, d->corrected_dist);
-			mlx_put_pixel(game->image, d->ray, y, color);
-		}
-		y++;
-	}
+    screen_y = draw_data->start;
+    while (screen_y < draw_data->end)
+    {
+        if (screen_y >= 0 && screen_y < (int)game->mlx->height)
+        {
+            scaled_height = (screen_y * 256) - (game->mlx->height * 128) 
+                          + (draw_data->wall_height * 128);
+            
+            texture_y = ((scaled_height * wall_texture->height) 
+                       / (int)draw_data->wall_height) / 256;
+            if (texture_y < 0)
+                texture_y = 0;
+            if (texture_y >= (int)wall_texture->height)
+                texture_y = wall_texture->height - 1;
+            pixel_color = get_pixel_color(wall_texture, texture_x, texture_y, 
+                                        draw_data->corrected_dist);
+            mlx_put_pixel(game->image, draw_data->ray, screen_y, pixel_color);
+        }
+        screen_y++;
+    }
 }
 
 static int	compute_tex_x(double wall_hit, int tex_width, int wall_dir)
@@ -70,7 +74,6 @@ static int	compute_tex_x(double wall_hit, int tex_width, int wall_dir)
 	if (tex_x >= tex_width)
 		tex_x = tex_width - 1;
 	if (wall_dir == EAST_WALL || wall_dir == SOUTH_WALL)
-		// EAST or SOUTH → flip X
 		tex_x = tex_width - tex_x - 1;
 	return (tex_x);
 }
@@ -79,7 +82,7 @@ static double	compute_wall_hit(t_game *game, t_draw3d *d)
 {
 	double	wall_hit;
 
-	if (d->hit.wall_dir == 1 || d->hit.wall_dir == 2)
+	if (d->hit.wall_dir == WEST_WALL || d->hit.wall_dir == EAST_WALL)
 		wall_hit = game->player->y + d->hit.distance * sin(d->ray_angle);
 	else
 		wall_hit = game->player->x + d->hit.distance * cos(d->ray_angle);
