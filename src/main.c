@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/23 16:11:12 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/26 21:42:20 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,32 @@
  * could be updated later too.
  *
  */
-void	init_game(t_game *game, t_textures *textures)
+void	init_game(t_game *game, t_textures *textures, t_map *map,
+		t_player *player)
 {
 	ft_memset(game, 0, sizeof(t_game));
+	ft_memset(map, 0, sizeof(t_map));
 	ft_memset(textures, 0, sizeof(t_textures));
+	ft_memset(player, -1, sizeof(t_player));
 	game->textures = textures;
+	game->map = map;
+	game->player = player;
 	ft_memset(&game->floor, -1, sizeof(t_color));
 	ft_memset(&game->ceiling, -1, sizeof(t_color));
 }
 
 int	main(int argc, char **argv)
 {
-	t_textures	textures;
 	t_game		game;
+	t_textures	textures;
+	t_map		map;
+	t_player	player;
 
-	init_game(&game, &textures);
+	init_game(&game, &textures, &map, &player);
 	init_arena(&game);
 	if (argc > 1)
 	{
-		// This is your part :)
-		if (parse_map(&game, argc, argv) != 0)
+		if (parse_cub_file(&game, argc, argv) != 0)
 			return (arena_destroy(game.arena), 1);
 		return (1);
 	}

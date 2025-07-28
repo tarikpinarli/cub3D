@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
+#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/26 13:35:53 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/26 18:42:33 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 
 MLX42_DIR   = $(LIB_DIR)/MLX42
 
-SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.c)
+SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.c map.c)
 
 SRCS        =	main.c error_exit.c \
 				arena/arena.c \
@@ -61,7 +61,7 @@ all: linux
 
 # Build target for Linux
 linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
 	@echo "\033[0;32mLinux build complete!\033[0m"
 
 # Build target for macOS

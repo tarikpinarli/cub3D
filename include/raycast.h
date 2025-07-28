@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:03:13 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 14:04:12 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:30:59 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 typedef struct s_ray_hit
 {
 	double	distance;
-	int wall_dir; // 1 = WEST, 2 = EAST, 3 = NORTH, 4 = SOUTH
+	int		wall_dir;
 }			t_ray_hit;
 
+// 1 = WEST, 2 = EAST, 3 = NORTH, 4 = SOUTH
 typedef enum e_wall_dir
 {
 	NORTH_WALL = 3,
