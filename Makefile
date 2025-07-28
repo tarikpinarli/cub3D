@@ -38,6 +38,7 @@ SRCS        =	main.c error_exit.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
 				handle_keypress/update_player.c \
+				handle_keypress/move_and_rotate.c \
 				init_dummy_data/init_dummy_data.c \
 				render/draw3d.c \
 				render/raycast.c \
