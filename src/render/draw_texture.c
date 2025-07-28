@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_texture.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:23:47 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:48:15 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:03:27 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,34 +34,39 @@ static uint32_t	get_pixel_color(mlx_texture_t *tex, int tex_x, int tex_y,
 	return ((color.r << 24) | (color.g << 16) | (color.b << 8) | color.a);
 }
 
-static void	draw_stripe_pixels(t_game *game, t_draw3d *draw_data, mlx_texture_t *wall_texture,
-        int texture_x)
+/**
+ * screen_y: Current screen y-coordinate
+ * texture_y: Y-coordinate in texture
+ * scaled_height: Helps map screen coordinates to texture
+ * pixel_color:  Final color including shading
+ */
+static void	draw_stripe_pixels(t_game *game, t_draw3d *draw_data,
+		mlx_texture_t *wall_texture, int texture_x)
 {
-    int			screen_y;         // Current screen y-coordinate
-    int			texture_y;        // Y-coordinate in texture
-    int			scaled_height;    // Helps map screen coordinates to texture
-    uint32_t	pixel_color;     // Final color including shading
+	int			screen_y;
+	int			texture_y;
+	int			scaled_height;
+	uint32_t	pixel_color;
 
-    screen_y = draw_data->start;
-    while (screen_y < draw_data->end)
-    {
-        if (screen_y >= 0 && screen_y < (int)game->mlx->height)
-        {
-            scaled_height = (screen_y * 256) - (game->mlx->height * 128) 
-                          + (draw_data->wall_height * 128);
-            
-            texture_y = ((scaled_height * wall_texture->height) 
-                       / (int)draw_data->wall_height) / 256;
-            if (texture_y < 0)
-                texture_y = 0;
-            if (texture_y >= (int)wall_texture->height)
-                texture_y = wall_texture->height - 1;
-            pixel_color = get_pixel_color(wall_texture, texture_x, texture_y, 
-                                        draw_data->corrected_dist);
-            mlx_put_pixel(game->image, draw_data->ray, screen_y, pixel_color);
-        }
-        screen_y++;
-    }
+	screen_y = draw_data->start;
+	while (screen_y < draw_data->end)
+	{
+		if (screen_y >= 0 && screen_y < (int)game->mlx->height)
+		{
+			scaled_height = (screen_y * 256) - (game->mlx->height * 128)
+				+ (draw_data->wall_height * 128);
+			texture_y = ((scaled_height * wall_texture->height)
+					/ (int)draw_data->wall_height) / 256;
+			if (texture_y < 0)
+				texture_y = 0;
+			if (texture_y >= (int)wall_texture->height)
+				texture_y = wall_texture->height - 1;
+			pixel_color = get_pixel_color(wall_texture, texture_x, texture_y,
+					draw_data->corrected_dist);
+			mlx_put_pixel(game->image, draw_data->ray, screen_y, pixel_color);
+		}
+		screen_y++;
+	}
 }
 
 static int	compute_tex_x(double wall_hit, int tex_width, int wall_dir)

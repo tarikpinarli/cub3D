@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 13:49:24 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:52:33 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:36:29 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 # include <cub3d.h>
 
-typedef struct s_line {
-    int         x;
-    int         start;
-    int         end;
-    uint32_t    color;
-}   t_line;
+typedef struct s_line
+{
+	int			x;
+	int			start;
+	int			end;
+	uint32_t	color;
+}				t_line;
 
 typedef struct s_draw3d
 {
@@ -30,7 +31,6 @@ typedef struct s_draw3d
 	int			ray;
 	uint32_t	floor;
 	uint32_t	ceiling;
-
 	double		ray_angle;
 	t_ray_hit	hit;
 	double		corrected_dist;

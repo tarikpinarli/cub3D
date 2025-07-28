@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena_substr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:34:28 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:46:04 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:00:41 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*arena_substr(t_arena *arena, const char *s, unsigned int start,
 		len1 = len;
 	res = (char *)arena_alloc(arena, (len1 + 1) * sizeof(char));
 	if (!res)
-		return (NULL); // Arena allocatiion fail.
+		return (NULL);
 	i = 0;
 	while (i < len1)
 	{

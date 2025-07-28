@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:20:00 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:58:48 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:58:54 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ char		*arena_strdup(t_arena *arena, const char *s);
 char		**arena_split(t_arena *arena, char const *s, char c);
 char		*arena_substr(t_arena *arena, const char *s, unsigned int start,
 				size_t len);
+char		*arena_strjoin(t_arena *arena, char const *s1, char const *s2);
 #endif
