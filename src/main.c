@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/28 22:05:43 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 11:53:40 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,14 @@ int	main(int argc, char **argv)
 	{
 		if (parse_cub_file(&game, argc, argv) != 0)
 			return (arena_destroy(game.arena), 1);
-		return (1);
 	}
+	load_textures(&game);
 	init_mlx(&game);
 	if (argc == 1)
 	{
 		if (init_dummy_data(&game) != 0)
 			return (arena_destroy(game.arena), 1);
 	}
-	else
-		error_exit("Usage: ./cub3D [map_file.cub] or for dummy map ./cub3D",
-			&game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_key_hook(game.mlx, handle_keypress, &game);
 	mlx_loop(game.mlx);
