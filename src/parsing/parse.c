@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:31:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/29 10:51:56 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 11:45:46 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static void	print_parsed_info(t_game *game)
 	printf("ceiling b: %d\n", game->ceiling.b);
 	printf("map width: %d\n", game->map->width);
 	printf("map height: %d\n", game->map->height);
-	printf("player position: %f\n", game->player->dir);
+	printf("player direction: %f\n", game->player->dir);
+	printf("player position x: %f\n", game->player->x);
+	printf("player position x: %f\n", game->player->y);
 	puts("-------------------------------------------");
 }
 
