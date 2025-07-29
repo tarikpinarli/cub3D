@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 11:53:15 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:58:49 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void		rotate_left(t_game *game);
 void		rotate_right(t_game *game);
 void        slide_move(t_game *game, t_move *move);
 void		load_textures(t_game *game);
+void		free_textures(t_textures *tex);
 
 #endif
