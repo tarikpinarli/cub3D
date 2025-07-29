@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 10:54:50 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:14:09 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,6 @@
 #include <player.h>
 #include <textures.h>
 
-void	load_textures(t_game *game)
-{
-	game->textures->north_png = mlx_load_png(game->textures->north_path);
-	if (!game->textures->north_png)
-		error_exit("Failed to load north texture", game);
-	game->textures->south_png = mlx_load_png(game->textures->south_path);
-	if (!game->textures->south_png)
-		error_exit("Failed to load south texture", game);
-	game->textures->east_png = mlx_load_png(game->textures->east_path);
-	if (!game->textures->east_png)
-		error_exit("Failed to load east texture", game);
-	game->textures->west_png = mlx_load_png(game->textures->west_path);
-	if (!game->textures->west_png)
-		error_exit("Failed to load west texture", game);
-}
-
 static t_map	*init_dummy_map(t_game *game)
 {
 	t_map	*map;
@@ -40,27 +24,17 @@ static t_map	*init_dummy_map(t_game *game)
 	if (!map)
 		error_exit("Failed to allocate dummy map", game);
 	static char *grid[] = {
-		"111111111111111111111",
-        "1000000000000000000W1",
-		"100000000010000000001",
-        "100000000000000000001",
-		"100000111101110000001",
-        "100000100000010000001",
-		"100000100000010000001",
-        "100000100000010000001",
-		"100000111111110000001",
-        "100000001010100010101",
-		"100000101010101010101",
-        "100000101010001010001",
-		"100000101011111011101",
-        "100000101000100010001",
-		"100000101110101110101",
-        "100000100000100010101",
-		"100000111111111010101",
-        "100000000000000010001",
-		"100000111011111111101",
-        "100000001000000000001",
-		"111111111111111111111",
+		"111111111111111111111", "1000000000000000000W1",
+			"100000000010000000001", "100000000000000000001",
+			"100000111101110000001", "100000100000010000001",
+			"100000100000010000001", "100000100000010000001",
+			"100000111111110000001", "100000001010100010101",
+			"100000101010101010101", "100000101010001010001",
+			"100000101011111011101", "100000101000100010001",
+			"100000101110101110101", "100000100000100010101",
+			"100000111111111010101", "100000000000000010001",
+			"100000111011111111101", "100000001000000000001",
+			"111111111111111111111",
 	};
 	map->grid = grid;
 	map->width = 21;
@@ -96,9 +70,9 @@ static t_player	*init_dummy_player(t_game *game)
 	player = arena_alloc(game->arena, sizeof(t_player));
 	if (!player)
 		error_exit("Failed to allocate dummy player", game);
-	player->x = 19.5;       // index in column
-	player->y = 1.5;        // index in row
-	player->dir = game->dirs.west; // N == 270 degree
+	player->x = 19.5;
+	player->y = 1.5;
+	player->dir = game->dirs.west;
 	return (player);
 }
 

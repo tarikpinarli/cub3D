@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_window.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 17:36:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/28 20:01:14 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 13:47:34 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_textures(t_textures *tex)
 void	close_window(t_game *game)
 {
 	free_textures(game->textures);
+	mlx_delete_image(game->mlx, game->image);
 	if (game->arena)
 		arena_destroy(game->arena);
 	exit(0);

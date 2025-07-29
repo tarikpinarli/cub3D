@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:01:23 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 20:01:34 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 13:51:54 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	render(void *param)
 	if (game->image)
 		mlx_delete_image(game->mlx, game->image);
 	game->image = mlx_new_image(game->mlx, game->mlx->width, game->mlx->height);
+	if (!game->image)
+		error_exit("game->image fail.", game);
 	draw_3d(game);
 	draw_map(game);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
+
 }

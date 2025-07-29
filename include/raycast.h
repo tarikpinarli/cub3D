@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:03:13 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 21:30:59 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 12:08:56 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYCAST_H
 # define RAYCAST_H
 
-# define FOV (60.0 * M_PI / 180.0)
 # define NUM_RAYS 800
 
 typedef struct s_ray_hit

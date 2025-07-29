@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw2d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:30:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/26 21:30:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 12:06:13 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@
 
 typedef struct s_draw2d
 {
-	int	map_offset_x;       // Where the minimap starts on the screen (X)
-	int	map_offset_y;       // Where the minimap starts on the screen (Y)
+	int			map_offset_x;
+	int			map_offset_y;
 
-	int	map_x;              // Tile X coordinate in the map grid
-	int	map_y;              // Tile Y coordinate in the map grid
-	int	tile_px;            // Pixel offset within the tile (0 to TILE_SIZE)
-	int	tile_py;
+	int			map_x;
+	int			map_y;
+	int			tile_px;
+	int			tile_py;
 
-	int	screen_x;           // Final X coordinate on the screen
-	int	screen_y;           // Final Y coordinate on the screen
+	int			screen_x;
+	int			screen_y;
 
-	char	tile_char;         // The character in the map grid ('1', '0', etc.)
-	uint32_t	tile_color;     // Color to draw the tile
+	char		tile_char;
+	uint32_t	tile_color;
 
-	int	player_screen_x;    // Player's X position on the minimap
-	int	player_screen_y;    // Player's Y position on the minimap
-}	t_draw2d;
+	int			player_screen_x;
+	int			player_screen_y;
+}				t_draw2d;
 
 #endif
