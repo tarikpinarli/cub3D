@@ -6,10 +6,9 @@
 #    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/28 15:32:14 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/29 12:04:00 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 NAME        = cub3D
 CC          = cc
@@ -62,7 +61,7 @@ MLX42_MAC_FLAGS = -L$(MLX42_DIR)/build -lmlx42 \
 all: linux
 
 # Build target for Linux
-linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
+linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS) $(NAME)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
 	@echo "\033[0;32mLinux build complete!\033[0m"
 
