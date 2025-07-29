@@ -17,6 +17,7 @@
 # include "arena.h"
 # include "colors.h"
 # include "raycast.h"
+# include "move.h"
 # include "draw2d.h"
 # include "draw3d.h"
 # include <cub3d.h>

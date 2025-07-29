@@ -74,16 +74,16 @@ static t_textures	*init_dummy_textures(t_game *game)
 	textures = arena_alloc(game->arena, sizeof(t_textures));
 	if (!textures)
 		error_exit("Failed to allocate dummy textures", game);
-	textures->north_path = arena_strdup(game->arena, "textures/grass.png");
+	textures->north_path = arena_strdup(game->arena, "textures/matrix.png");
 	if (!textures->north_path)
 		error_exit("textures->north initialization failed", game);
-	textures->south_path = arena_strdup(game->arena, "textures/wall_2.png");
+	textures->south_path = arena_strdup(game->arena, "textures/matrix.png");
 	if (!textures->south_path)
 		error_exit("textures->south initialization failed", game);
-	textures->west_path = arena_strdup(game->arena, "textures/wall.png");
+	textures->west_path = arena_strdup(game->arena, "textures/matrix.png");
 	if (!textures->west_path)
 		error_exit("textures->west initialization failed", game);
-	textures->east_path = arena_strdup(game->arena, "textures/wall_2.png");
+	textures->east_path = arena_strdup(game->arena, "textures/matrix.png");
 	if (!textures->east_path)
 		error_exit("textures->east initialization failed", game);
 	return (textures);

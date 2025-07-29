@@ -16,62 +16,63 @@
 
 static void	draw_minimap_tile(t_game *game, t_draw2d *m)
 {
-	m->dy = 0;
-	while (m->dy < MINIMAP_TILE)
+	m->tile_py = 0;
+	while (m->tile_py < MINIMAP_TILE)
 	{
-		m->dx = 0;
-		while (m->dx < MINIMAP_TILE)
+		m->tile_px = 0;
+		while (m->tile_px < MINIMAP_TILE)
 		{
-			m->px = m->offset_x + m->x * MINIMAP_TILE + m->dx;
-			m->py = m->offset_y + m->y * MINIMAP_TILE + m->dy;
-			if (m->px >= 0 && m->px < game->mlx->width && m->py >= 0
-				&& m->py < game->mlx->height)
-				mlx_put_pixel(game->image, m->px, m->py, m->color);
-			m->dx++;
+			m->screen_x = m->map_offset_x + m->map_x * MINIMAP_TILE + m->tile_px;
+			m->screen_y = m->map_offset_y + m->map_y * MINIMAP_TILE + m->tile_py;
+			if (m->screen_x >= 0 && m->screen_x < game->mlx->width
+				&& m->screen_y >= 0 && m->screen_y < game->mlx->height)
+				mlx_put_pixel(game->image, m->screen_x, m->screen_y, m->tile_color);
+			m->tile_px++;
 		}
-		m->dy++;
+		m->tile_py++;
 	}
 }
 
 static void	draw_minimap_background(t_game *game, t_draw2d *m)
 {
-	m->y = 0;
-	while (m->y < game->map->height)
+	m->map_y = 0;
+	while (m->map_y < game->map->height)
 	{
-		m->x = 0;
-		while (m->x < game->map->width)
+		m->map_x = 0;
+		while (m->map_x < game->map->width)
 		{
-			m->c = game->map->grid[m->y][m->x];
-			m->color = 0x00FF00FF;
-			if (m->c == '1')
-				m->color = 0xF7700088;
-			else if (m->c == '0')
-				m->color = 0x00000000;
+			m->tile_char = game->map->grid[m->map_y][m->map_x];
+			if (m->tile_char == '1')
+				m->tile_color = 0xF7700088;
+			else if (m->tile_char == '0')
+				m->tile_color = 0x00000000;
+			else
+				m->tile_color = 0x00FF00FF;
 			draw_minimap_tile(game, m);
-			m->x++;
+			m->map_x++;
 		}
-		m->y++;
+		m->map_y++;
 	}
 }
 
 static void	draw_minimap_player(t_game *game, t_draw2d *m)
 {
-	m->player_px = m->offset_x + game->player->x * MINIMAP_TILE;
-	m->player_py = m->offset_y + game->player->y * MINIMAP_TILE;
-	m->dy = -2;
-	while (m->dy <= 2)
+	m->player_screen_x = m->map_offset_x + game->player->x * MINIMAP_TILE;
+	m->player_screen_y = m->map_offset_y + game->player->y * MINIMAP_TILE;
+	m->tile_py = 0;
+	while (m->tile_py < MINIMAP_TILE)
 	{
-		m->dx = -2;
-		while (m->dx <= 2)
+		m->tile_px = 0;
+		while (m->tile_px < MINIMAP_TILE)
 		{
-			m->px = m->player_px + m->dx;
-			m->py = m->player_py + m->dy;
-			if (m->px >= 0 && m->px < game->mlx->width && m->py >= 0
-				&& m->py < game->mlx->height)
-				mlx_put_pixel(game->image, m->px, m->py, 0xFFFFFFFF);
-			m->dx++;
+			m->screen_x = m->player_screen_x + m->tile_px;
+			m->screen_y = m->player_screen_y + m->tile_py;
+			if (m->screen_x >= 0 && m->screen_x < game->mlx->width
+				&& m->screen_y >= 0 && m->screen_y < game->mlx->height)
+				mlx_put_pixel(game->image, m->screen_x, m->screen_y, 0xFFFFFFFF);
+			m->tile_px++;
 		}
-		m->dy++;
+		m->tile_py++;
 	}
 }
 
@@ -79,8 +80,8 @@ void	draw_map(t_game *game)
 {
 	t_draw2d	m;
 
-	m.offset_x = 20;
-	m.offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE) - 20;
+	m.map_offset_x = 20;
+	m.map_offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE) - 20;
 	draw_minimap_background(game, &m);
 	draw_minimap_player(game, &m);
 }
