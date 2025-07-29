@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
+#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/28 15:32:14 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/29 12:14:49 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS        =	main.c error_exit.c \
 				arena/arena_substr.c \
 				arena/arena_strjoin.c \
 				game/mlx_init.c \
+				game/load_texture.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
 				handle_keypress/update_player.c \

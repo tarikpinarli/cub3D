@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 10:50:47 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:11:13 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ static void	draw_minimap_tile(t_game *game, t_draw2d *m)
 		m->tile_px = 0;
 		while (m->tile_px < MINIMAP_TILE)
 		{
-			m->screen_x = m->map_offset_x + m->map_x * MINIMAP_TILE + m->tile_px;
-			m->screen_y = m->map_offset_y + m->map_y * MINIMAP_TILE + m->tile_py;
+			m->screen_x = m->map_offset_x + m->map_x * MINIMAP_TILE
+				+ m->tile_px;
+			m->screen_y = m->map_offset_y + m->map_y * MINIMAP_TILE
+				+ m->tile_py;
 			if (m->screen_x >= 0 && m->screen_x < game->mlx->width
 				&& m->screen_y >= 0 && m->screen_y < game->mlx->height)
-				mlx_put_pixel(game->image, m->screen_x, m->screen_y, m->tile_color);
+				mlx_put_pixel(game->image, m->screen_x, m->screen_y,
+					m->tile_color);
 			m->tile_px++;
 		}
 		m->tile_py++;
@@ -69,7 +72,8 @@ static void	draw_minimap_player(t_game *game, t_draw2d *m)
 			m->screen_y = m->player_screen_y + m->tile_py;
 			if (m->screen_x >= 0 && m->screen_x < game->mlx->width
 				&& m->screen_y >= 0 && m->screen_y < game->mlx->height)
-				mlx_put_pixel(game->image, m->screen_x, m->screen_y, 0xFFFFFFFF);
+				mlx_put_pixel(game->image, m->screen_x, m->screen_y,
+					0xFFFFFFFF);
 			m->tile_px++;
 		}
 		m->tile_py++;
@@ -81,7 +85,8 @@ void	draw_map(t_game *game)
 	t_draw2d	m;
 
 	m.map_offset_x = 20;
-	m.map_offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE) - 20;
+	m.map_offset_y = game->mlx->height - (game->map->height * MINIMAP_TILE)
+		- 20;
 	draw_minimap_background(game, &m);
 	draw_minimap_player(game, &m);
 }
