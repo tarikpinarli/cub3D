@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 12:10:00 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/29 14:25:26 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	init_draw_data(t_game *game, t_draw3d *d)
 	fov = (60.0 * M_PI / 180.0);
 	f = &game->floor;
 	c = &game->ceiling;
-	d->floor = (f->b << 24) | (f->g << 16) | (f->b << 8) | 0xFF;
-	d->ceiling = (c->b << 24) | (c->g << 16) | (c->b << 8) | 0xFF;
+	d->floor = (f->r << 24) | (f->g << 16) | (f->b << 8) | 255;
+	d->ceiling = (c->r << 24) | (c->g << 16) | (c->b << 8) | 255;
 	d->dir = game->player->dir;
 	d->start_angle = d->dir - (fov / 2);
 	d->angle_step = fov / game->number_of_rays;
