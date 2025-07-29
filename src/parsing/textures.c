@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:55:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 13:08:52 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 11:06:36 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	validate_texture_path(char **dir_path, char *file_path)
 	if (dir_path && *dir_path)
 	{
 		print_error_messages("Duplicate identifier");
+		return (1);
+	}
+	if (ft_strrncmp(file_path, ".xpm", 4) && ft_strrncmp(file_path, ".png", 4))
+	{
+		print_error_messages("Invalid file extension. Use '*.xpm' or '*.png' file");
 		return (1);
 	}
 	fd = open_file(file_path);

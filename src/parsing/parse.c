@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:31:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 21:35:21 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 10:51:56 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ int	parse_cub_file(t_game *game, int argc, char **argv)
 		return (1);
 	if (parse_line(game, cub_fd))
 		return (1);
+	if (game->player->dir < 0)
+	{
+		print_error_messages("No player in the map");
+		return (1);
+	}
 	close(cub_fd);
 	if (!check_parsed_info(game))
 	{

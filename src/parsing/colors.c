@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:39:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 22:09:06 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 10:46:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	parse_rgb_values(char **colors, int *rgb)
 	int	color;
 
 	if (arrlen(colors) != 3)
-		return (print_error_messages("Invalid amount of values"), 1);
+		return (print_error_messages("Invalid amount of color values"), 1);
 	i = 0;
 	while (colors[i])
 	{
@@ -66,8 +66,8 @@ static int	validate_colors(t_game *game, char *metadata,
 	char	**colors;
 	int		rgb[3];
 
-	if (get_nb_comma(metadata) != 3)
-		return (print_error_messages("Invalid amount of values"), 1);
+	if (get_nb_comma(metadata) != 2)
+		return (print_error_messages("Invalid amount of color values"), 1);
 	colors = arena_split(game->arena, metadata, ',');
 	if (!colors)
 	{
