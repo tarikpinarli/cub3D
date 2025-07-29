@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:48:12 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/29 10:50:47 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	draw_minimap_background(t_game *game, t_draw2d *m)
 		{
 			m->tile_char = game->map->grid[m->map_y][m->map_x];
 			if (m->tile_char == '1')
-				m->tile_color = 0xF7700088;
+				m->tile_color = 0x0AAE00CF;
 			else if (m->tile_char == '0')
 				m->tile_color = 0x00000000;
 			else
