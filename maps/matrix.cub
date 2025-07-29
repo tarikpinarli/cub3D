@@ -1,11 +1,11 @@
 NO textures/matrix.png
 SO textures/matrix.png
-WE                      textures/wall_2.png
-EA textures/player_up.png
+WE                      textures/matrix.png
+EA textures/matrix.png
 
 
-F 0,200,0
-C 0,0,250
+F 0,0,0
+C 0,0,0
 
 
 1111111111111111111111
