@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_dummy_data.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:44:38 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 13:48:04 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:46:43 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static t_player	*init_dummy_player(t_game *game)
 		error_exit("Failed to allocate dummy player", game);
 	player->x = 19.5;       // index in column
 	player->y = 1.5;        // index in row
-	player->dir = DIR_WEST; // N == 270 degree
+	player->dir = game->dirs.west; // N == 270 degree
 	return (player);
 }
 

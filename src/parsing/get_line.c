@@ -6,39 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:07:55 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/25 12:36:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/28 20:00:17 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-char	*get_line_strjoin(t_game *game, char *s1, char *s2)
-{
-	char	*new_str;
-	int		i;
-	int		j;
-
-	new_str = arena_alloc(game->arena, ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	if (s1)
-	{
-		while (s1[i])
-		{
-			new_str[i] = s1[i];
-			i++;
-		}
-	}
-	j = 0;
-	if (s2)
-	{
-		while (s2[j])
-			new_str[i++] = s2[j++];
-	}
-	new_str[i] = 0;
-	return (new_str);
-}
 
 static char	*initialize_line(t_game *game, char buffer[])
 {
@@ -76,7 +48,7 @@ static char	*read_line(t_game *game, int fd, char buffer[])
 		if (read_bytes < 0)
 			return (NULL);
 		buffer[read_bytes] = 0;
-		line = get_line_strjoin(game, line, buffer);
+		line = arena_strjoin(game->arena, line, buffer);
 		if (!line)
 			return (print_error_messages("strjoin failed"), line);
 		else if (get_idx(line, '\n') != -1)

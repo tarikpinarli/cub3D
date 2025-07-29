@@ -6,24 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:55:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/23 17:40:08 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/28 13:08:52 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	process_metadata(char **metadata)
-{
-	if (!metadata || !*metadata || !**metadata)
-	{
-		print_error_messages("Identifier is lacking information");
-		return (1);
-	}
-	*metadata += 2;
-	while (is_space(**metadata))
-		(*metadata)++;
-	return (0);
-}
 
 int	validate_texture_path(char **dir_path, char *file_path)
 {

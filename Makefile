@@ -6,7 +6,7 @@
 #    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/26 18:42:33 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/28 15:32:14 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 
 MLX42_DIR   = $(LIB_DIR)/MLX42
 
-SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.c map.c)
+SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.c \
+				map.c map_check.c parsing_utils.c parse.c)
 
 SRCS        =	main.c error_exit.c \
 				arena/arena.c \

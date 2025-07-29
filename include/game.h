@@ -6,12 +6,13 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:35:31 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 21:11:50 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/28 21:17:46 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
+
 # include "../lib/MLX42/include/MLX42/MLX42.h"
 # include "arena.h"
 # include "colors.h"
@@ -31,7 +32,7 @@ typedef struct s_game
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_arena		*arena;
-
+	t_dirs		dirs;
 	t_textures	*textures;
 	t_color		floor;
 	t_color		ceiling;

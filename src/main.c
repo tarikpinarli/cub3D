@@ -6,25 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/26 21:42:20 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:05:43 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-/*
-** This main function is set up so we can both work independently:
-**
-** - If a .cub file is given as an argument, your parsing code will run.
-**
-** - If no arguments are given, the program runs with dummy data.
-**   This lets me test rendering, movement, raycasting, etc.
-**
-** - If too many arguments are given, the program shows a usage error.
-**
-** This way, you can work on parsing, and I can work on rendering
-** without blocking each other.
-*/
 
 /**
  *
@@ -33,16 +19,20 @@
  * could be updated later too.
  *
  */
-void	init_game(t_game *game, t_textures *textures, t_map *map,
+static void	init_game(t_game *game, t_textures *textures, t_map *map,
 		t_player *player)
 {
 	ft_memset(game, 0, sizeof(t_game));
 	ft_memset(map, 0, sizeof(t_map));
 	ft_memset(textures, 0, sizeof(t_textures));
-	ft_memset(player, -1, sizeof(t_player));
+	ft_memset(player, 0, sizeof(t_player));
 	game->textures = textures;
 	game->map = map;
 	game->player = player;
+	game->player->dir = -1.0f;
+	game->dirs.west = M_PI;
+	game->dirs.north = 3 * M_PI_2;
+	game->dirs.south = M_PI_2;
 	ft_memset(&game->floor, -1, sizeof(t_color));
 	ft_memset(&game->ceiling, -1, sizeof(t_color));
 }

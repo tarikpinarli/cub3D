@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:04:36 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/26 21:15:04 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/28 21:34:03 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define C "C "
 # define BUFFER_SIZE 100
 
-int		check_args(int argc, char **argv);
+int		parse_line(t_game *game, int fd);
 int		get_rgb_color(t_game *game, char *metadata);
 int		get_wall_texture(t_game *game, char *metadata);
 int		arrlen(char **arr);
@@ -42,4 +42,8 @@ int		validate_map(t_game *game, char *line);
 int		copy_map(t_game *game, char *file);
 int		set_player_position(char **map, t_player *player);
 int		check_wall(t_map *m);
+int		is_empty_line(char *s);
+int		is_player(char c);
+int		set_player_direction(t_game *game, char direction);
+int		check_parsed_info(t_game *game);
 #endif

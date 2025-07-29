@@ -6,11 +6,27 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:39:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/26 19:31:37 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/28 22:09:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+static int	get_nb_comma(char *line)
+{
+	int	n;
+
+	n = 0;
+	if (!line || !*line)
+		return (n);
+	while (*line)
+	{
+		if (*line == ',')
+			n++;
+		line++;
+	}
+	return (n);
+}
 
 int	is_in_rgb_range(int i)
 {
@@ -20,7 +36,7 @@ int	is_in_rgb_range(int i)
 static int	parse_rgb_values(char **colors, int *rgb)
 {
 	int	i;
-	int	i_color;
+	int	color;
 
 	if (arrlen(colors) != 3)
 		return (print_error_messages("Invalid amount of values"), 1);
@@ -32,13 +48,13 @@ static int	parse_rgb_values(char **colors, int *rgb)
 			print_error_messages("Only numeric characters are accepted");
 			return (1);
 		}
-		i_color = ft_atoi(colors[i]);
-		if (!is_in_rgb_range(i_color))
+		color = ft_atoi(colors[i]);
+		if (!is_in_rgb_range(color))
 		{
 			print_error_messages("The value should be in the range of [0,255]");
 			return (1);
 		}
-		rgb[i] = i_color;
+		rgb[i] = color;
 		i++;
 	}
 	return (0);
@@ -50,6 +66,8 @@ static int	validate_colors(t_game *game, char *metadata,
 	char	**colors;
 	int		rgb[3];
 
+	if (get_nb_comma(metadata) != 3)
+		return (print_error_messages("Invalid amount of values"), 1);
 	colors = arena_split(game->arena, metadata, ',');
 	if (!colors)
 	{

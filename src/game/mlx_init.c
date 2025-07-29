@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_init.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 20:01:23 by michoi            #+#    #+#             */
+/*   Updated: 2025/07/28 20:01:34 by michoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <cub3d.h>
 
@@ -7,6 +18,7 @@ void	init_mlx(t_game *game)
 	if (!game->mlx)
 		error_exit("MLX initialization failed", game);
 }
+
 void	render(void *param)
 {
 	t_game	*game;
