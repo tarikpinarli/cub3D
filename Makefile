@@ -3,13 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
+#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/29 12:14:49 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/07/29 15:03:11 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 NAME        = cub3D
 CC          = cc
@@ -25,6 +24,7 @@ LIBFT_DIR   = $(LIB_DIR)/libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 
 MLX42_DIR   = $(LIB_DIR)/MLX42
+MLX42 		= $(MLX42_DIR)/build/libmlx42.a
 
 SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.c \
 				map.c map_check.c parsing_utils.c parse.c)
@@ -60,12 +60,16 @@ MLX42_MAC_FLAGS = -L$(MLX42_DIR)/build -lmlx42 \
 				  -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
 
 # Default target (builds for Linux)
-all: linux
+all: $(NAME)
 
-# Build target for Linux
-linux: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)
+$(NAME): $(LIBFT) $(MLX42) $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
-	@echo "\033[0;32mLinux build complete!\033[0m"
+	@echo "\033[0;32mBuild complete!\033[0m"
+	
+# Build target for Linux
+#linux: $(LIBFT) $(MLX42) $(OBJS)
+#	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
+#	@echo "\033[0;32mLinux build complete!\033[0m"
 
 # Build target for macOS
 mac: $(LIBFT) $(MLX42_DIR)/build/libmlx42.a $(OBJS)

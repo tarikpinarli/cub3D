@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:56:33 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 13:15:40 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 14:57:20 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	is_numeric(char *arg)
 {
 	if (!arg || !*arg)
 		return (0);
+	while (is_space(*arg))
+		arg++;
 	if (*arg == '-' || *arg == '+')
 	{
 		if (!is_digit(*(arg + 1)))
