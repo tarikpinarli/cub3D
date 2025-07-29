@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 16:50:02 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 22:05:56 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/29 10:51:26 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ int	process_map_line(t_game *game, char *line, int *map_started, int map_ended)
 	*map_started = 1;
 	if (validate_map(game, line))
 		return (1);
-	if (game->player->dir < 0)
-	{
-		print_error_messages("No player in the map");
-		return (1);
-	}
 	return (0);
 }
 
