@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_keypress.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 19:36:13 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/30 13:47:38 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:12:39 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,3 @@ void	handle_close_press(void *param)
 	game = (t_game *)param;
 	close_window(game);
 }
-
