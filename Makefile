@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
+#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/30 14:06:05 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/30 16:13:27 by tpinarli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS        =	main.c error_exit.c \
 				handle_keypress/update_player.c \
 				handle_keypress/move.c \
 				handle_keypress/rotate.c \
+				render/render.c \
 				render/draw3d.c \
 				render/raycast.c \
 				render/draw_mini_map.c \
@@ -66,7 +67,7 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(MLX42) $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
 	@echo "\033[0;32mBuild complete!\033[0m"
-	
+
 # Build target for Linux
 #linux: $(LIBFT) $(MLX42) $(OBJS)
 #	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT) $(MLX42_LINUX_FLAGS) -o $(NAME)
