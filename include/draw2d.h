@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:30:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/30 14:15:28 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:31:29 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_draw2d
 {
 	int			map_offset_x;
 	int			map_offset_y;
-
+	int			tile_size;
 	int			map_x;
 	int			map_y;
 	int			tile_px;
