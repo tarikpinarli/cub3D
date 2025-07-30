@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:05:17 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/30 15:06:39 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:53:33 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MOVE_H
 
 # define MOVE_SPEED 0.004
-# define ROT_SPEED 0.040
+# define ROT_SPEED 0.030
 # define COLLISION_MARGIN 0.05
 
 typedef struct s_move
