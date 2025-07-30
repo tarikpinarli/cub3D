@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 14:23:29 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:48:05 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int argc, char **argv)
 	init_mlx(&game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_key_hook(game.mlx, handle_keypress, &game);
+	mlx_close_hook(game.mlx, handle_close_press, &game);
 	mlx_loop(game.mlx);
 	arena_destroy(game.arena);
 	return (0);
