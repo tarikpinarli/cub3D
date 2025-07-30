@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:01:23 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/29 13:51:54 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:45:00 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,4 @@ void	render(void *param)
 	draw_3d(game);
 	draw_map(game);
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
-
 }
