@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 14:52:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/30 13:02:28 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:17:07 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ int	is_player(char c)
 {
 	return (c == N || c == S || c == E || c == W);
 }
-
-// int	is_valid_tile(char c)
-// {
-// 	return (is_player(c) || c == '0');
-// }
 
 int	check_tile(char **map, int y, int x, int height)
 {
@@ -64,17 +59,6 @@ int	check_wall(t_map *m)
 				if (check_tile(map, y, x, m->height))
 					return (1);
 			}
-			// else if (map[y][x] == ' ')
-			// {
-			// 	if ((x > 0 && !is_valid_tile(map[y][x - 1])) || (map[y][x + 1]
-			// 			&& !is_valid_tile(map[y][x + 1])) || (y > 0
-			// 			&& !is_valid_tile(map[y - 1][x])) || (map[y + 1] && map[y
-			// 			+ 1][x] && !is_valid_tile(map[y + 1][x])))
-			// 	{
-			// 		print_error_messages("Space touches a walkable tile");
-			// 		return (1);
-			// 	}
-			// }
 			x++;
 		}
 		y++;
