@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:31:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/29 11:45:46 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:25:27 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_grid(t_map *map)
 	while (j < map->height)
 	{
 		i = 0;
-		while (i < map->width)
+		while (i < map->grid[j][i])
 		{
 			write(1, &map->grid[j][i], 1);
 			i++;
