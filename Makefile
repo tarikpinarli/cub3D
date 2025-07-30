@@ -6,7 +6,7 @@
 #    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/29 15:03:11 by michoi           ###   ########.fr        #
+#    Updated: 2025/07/30 14:06:05 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,12 +40,13 @@ SRCS        =	main.c error_exit.c \
 				cleanup/close_window.c \
 				handle_keypress/handle_keypress.c \
 				handle_keypress/update_player.c \
-				handle_keypress/move_and_rotate.c \
-				init_dummy_data/init_dummy_data.c \
+				handle_keypress/move.c \
+				handle_keypress/rotate.c \
 				render/draw3d.c \
 				render/raycast.c \
 				render/draw_mini_map.c \
 				render/draw_texture.c \
+				render/draw_texture2.c \
 				$(SRC_PARSING)
 
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

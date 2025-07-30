@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   draw_mini_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:31:08 by tpinarli          #+#    #+#             */
 /*   Updated: 2025/07/30 14:15:23 by tpinarli         ###   ########.fr       */
@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-#define MINIMAP_TILE 5
+#define MINIMAP_TILE 10
 
 static void	draw_minimap_tile(t_game *game, t_draw2d *m)
 {
