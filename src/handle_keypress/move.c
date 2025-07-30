@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:11:06 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/30 15:51:31 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:09:14 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	move_backward(t_game *game)
 	slide_move(game, &move);
 }
 
-
 void	move_left(t_game *game)
 {
 	t_move	move;
@@ -45,7 +44,6 @@ void	move_left(t_game *game)
 	move.offset_y = -cos(game->player->dir) * (MOVE_SPEED * margin);
 	slide_move(game, &move);
 }
-
 
 void	move_right(t_game *game)
 {

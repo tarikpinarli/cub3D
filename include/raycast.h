@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 14:03:13 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 12:08:56 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:10:44 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ typedef struct s_ray_hit
 // 1 = WEST, 2 = EAST, 3 = NORTH, 4 = SOUTH
 typedef enum e_wall_dir
 {
-	NORTH_WALL = 3,
-	SOUTH_WALL = 4,
-	EAST_WALL = 2,
-	WEST_WALL = 1
+	NORTH_WALL,
+	SOUTH_WALL,
+	EAST_WALL,
+	WEST_WALL
 }			t_wall_dir;
 
 typedef struct s_raycast
