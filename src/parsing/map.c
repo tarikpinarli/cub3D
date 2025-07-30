@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 18:03:00 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/28 21:58:05 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:34:03 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	copy_map_line(t_game *game, int fd)
 			print_error_messages("Cannot get a map line");
 			return (1);
 		}
+		ft_memset(row, ' ', game->map->width);
+		row[game->map->width] = '\0';
 		ft_strlcpy(row, line, game->map->width + 1);
 		game->map->grid[i] = row;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:43:21 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/29 12:06:23 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 13:47:55 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 void		init_arena(t_game *game);
 void		handle_keypress(mlx_key_data_t keydata, void *param);
+void		handle_close_press(void *param);
 void		update_player(t_game *game);
 void		error_exit(char *message, t_game *game);
 void		close_window(t_game *game);
