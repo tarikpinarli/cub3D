@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/30 13:48:05 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:15:06 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 
 	init_game(&game, &textures, &map, &player);
 	init_arena(&game);
-	if (argc > 1)
+	if (argc >= 1)
 	{
 		if (parse_cub_file(&game, argc, argv) != 0)
 			return (arena_destroy(game.arena), 1);
