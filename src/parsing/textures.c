@@ -6,7 +6,7 @@
 /*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 14:55:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/29 11:49:45 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:41:16 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	get_wall_texture(t_game *game, char *metadata)
 	if (process_metadata(&metadata))
 		return (1);
 	i = 0;
+	printf("%s\n", identifier);
 	while (i < 4)
 	{
 		if (!ft_strncmp(identifier, dirs[i], 3))
