@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:31:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/30 12:25:27 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:35:02 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,7 @@ int	parse_cub_file(t_game *game, int argc, char **argv)
 		print_error_messages("No information");
 		return (1);
 	}
-	if (copy_map(game, argv[1]))
-		return (1);
-	if (check_wall(game->map))
+	if (copy_map(game, argv[1]) || check_wall(game->map))
 		return (1);
 	if (set_player_position(game->map->grid, game->player))
 		return (1);

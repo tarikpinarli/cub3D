@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:19:49 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/30 13:04:08 by michoi           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:31:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ int	main(int argc, char **argv)
 
 	init_game(&game, &textures, &map, &player);
 	init_arena(&game);
-	if (argc > 1)
-	{
-		if (parse_cub_file(&game, argc, argv) != 0)
-			return (arena_destroy(game.arena), 1);
-	}
+	if (parse_cub_file(&game, argc, argv) != 0)
+		return (arena_destroy(game.arena), 1);
 	load_textures(&game);
 	init_mlx(&game);
 	mlx_loop_hook(game.mlx, render, &game);
