@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 20:01:23 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/30 16:13:36 by tpinarli         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:08:04 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,3 @@ void	init_mlx(t_game *game)
 	if (!game->mlx)
 		error_exit("MLX initialization failed", game);
 }
-
