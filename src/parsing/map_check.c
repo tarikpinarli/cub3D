@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 14:52:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/07/30 13:17:07 by michoi           ###   ########.fr       */
+/*   Updated: 2025/08/04 13:55:05 by tpinarli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	check_tile(char **map, int y, int x, int height)
 		print_error_messages("Space left/right of the tile is invalid");
 		return (1);
 	}
-	if (map[y - 1][x] == ' ' || map[y + 1][x] == ' ')
+	if (map[y - 1][x] == ' ' || map[y + 1][x] == ' ' || !map[y - 1][x] || !map[y
+		+ 1][x])
 	{
 		print_error_messages("Space above/below the tile is invalid");
 		return (1);
