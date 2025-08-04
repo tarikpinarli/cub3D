@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tpinarli <tpinarli@student.hive.fi>        +#+  +:+       +#+         #
+#    By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:16:45 by tpinarli          #+#    #+#              #
-#    Updated: 2025/07/30 16:13:27 by tpinarli         ###   ########.fr        #
+#    Updated: 2025/08/04 13:08:35 by michoi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = cub3D
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g
+CFLAGS      = -Wall -Wextra -Werror
 RM          = rm -rf
 
 SRC_DIR     = ./src
@@ -31,7 +31,6 @@ SRC_PARSING = $(addprefix parsing/, args.c get_line.c utils.c textures.c colors.
 
 SRCS        =	main.c error_exit.c \
 				arena/arena.c \
-				arena/arena_strdup.c \
 				arena/arena_split.c \
 				arena/arena_substr.c \
 				arena/arena_strjoin.c \

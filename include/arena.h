@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:20:00 by tpinarli          #+#    #+#             */
-/*   Updated: 2025/07/28 19:58:54 by michoi           ###   ########.fr       */
+/*   Updated: 2025/08/01 16:17:02 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_arena
 t_arena		*arena_init(size_t size);
 void		*arena_alloc(t_arena *arena, size_t size);
 void		arena_destroy(t_arena *arena);
-char		*arena_strdup(t_arena *arena, const char *s);
 char		**arena_split(t_arena *arena, char const *s, char c);
 char		*arena_substr(t_arena *arena, const char *s, unsigned int start,
 				size_t len);
