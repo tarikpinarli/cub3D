@@ -50,6 +50,16 @@ int	main(int argc, char **argv)
 		return (arena_destroy(game.arena), 1);
 	load_textures(&game);
 	init_mlx(&game);
+	
+	printf("\n=================================================================\n");
+	printf("🎮 SUCCESS! The game engine is now running in the background.\n\n");
+	printf("🕹️  CONTROLS:\n");
+	printf("    [W] [A] [S] [D]  : Move around\n");
+	printf("    [←] [→] Arrows : Look left/right\n");
+	printf("    [ESC]          : Quit game\n\n");
+	printf("🌐 Open your web browser and go to: http://localhost:8080/vnc.html\n");
+	printf("=================================================================\n\n");
+	
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_key_hook(game.mlx, handle_keypress, &game);
 	mlx_close_hook(game.mlx, handle_close_press, &game);

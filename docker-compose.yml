@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  cub3d_dev:
+    build: .
+    container_name: cub3d_dev
+    # Maps the current local project directory to /app
+    volumes:
+      - .:/app
+      # Cache massive build directories in native Linux to bypass Mac's virtiofs deadlocks
+      - /app/obj
+      - /app/lib/MLX42
+    # Expose port 8080 for the Universal Web Display
+    ports:
+      - "8080:8080"

@@ -88,8 +88,9 @@ $(LIBFT):
 
 # Clone and build MLX42
 $(MLX42_DIR)/build/libmlx42.a:
-	@if [ ! -d "$(MLX42_DIR)" ]; then \
+	@if [ ! -d "$(MLX42_DIR)/include" ]; then \
 		echo "Cloning MLX42..."; \
+		rm -rf $(MLX42_DIR); \
 		git clone https://github.com/codam-coding-college/MLX42.git $(MLX42_DIR); \
 	fi
 	@cmake -B $(MLX42_DIR)/build -S $(MLX42_DIR) -DMLX42_BUILD_EXAMPLES=OFF
@@ -97,7 +98,7 @@ $(MLX42_DIR)/build/libmlx42.a:
 
 # Clean object files and MLX42 build
 clean:
-	@$(RM) $(OBJ_DIR)
+	@$(RM) $(OBJ_DIR)/*
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(RM) -rf $(MLX42_DIR)/build
 
@@ -105,10 +106,20 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@$(RM) -rf $(MLX42_DIR)
+	@$(RM) -rf $(MLX42_DIR)/*
 	@echo "\033[0;31mFull clean complete.\033[0m"
 
 # Rebuild everything
 re: fclean all
 
-.PHONY: all clean fclean re linux mac
+# --- DOCKER COMMANDS ---
+docker-up:
+	docker-compose up -d --build
+
+docker-run:
+	docker exec -it cub3d_dev bash
+
+docker-down:
+	docker-compose down
+
+.PHONY: all clean fclean re linux mac docker-up docker-run docker-down
