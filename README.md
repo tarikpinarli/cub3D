@@ -14,7 +14,7 @@ You only need two things installed on your machine:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/cub3D.git
+git clone https://github.com/tarikpinarli/cub3D.git
 cd cub3D
 ```
 
